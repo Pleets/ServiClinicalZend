@@ -1,0 +1,78 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<div class="list-group">
+					<?php if (isset($acl) && $acl->isAllowed("viewPatients")): ?>
+					  <a href="<?php echo $this->url('admissions', array('action'=>'view-patients')) ?>" class="list-group-item">
+					    <h4 class="list-group-item-heading">Pacientes</h4>
+						<span class="glyphicon glyphicon-user" style="font-size: 30px; color: rgb(0,150,200)"></span>
+					    <p class="list-group-item-text">Lista los pacientes registrados en el sistema
+						    <button title="Vista rápida" class="btn" data-resource="<?php echo $this->url('admissions', array('action'=>'view-patients'));?>" id="patients-mode"><span class="glyphicon glyphicon-chevron-down"></span></button>
+					    </p>
+					  </a>
+					<?php endif; ?>
+					<?php if (isset($acl) && $acl->isAllowed("viewAdmissions")): ?>
+					  <a href="<?php echo $this->url('admissions', array('action'=>'view-admissions')) ?>" class="list-group-item">
+					    <h4 class="list-group-item-heading">Admisiones</h4>
+						<span class="glyphicon glyphicon-tasks" style="font-size: 30px; color: rgb(0,150,200)"></span>
+					    <p class="list-group-item-text">Lista las admisiones de los pacientes
+						  <button title="Vista rápida" class="btn" data-resource="<?php echo $this->url('admissions', array('action'=>'view-admissions'));?>" id="admissions-mode"><span class="glyphicon glyphicon-chevron-down"></span></button>
+					    </p>
+					  </a>
+					<?php endif; ?>
+				</div>			
+			</div>
+			<div class="col-md-6 column">
+				<h4>Registro</h4>
+				<ul class="list-group">
+				<?php if ($num_admissions): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_admissions ?></span>
+				    Admisiones
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_patients): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_patients ?></span>
+				    Pacientes
+				  </li>
+				<?php endif; ?>
+				<?php if (!$num_admissions && !$num_patients): ?>
+				  <li class="list-group-item">
+				    Aún no se han registrado pacientes, <a href="<?= $this->url('admissions') . '/add-patient' ?>">registra uno ahora!</a>
+				  </li>
+				<?php endif; ?>
+				</ul>
+				<h4>Actividad</h4>
+				<ul class="list-group">
+				<?php if ($last_admission_registered): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $last_admission_registered->nombre ?></span>
+				    Último paciente admisionado
+				  </li>
+				<?php endif; ?>
+				<?php if ($last_patient_registered): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $last_patient_registered->pri_nom_pac." ".$last_patient_registered->pri_ape_pac ?></span>
+				    Último paciente registrado
+				  </li>
+				<?php endif; ?>
+				<?php if (!$last_admission_registered && !$last_patient_registered): ?>
+				  <li class="list-group-item">
+				    Aún no se han registrado pacientes, <a href="<?= $this->url('admissions') . '/add-patient' ?>">registra uno ahora!</a>
+				  </li>
+				<?php endif; ?>
+				</ul>			
+			</div>
+		</div>
+	</div>
+	<div id="view"></div>
+<?php endif; ?>

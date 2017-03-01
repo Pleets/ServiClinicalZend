@@ -1,0 +1,767 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+
+    <?php if (!$xmlHttpRequest): ?>
+
+    <a class="back-button" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHistory', 'id' => $admission->cod_adm)); ?>">
+        <span class="glyphicon glyphicon-circle-arrow-left" style="font-size: 50px; color: rgb(0,150,200)" title="Historia del paciente"></span>
+    </a>
+
+    <img src="<?php echo $this->basePath('img/logo_empresa.jpg') ?>" alt="Logo empresa" width="150" style="display: none; position: absolute; height: 70px; width: auto" class="logo-empresa" />
+
+    <div class="container print-header" style="text-align: center; display: none">
+        <h4>LABORATORIO DE CITOLOGÍA Y PATOLOGÍA DEL TOLIMA S.A.S.</h4>
+        <h5>HISTORIA CLÍNICA</h5><br /><br />
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Datos generales</div>
+        <div class="panel-body">
+            <table class="table table-no-bordered no-margin table-no-padding">
+                <tbody>
+                    <tr>
+                        <td><strong>No. Ingreso:</strong> <?= $admission->cod_adm ?></td>
+                        <td><strong>Fecha Ingreso:</strong> <?= $admission->fec_adm ?></td>
+                        <td><strong>Fecha de expedición:</strong> <?= date("Y-m-d") ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Entidad:</strong> <?= $admission->nom_ent ?></td>
+                        <td colspan="2"><strong>Folio:</strong> <?= $admission->num_fol ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Datos personales</div>
+        <div class="panel-body">
+            <table class="table table-no-bordered no-margin table-no-padding">
+                <tbody>
+                    <tr>
+                        <td><strong>Paciente:</strong> <?= $admission->nom_pac ?></td>
+                        <td><strong>Identificación:</strong> <?= $admission->num_doc_pac ?></td>
+                        <td><strong>Fecha de nacimiento:</strong> <?= $admission->fec_nac_pac ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dirección:</strong> <?= $admission->dir_pac ?></td>
+                        <td colspan="2"><strong>Teléfono:</strong> <?= (!empty($admission->num_tel_pac)) ? $admission->num_tel_pac : " --- " ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <?php endif; ?>
+
+
+    <div id="view-hchistory">
+
+        <?php if (isset($history)): ?>
+
+            <?php if ($history->cod_tip_his == 1): ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">Historia clínica por primera vez</div>
+                <div class="panel-body">
+                    <h5><em>Estado general del paciente</em></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td colspan="2"><strong>Motivo consulta:</strong> <?= $history->mot_con ?></td>
+                                <td colspan="2"><strong>Revisión por sistema:</strong> <?= $history->rev_sis ?></td>
+                                <td colspan="2"><strong>Enfermedad actual:</strong> <?= $history->enf_act ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><em>Exámen físico</em></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td><strong>TAS:</strong> <?= $history->tas ?></td>
+                                <td><strong>TAD:</strong> <?= $history->tad ?></td>
+                                <td><strong>TAM:</strong> <?= $history->tam ?></td>
+                                <td><strong>FC:</strong> <?= $history->fc ?></td>
+                                <td><strong>FR:</strong> <?= $history->fr ?></td>
+                                <td><strong>TEM:</strong> <?= $history->tem ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>TAM:</strong> <?= $history->tam ?></td>
+                                <td><strong>Peso:</strong> <?= $history->peso ?></td>
+                                <td colspan="4"><strong>Talla:</strong> <?= $history->talla ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table class="table no-margin table-no-padding">
+                      <tbody>
+                            <tr>
+                              <td><strong>Neurológico/Mental:</strong> <?= $history->neu_men ?></td>
+                              <td><strong>Cabeza/cuello/órganos de los sentidos:</strong> <?= $history->cab_cue ?></td>
+                            </tr>
+                            <tr>
+                              <td><strong>Tórax/cardiopulmonar:</strong> <?= $history->tor_car ?></td>
+                              <td><strong>Abdomen/digesivo:</strong> <?= $history->abd_dig ?></td>
+                            </tr>
+                            <tr>
+                              <td><strong>Genitourinario:</strong> <?= $history->genito ?></td>
+                              <td><strong>Extremidad/osteomuscular piel y faneras:</strong> <?= $history->ext_ost ?></td>
+                            </tr>
+                            <tr>
+                              <td colspan="2"><strong>Análisis y conducta:</strong> <?= $history->ana_con ?></td>
+                            </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <?php endif; ?>
+            <?php if ($history->cod_tip_his == 2): ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">Historia clínica control</div>
+                <div class="panel-body">
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td><strong>Tipo Evolución:</strong> <?php
+                                  switch ($history->tip_evo ) {
+                                    case 1:
+                                      echo "CONTROL MEDICINA GENERAL";
+                                      break;
+                                    case 2:
+                                      echo "CONTROL MEDICINA ESPECIALIZADA";
+                                      break;
+                                    default:
+                                      echo "Indefinido";
+                                      break;
+                                  }
+                                ?></td>
+                                <td><strong>Información subjetiva:</strong> <?= $history->inf_sub ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><em>Exámen físico</em></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td><strong>TAS:</strong> <?= $history->tas ?></td>
+                                <td><strong>TAD:</strong> <?= $history->tad ?></td>
+                                <td><strong>TAM:</strong> <?= $history->tam ?></td>
+                                <td><strong>FC:</strong> <?= $history->fc ?></td>
+                                <td><strong>FR:</strong> <?= $history->fr ?></td>
+                                <td><strong>TEM:</strong> <?= $history->tem ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table class="table no-margin table-no-padding">
+                      <tbody>
+                            <tr>
+                                <td><strong>Hallazgos al exámen físico:</strong> <?= $history->hal_exa ?></td>
+                                <td><strong>Interpretación paraclínicos:</strong> <?= $history->int_par ?></td>
+                                <td colspan="2"><strong>Análisis y conducta:</strong> <?= $history->ana_con ?></td>
+                            </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <?php endif; ?>
+            <?php if ($history->cod_tip_his == 4): ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">Historia clínica de Patología</div>
+                <div class="panel-body">
+                    <h5><strong><em>Material estudio:</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->material_estudio ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Diagnóstico clínico</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->diagnostico_clinico ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Descripción macroscópica</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->descripcion_macroscopica ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Diagnóstico</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->diagnostico ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Nota</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->nota ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          <?php endif; ?>
+            <?php if ($history->cod_tip_his == 5): ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">Historia clínica de Líquidos</div>
+                <div class="panel-body">
+                    <h5><strong><em>Material estudio:</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->material_estudio ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Diagnóstico clínico</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->diagnostico_clinico ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Descripción macroscópica</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->descripcion_macroscopica ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Diagnóstico</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->diagnostico ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h5><strong><em>Nota</em></strong></h5>
+                    <table class="table table-no-bordered no-margin table-no-padding">
+                        <tbody>
+                            <tr>
+                                <td class="text-justify"><?= $history->nota ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          <?php endif; ?>
+            <?php if ($history->cod_tip_his == 6): ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">Historia clínica de citología</div>
+                <div class="panel-body">
+
+                    <fieldset>
+                    <legend>1. CALIDAD DE LA MUESTRA</legend>
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('cal_mues_a')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('cal_mues_b')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('cal_mues_c')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('cal_mues_d')); ?>
+                    </div>
+
+                    </fieldset>
+
+                    <fieldset>
+
+                    <legend>2. CATEGORIZACION GENERAL</legend>
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('cat_gen_a')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('cat_gen_b')); ?>
+                    </div>
+
+                    </fieldset>
+
+                  <fieldset>
+
+                    <legend>3. MICROORGANISMOS</legend>
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_a')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_b')); ?>
+                    </div>
+
+                     <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_c')); ?>
+                    </div>
+
+
+                     <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_d')); ?>
+                    </div>
+
+                     <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_e')); ?>
+                    </div>
+
+                     <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_f')); ?>
+                    </div>
+
+                     <div class="checkbox">
+                        <?= $this->formRow($form->get('mic_g')); ?>
+                    </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                    <legend>4. OTROS HALLAZGOS NO-NEOPLASICOS</legend>
+                     <div class="checkbox">
+                        <?= $this->formRow($form->get('otr_haz_a')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('otr_haz_b')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('otr_haz_c')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('otr_haz_d')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('otr_haz_e')); ?>
+                    </div>
+
+                    <div class="checkbox">
+                        <?= $this->formRow($form->get('otr_haz_f')); ?>
+                    </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>5. ANORMALIDADES EN CELULAS ESCAMOSAS</legend>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_esc_a')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_esc_b')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_esc_c')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_esc_d')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_esc_e')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_esc_f')); ?>
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>6. ANORMALIDADES EN CELULAS GLANDULARES</legend>
+
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_a')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_b')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_c')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_d')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_e')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_f')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_g')); ?>
+                        </div>
+
+                        <div class="checkbox">
+                            <?= $this->formRow($form->get('ano_cel_gla_h')); ?>
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset>
+
+                </div>
+            </div>
+          <?php endif; ?>
+        <?php endif; ?>
+
+    <?php if (count($diagnostics)): ?>
+
+        <h4 style="text-align: center">Diagnósticos</h4>
+
+        <table class="table table-striped table-hover table-condensed" id="folios-table">
+            <tr>
+                <th>Código</th>
+                <th>Diagnóstico</th>
+                <th>Diagnóstico principal</th>
+                <th>Tipo</th>
+                <th>Clasificación</th>
+                <th>Clase</th>
+                <th>Ingreso</th>
+                <th>Egreso</th>
+                <th>Observaciones</th>
+            </tr>
+            <?php foreach ($diagnostics as $diagnostic) : ?>
+            <tr>
+                <td><?= $this->escapeHtml($diagnostic->cod_dia); ?> </td>
+                <td><?= $this->escapeHtml($diagnostic->nom_dia); ?> </td>
+                <td><?php
+                  switch ($diagnostic->dia_pri) {
+                    case 1:
+                      echo "Si";
+                      break;
+                    case 0:
+                      echo "No";
+                      break;
+                    default:
+                      echo "Indefinido";
+                      break;
+                  }
+                ?></td>
+                <td><?php
+                  switch ($diagnostic->tip_dia) {
+                    case 1:
+                      echo "Presuntivo";
+                      break;
+                    case 2:
+                      echo "Definitivo";
+                      break;
+                    default:
+                      echo "Indefinido";
+                      break;
+                  }
+                ?></td>
+                <td><?php
+                  switch ($diagnostic->clasi_dia) {
+                    case 1:
+                      echo "Impresión diagnóstico";
+                      break;
+                    case 2:
+                      echo "Confirmado nuevo";
+                      break;
+                    case 3:
+                      echo "Confirmado repetido";
+                      break;
+                    default:
+                      echo "Indefinido";
+                      break;
+                  }
+                ?></td>
+                <td><?php
+                  switch ($diagnostic->clase_dia) {
+                    case 1:
+                      echo "Preoperatorio";
+                      break;
+                    case 2:
+                      echo "Postoperatorio";
+                      break;
+                    case 3:
+                      echo "Histopatológico";
+                      break;
+                    default:
+                    case 4:
+                      echo "No corresponde";
+                      break;
+                    default:
+                      echo "Indefinido";
+                      break;
+                  }
+                ?></td>
+                <td><?php
+                  switch ($diagnostic->dia_ing) {
+                    case 1:
+                      echo "Si";
+                      break;
+                    case 0:
+                      echo "No";
+                      break;
+                    default:
+                      echo "Indefinido";
+                      break;
+                  }
+                ?></td>
+                <td><?php
+                  switch ($diagnostic->dia_egr) {
+                    case 1:
+                      echo "Si";
+                      break;
+                    case 0:
+                      echo "No";
+                      break;
+                    default:
+                      echo "Indefinido";
+                      break;
+                  }
+                ?></td>
+                <td><?php $obs = trim($diagnostic->obs_dia); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+
+    <?php if (count($exams)): ?>
+
+        <h4 style="text-align: center">Exámenes</h4>
+
+        <table class="table table-striped table-hover table-condensed" id="folios-table">
+            <tr>
+                <th>Código</th>
+                <th>Exámen</th>
+                <th>Cantidad</th>
+                <th>Estado</th>
+                <th>Observaciones</th>
+            </tr>
+            <?php foreach ($exams as $exam) : ?>
+            <tr>
+                <td><?= $this->escapeHtml($exam->cod_exa); ?> </td>
+                <td><?= $this->escapeHtml($exam->nom_exa); ?> </td>
+                <td><?= $this->escapeHtml($exam->can_exa); ?> </td>
+                <td><?php
+                  switch ($exam->est_exa) {
+                    case '1':
+                      echo "Rutinario";
+                      break;
+                    case '2':
+                      echo "Urgente";
+                      break;
+                    default:
+                      echo "Indefinida";
+                      break;
+                  }
+                ?></td>
+                <td><?php $obs = trim($exam->obs_exa); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+
+    <?php if (count($medications)): ?>
+
+        <h4 style="text-align: center">Medicamentos</h4>
+
+        <table class="table table-striped table-hover table-condensed" id="folios-table">
+            <tr>
+                <th>Código</th>
+                <th>Medicamento</th>
+                <th>Posología</th>
+                <th>Cantidad</th>
+                <th>No. días</th>
+                <th>Terminación</th>
+                <th>Aplicación</th>
+            </tr>
+            <?php foreach ($medications as $medication) : ?>
+            <tr>
+                <td><?= $this->escapeHtml($medication->cod_med); ?> </td>
+                <td><?= $this->escapeHtml($medication->nom_med); ?> </td>
+                <td><?php $obs = trim($medication->pos_med); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+                <td><?= $this->escapeHtml($medication->can_med); ?> </td>
+                <td><?= $this->escapeHtml($medication->num_dia); ?> </td>
+                <td><?php
+                  switch ($medication->ter_med) {
+                    case '1':
+                      echo "Definida";
+                      break;
+                    case '2':
+                      echo "Indefinida";
+                      break;
+                    default:
+                      echo "Error!";
+                      break;
+                  }
+                ?></td>
+                <td><?php
+                    switch ($medication->cod_apl_med) {
+                        case 1:
+                            echo "Endovenosa";
+                            break;
+                        case 2:
+                            echo "Enteral";
+                            break;
+                        case 3:
+                            echo "Infusión";
+                            break;
+                        case 4:
+                            echo "Intradérmica";
+                            break;
+                        case 5:
+                            echo "Intramuscular";
+                            break;
+                        case 6:
+                            echo "Intrarectal";
+                            break;
+                        case 7:
+                            echo "Intravenosa";
+                            break;
+                        case 8:
+                            echo "Oftalmica";
+                            break;
+                        case 9:
+                            echo "Oral";
+                            break;
+                        case 10:
+                            echo "Oral sonda";
+                            break;
+                        case 11:
+                            echo "Oral succión";
+                            break;
+                        case 12:
+                            echo "Otros";
+                            break;
+                        case 13:
+                            echo "Parenteral";
+                            break;
+                        case 14:
+                            echo "Respiratoria";
+                            break;
+                        case 15:
+                            echo "Subcutánea";
+                            break;
+                        case 16:
+                            echo "Todas las vías";
+                            break;
+                        case 17:
+                            echo "Tópico";
+                            break;
+                        default:
+                            echo "Indefinido";
+                            break;
+                    }
+                ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+
+
+    <?php if (count($backgrounds)): ?>
+
+        <h4 style="text-align: center">Antecedentes</h4>
+
+        <table class="table table-striped table-hover table-condensed" id="folios-table">
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+            <?php foreach ($backgrounds as $background) : ?>
+            <tr>
+                <td><?= $this->escapeHtml($background->fec_reg); ?> </td>
+                <td><?php
+                  switch ($background->tip_ant) {
+                    case 1:
+                        echo "Médicos";
+                        break;
+                    case 2:
+                        echo "Quirúrgicos";
+                        break;
+                    case 3:
+                        echo "Transfusionables";
+                        break;
+                    case 4:
+                        echo "Tóxicos";
+                        break;
+                    case 5:
+                        echo "Inmunológicos";
+                        break;
+                    case 6:
+                        echo "Alérgicos";
+                        break;
+                    case 7:
+                        echo "Traumáticos";
+                        break;
+                    case 8:
+                        echo "Psiquiátricos";
+                        break;
+                    case 9:
+                        echo "Ginecológicos";
+                        break;
+                    case 10:
+                        echo "Farmacológicos";
+                        break;
+                    case 11:
+                        echo "Familiares";
+                        break;
+                    case 12:
+                        echo "Psicológicos";
+                        break;
+                    case 13:
+                        echo "Otros";
+                        break;
+                    default:
+                        echo "Indefinido";
+                        break;
+                  }
+                ?></td>
+                <td><?php $obs = trim($background->des_ant); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+    </div>
+
+    <?php if ($xmlHttpRequest): ?>
+    <a target='_blank' title="Ver diseño de impresión" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHchistory', 'id' => $admission->cod_adm, 'type' => $type)); ?>"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span> Visualizar</a>
+    <?php endif; ?>
+
+    <?php if (!$xmlHttpRequest): ?>
+    <div class="container" style="text-align: center">
+    Médico: <em><?= $admission->usu_med ?></em>
+    </div>
+    <br /><br />
+    <button class="btn btn-default print-function" title="Imprimir"><span style="font-size: 20px" class="glyphicon glyphicon-print"></span> Imprimir</button>
+    <button class="btn btn-default view-print-version" title="Diseño de impresión"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span></button>
+    <?php endif; ?>
+<?php endif; ?>

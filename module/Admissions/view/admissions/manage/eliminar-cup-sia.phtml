@@ -1,0 +1,28 @@
+<br>
+<?php if($proceso=='exito') { ?>
+<div class="alert alert-success">
+
+	<?= $mensaje; ?>
+</div>
+
+<script>
+setTimeout(function(){ 
+	$('#DIALOG_ELIMINAR_CUP .close').click();
+	$('#div_<?= $id_registro ?>').remove();
+ }, 2000);
+
+	
+
+	
+
+</script>
+
+<?php } else { ?>
+<div class="alert alert-danger">
+	<?= $mensaje; ?>
+</div>
+
+<?php } ?>
+
+
+

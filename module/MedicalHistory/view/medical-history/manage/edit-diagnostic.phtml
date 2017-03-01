@@ -1,0 +1,58 @@
+<?php
+
+$title = 'Editar Diagnóstico';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+<?php
+$form = $this->form;
+$form->setAttribute(
+	'action', $this->url('medicalHistory',
+	array(
+		'action' => 'edit-diagnostic',
+		'id'     => $this->id,
+	)
+));
+$form->prepare();
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  El diagnóstico ha sido actualizado satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+$form->setAttribute("class", "plts-form label-inline");
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('cod_dia'));
+echo $this->formHidden($form->get('nom_dia'));
+$form->get('nom_dia')->setAttribute("disabled", "disabled");
+echo $this->formRow($form->get('nom_dia'));
+?> <div class="radio"> <?php
+echo $this->formRow($form->get('dia_pri'));
+?> </div> <?php
+echo $this->formRow($form->get('tip_dia'));
+echo $this->formRow($form->get('clasi_dia'));
+echo $this->formRow($form->get('clase_dia'));
+?> <br /><div class="checkbox"> <?php
+echo $this->formRow($form->get('dia_ing'));
+?> </div> <?php
+?> <div class="checkbox"> <?php
+echo $this->formRow($form->get('dia_egr'));
+?> </div> <?php
+echo $this->formRow($form->get('obs_dia'));
+if (!$xmlHttpRequest):
+	echo $this->formSubmit($form->get('submit'));
+endif;
+echo $this->form()->closeTag();

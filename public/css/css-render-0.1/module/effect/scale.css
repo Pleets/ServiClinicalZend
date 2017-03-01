@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+/*
+ *  About: Scale effect for CSS Render
+ *  Version: 2013.11.20
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: fermius.us@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+@import "scale-interface.css";
+
+/* scale-2x */
+
+@-webkit-keyframes scale-2x {
+  50% { -webkit-transform: scale(2,2); }
+}
+
+@-moz-keyframes scale-2x {
+  50% { -moz-transform: scale(2,2); }
+}
+
+@-ms-keyframes scale-2x {
+  50% { -ms-transform: scale(2,2); }
+}
+
+@-o-keyframes scale-2x {
+  50% { -o-transform: scale(2,2); }
+}
+
+@keyframes scale-2x {
+  50% { transform: scale(2,2); }
+}

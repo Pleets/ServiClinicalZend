@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+/*
+ *  About: Skew module interface for CSS Render
+ *  Version: 2013.09.01
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+*[class^="$"][class~="sk-slide"] {
+  -webkit-animation: sk-slide 2s; 
+  -moz-animation: sk-slide 2s;
+  -ms-animation: sk-slide 2s;
+  -o-animation: sk-slide 2s;
+  animation: sk-slide 2s;
+}

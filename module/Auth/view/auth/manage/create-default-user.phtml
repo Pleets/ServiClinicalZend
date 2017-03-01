@@ -1,0 +1,22 @@
+<?php
+$title = 'Agregar usuario por defecto';
+$this->headTitle($title);
+?>
+
+<h3><?php echo $this->escapeHtml($title); ?></h3><?php
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  El usuario de prueba ha sido 
+  creado satisfactoriamente!.
+</div>
+<a href="<?php echo $this->url('auth', array('action'=>'login')) ?>" class="btn btn-primary">Iniciar sesión</a>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>

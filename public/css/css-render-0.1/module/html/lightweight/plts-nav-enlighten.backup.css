@@ -1,0 +1,29 @@
+/* enlighten theme */
+
+/* nth-list */
+
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li > a {
+  background: rgb(40,40,40); color: white;
+  box-shadow: 0 0 3px rgb(80,80,80); text-decoration: none;
+}
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li:nth-child(even) > a,
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li:nth-child(even) > a::before { background: rgb(50,50,50); }
+
+/* all items in ul pointer */
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li > a:hover + ul > li a { box-shadow: 0 0 3px rgb(40,40,40); }
+
+/* item pointer */
+
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li > a:hover 
+{ background: rgb(20,20,20); color: white; text-shadow: 0 0 12px white; }
+
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li > a::before {
+  background: rgb(40,40,40);
+}
+
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li:hover > a::before {
+  background: rgb(40,40,40);
+}
+
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li:nth-child(even) > a::before { background: rgb(50,50,50) !important; }
+ul[class^="$"][class~="plts-nav"][class~="enlighten"] li > a:hover::before { background: rgb(20,20,20) !important; }

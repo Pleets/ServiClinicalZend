@@ -1,0 +1,9 @@
+ 
+  <div class="form-group">
+    <label for="diagnost_busqueda">Código o nombre del diagnóstico</label>
+    <input type="text" class="form-control" id="diagnostico_busqueda" data-action='ajax-request-keyup' data-type="post" data-object="v = { id_input : '<?= $id_input ?>', valor_busqueda : $(this).val() } "  data-response="#response-diagnostico" href="<?= $this->basePath() ?>/admissions/search-diagnosticoadd/4" >
+  </div>
+ 
+
+
+<div id="response-diagnostico"></div>

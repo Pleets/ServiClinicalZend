@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <title>CSS Render examples</title>
+  
+  <!-- jQuery framework -->
+  <script type="text/javascript" src="../jquery-2.0.3/jquery-2.0.3.min.js"></script>
+  
+  <!-- jQuery UI -->
+  <script type="text/javascript" src="../jquery-ui-1.10.4/ui/jquery-ui.js"></script>
+  <link rel="stylesheet" href="../jquery-ui-1.10.4/themes/flick/jquery-ui.css" />
+  <link rel="stylesheet" href="../bootstrap-3.0.0/dist/css/bootstrap.min.css" />
+
+  <!-- jRender -->
+  <script type="text/javascript" src="jRender.js"></script>
+  <link rel="stylesheet" href="jRender.css" />
+  
+</head>
+<body>
+  <div class="container" style="padding-bottom: 100px">
+  <div class="jumbotron">
+    <div class="page-header">
+      <h1>jRender v0.1 <small>Overview</small></h1>
+    </div>
+  </div>
+
+    <div class="page-header">
+      <h1>jQuery tools extended <small>base UI tools</small></h1>
+    </div>
+
+    <button class="btn btn-default btn-sm" onclick="jHtml.overlay(); jHtml.overlay();">Overlay</button>
+    <button class="btn btn-default btn-sm" onclick="jHtml.loader(); jHtml.loader();">Loader</button>
+    <button class="btn btn-default btn-sm" onclick="jHtml.dialog({ title: 'simple dialog', content: $('<p>Contents</p>'), width: 500 });">Dialog</button>
+
+    <div class="page-header">    
+      <h3>Check tools</h3>
+    </div>
+
+    <h4>Simple row check</h4>
+
+    <table class="table table-striped table-condensed table-hove" style="width: 300px">
+      <tr>
+        <td><input type="checkbox" class="simple_check"></td>
+        <td>hi there!</td>
+        <td>other string...</td>
+      </tr>
+    </table>
+
+    <h4>Check propagarion</h4>
+
+    <table class="table table-striped table-condensed table-hover" style="width: 300px">
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="inputTrigger"></th>
+          <th>Username</th>
+          <th>Password</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox" class="check_propagation"></td>
+          <td>job456</td>
+          <td>123456</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="check_propagation"></td>
+          <td>steave</td>
+          <td>123459</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-header">
+      <h1>Independent tools <small>jRender core</small></h1>
+    </div>
+
+    <div class="page-header">    
+      <h3>Validators</h3>
+    </div>
+    
+    <label for="stringLength">String length. Min 3, Max 8</label><br />
+    <input id="stringLength" type="text" class="form-control" style="width: 200px; display: inline-block" placeholder="string length" />
+    <span id="validator_response"></span>
+  </div>
+
+
+<script type="text/javascript">
+  $(function(){
+    jHtml = new jRender.Html();
+    jHtml.checked(".simple_check", "success");
+    jHtml.checked(".check_propagation", "success");
+    jHtml.checkedTrigger("#inputTrigger", ".check_propagation");
+
+    jValidator = new jRender.Validator.StringLength({ min: 3, max: 8 });
+    $("#stringLength").keyup(function(){
+      if (jValidator.isValid($(this).val()))
+        $("#validator_response").text('Valid string... OK');
+      else
+        $("#validator_response").text('Invalid string...');
+    });
+  });
+</script>
+</body>
+</html>

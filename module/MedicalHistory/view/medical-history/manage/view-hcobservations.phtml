@@ -1,0 +1,17 @@
+<h4 class="font paprika" style="text-align: center">Observaciones</h4>
+
+<div id="view-observations">
+<?php if (count($observations) && $observations): ?>
+    <div class="panel panel-default">
+        <div class="panel-body font paprika" style="font-size: 12px">      
+            <?= $observations->obs_med ?>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        No se registró alguna observación en el folio
+        </div>
+    </div>
+<?php endif; ?>
+</div>

@@ -1,0 +1,23 @@
+<br>
+<?php if($proceso=='exito') { ?>
+<div class="alert alert-success">
+
+	<?= $mensaje; ?>
+</div>
+<script>
+	
+	
+	setTimeout(function(){ $('#DIALOG_RIA .close').click(); }, 2000);
+	
+</script>
+
+<?php } else { ?>
+<div class="alert alert-danger">
+	<?= $mensaje; ?>
+</div>
+<script>
+	$("#btn_action_ria").attr("disabled", false);
+</script>
+
+<?php } ?>
+

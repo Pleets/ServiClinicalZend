@@ -1,0 +1,137 @@
+@charset "utf-8";
+
+/*
+ *  About: Plts list
+ *  Version: 2013.11.21
+ *  Company: Pleets Applications
+ *  Developer: Darío Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+/* Load skins */
+@import "plts-nav-corporative.css";
+@import "plts-nav-alien.css";
+@import "plts-nav-jqui.css";
+@import "plts-nav-new.css";
+
+
+/*
+ * VERTICAL NAVIGATION BAR
+ */
+
+/* nth-list */
+
+ul[class^="$"][class~="plts-nav"] { list-style: none; padding: 0; margin: 0; width: auto; }
+ul[class^="$"][class~="plts-nav"] li { position: relative; }
+ul[class^="$"][class~="plts-nav"] li > a { cursor: pointer; display: block; position: relative; word-wrap: break-word; 
+  background: rgb(240,240,240); color: rgb(100,100,100); padding: 8px 14px; 
+  box-shadow: 0 0 3px rgb(80,80,80); text-decoration: none;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -o-transition: all 0s ease;   /* Fixing BUG 1 << see below >> */
+}
+ul[class^="$"][class~="plts-nav"] li:nth-child(even) > a,
+ul[class^="$"][class~="plts-nav"] li:nth-child(even) > a::before { background: rgb(250,250,250); }
+
+/* all items in ul pointer */
+ul[class^="$"][class~="plts-nav"] li > a:hover + ul > li a { box-shadow: 0 0 3px rgb(240,240,240); }
+
+/* item pointer */
+
+ul[class^="$"][class~="plts-nav"] li > a:hover { background: rgb(210,210,210); color: rgb(50,50,50); }
+ul[class^="$"][class~="plts-nav"] li > a::before {
+  opacity: 0; visibility: hidden;
+  position: absolute; top: 5px; right: -4px;
+  width: 17px; height: 17px;
+  content: '';     /* This trick do that the element appears */
+  border-radius: 0 0 0 400px;
+  background: rgb(240,240,240);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition: opacity 1.5s, visibility 0s 1.5s, background 0.5s;
+  -moz-transition: opacity 1.5s, visibility 0s 1.5s, background 0.5s;
+  -ms-transition: opacity 1.5s, visibility 0s 1.5s, background 0.5s;
+  /*-o-transition: opacity 1.5s, visibility 0s 1.5s, background 0.5s;*/   /* Opera doesn't support transitions in this context. [BUG 1]*/
+  transition: opacity 1.5s, visibility 0s 1.5s, background 0.5s;
+}
+
+ul[class^="$"][class~="plts-nav"] li > a:hover::before {
+  opacity: 1; visibility: visible;
+  background: rgb(240,240,240);
+  -webkit-transition: opacity 1.5s, background 0.5s;
+  -moz-transition: opacity 1.5s, background 0.5s;
+  -ms-transition: opacity 1.5s, background 0.5s;
+  /*-o-transition: opacity 1.5s, background 0.5s;*/   /* Opera doesn't support transitions in this context. [BUG 1]*/
+  transition: opacity 1.5s, background 0.5s;
+}
+
+/* nth-sublist */
+
+ul[class^="$"][class~="plts-nav"] li > ul { opacity: 0; visibility: hidden; position: absolute; 
+  top: 0; right: -207px; padding-left: 11px; margin-left: -1px; list-style: none; 
+  width: 0; margin-top: -1000000px;
+  -webkit-transition: opacity 2s, visibility 0s 1.4s, width  0s 1.4s, margin 0s 1.4s;
+  -moz-transition: opacity 2s, visibility 0s 1.4s, width  0s 1.4s, margin 0s 1.4s;
+  -ms-transition: opacity 2s, visibility 0s 1.4s, width  0s 1.4s, margin 0s 1.4s;
+  -o-transition: opacity 2s, visibility 0s 1.4s, width  0s 1.4s, margin 0s 1.4s;
+  transition: opacity 2s, visibility 0s 1.4s, width  0s 1.4s, margin 0s 1.4s;
+}
+
+ul[class^="$"][class~="plts-nav"] li:hover > ul { opacity: 1; visibility: visible; width: 200px; margin-top: 0;
+  -webkit-transition: opacity 2s, width 0.8s;
+  -moz-transition: opacity 2s, width 0.8s;
+  -ms-transition: opacity 2s, width 0.8s;
+  -o-transition: opacity 2s, width 0.8s;
+  transition: opacity 2s, width 0.8s;
+}
+
+/* visibility */
+
+ul[class^="$"][class~="plts-nav"], ul[class^="$"][class~="plts-nav"] li > ul { z-index: 2000; }
+ul[class^="$"][class~="plts-nav"], ul[class^="$"][class~="plts-nav"] li:hover > ul { z-index: 2001; }
+
+/* borders */
+
+ul[class^="$"][class~="plts-nav"] li:first-child > a { border-radius: 6px 6px 0 0; }
+ul[class^="$"][class~="plts-nav"] li:last-child > a { border-radius: 0 0 6px 6px; }
+ul[class^="$"][class~="plts-nav"] li:only-child > a { border-radius: 6px; }
+
+ul[class^="$"][class~="plts-nav"] li { border-left: solid 1px transparent; border-right: solid 1px transparent; }
+ul[class^="$"][class~="plts-nav"] li:first-child { border-radius: 6px 6px 0 0; border: solid 1px transparent; border-bottom: none; }
+ul[class^="$"][class~="plts-nav"] li:last-child { border-radius: 0 0 6px 6px; border: solid 1px transparent; border-top: none; }
+ul[class^="$"][class~="plts-nav"] li:only-child { border-radius: 6px; border: solid 1px transparent; }
+
+
+/*
+ * HORIZONTAL NAVIGATION BAR
+ */
+
+/* nth-list */
+
+ul[class^="$"][class~="plts-nav"][class~="-h"] > li { display: inline-block; }
+
+/* item pointer */
+
+ul[class^="$"][class~="plts-nav"][class~="-h"] > li > a::before {
+  bottom: -7px; left: 50%;
+  top: inherit; right: inherit;
+  margin-left: -8px;
+  border-radius: 400px 0 0 0;
+}
+
+ul[class^="$"][class~="plts-nav"][class~="-h"] > li > ul {
+  top: inherit; right: inherit;
+  padding-top: 10px; padding-left: 0;
+}
+
+/* borders */
+
+ul[class^="$"][class~="plts-nav"][class~="-h"] > li:first-child > a { border-radius: 6px 0 0 6px; }
+ul[class^="$"][class~="plts-nav"][class~="-h"] > li:last-child > a { border-radius: 0 6px 6px 0px; }
+ul[class^="$"][class~="plts-nav"][class~="-h"] > li:only-child > a { border-radius: 6px; }

@@ -1,0 +1,103 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+
+<?php else: ?>
+
+    <?php if (count($admission) && isset($open) && $open): ?>
+
+        <?php if (isset($Success) && $Success): ?>
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> Se ha guardado satisfactoriamente la incapacidad </strong>
+        </div>
+            <?php if (!$xmlHttpRequest): ?>
+                <a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)); ?>" class="btn btn-default">Regresar</a>
+                <br /><br />
+            <?php endif; ?>
+        <?php endif; ?>
+
+    <?php elseif (isset($open) && !$open): ?>
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> La admisión no está abierta!
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php
+$title = 'Nueva incapacidad';
+$this->headTitle($title);
+?>
+
+<h3>
+    <?php echo $this->escapeHtml($title); ?>
+</h3>
+
+<?php
+if (isset($form)):
+    $form->setAttribute("class", "plts-form label-inline");
+    $form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addIncapacity')));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formHidden($form->get('cod_dia'));
+    $form->get('nom_dia')->setAttribute("data-resource", $this->url('medicalHistory', array('action'=>'searchDiagnostic', 'id' => $admission->cod_adm)));
+    echo $this->formRow($form->get('nom_dia'));
+    echo $this->formRow($form->get('fec_ini_inc'));
+    echo $this->formRow($form->get('num_dia_inc'));
+    echo $this->formRow($form->get('des_inc'));
+    if (!$xmlHttpRequest):
+        echo $this->formSubmit($form->get('submit'));
+    endif;
+    echo $this->form()->closeTag();
+endif;
+?>
+
+<h3>Incapacidades registradas</h3>
+
+    <div id="setting-controls">
+        <p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" id="run-incapacities-refresh" title="actualizar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'view-incapacities', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+          <button type="button" class="btn btn-default" id="edit-selected-incapacities" title="editar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'edit-incapacity', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-default" id="delete-selected-incapacities" title="eliminar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'delete-incapacities', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" id="incapacities-alternation-table" title="alternar vista" data-exception="[1]"><span class= "glyphicon glyphicon-list-alt"></span></button>
+        </div>
+        </p>
+    </div>
+
+<div id="view-incapacities">
+<?php if (count($incapacities)): ?>
+    <table class="table table-striped table-hover table-condensed" id="incapacities-table">
+        <tr>
+            <th><input id="app-incapacities-check" type="checkbox" /></th>
+            <th style="display: none">Código</th>
+            <th>Diagnóstico</th>
+            <th>Fecha de inicio</th>
+            <th>Número de días</th>
+            <th style="display: none">Descripción</th>
+        </tr>   
+        <?php foreach ($incapacities as $incapacity) : ?>
+        <tr>
+            <td><input type="checkbox" data-selection-id="<?= $incapacity->cod_dia ?>" class="incapacity"></td>
+            <td style="display: none"><?= $this->escapeHtml($incapacity->cod_dia); ?> </td>           
+            <td><?= $this->escapeHtml($incapacity->nom_dia); ?> </td>           
+            <td><?= $this->escapeHtml($incapacity->fec_ini_inc); ?></td>
+            <td><?= $this->escapeHtml($incapacity->num_dia_inc); ?></td>
+            <td style="display: none"><?php $obs = trim($incapacity->des_inc); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        Aún no se ha registrado una incapacidad
+        </div>
+    </div>
+<?php endif; ?>
+</div>

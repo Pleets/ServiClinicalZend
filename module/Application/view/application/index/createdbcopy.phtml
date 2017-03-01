@@ -1,0 +1,21 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if ($response["size"] > 0): ?>
+
+	<div class="alert alert-success">
+		Se ha generado satisfactoriamente la copia de seguridad de la base de datos
+	</div>
+
+	<a target='_blank' style='font-size: 52px; float: left' href="<?= $this->basePath() . '/data/' . basename($response["name"]) ?>"><span class='glyphicon glyphicon-file'></span></a>
+
+	<strong>Tamaño:</strong> <span class='label label-info'><?= number_format($response["size"]) ?> kb</span> <br />
+	<strong>Nombre:</strong> <span class='label label-info'><?= basename($response["name"]) ?></span> <br />
+	<strong>Url:</strong> <a style='color: rgb(200,20,20)' target='_blank' href="<?= $this->basePath() . '/data/' . basename($response["name"]) ?>"><?= $this->basePath() . '/data/' . basename($response["name"]) ?></a> <br />
+<?php endif; ?>
+
+<div style='clear: both'></div>

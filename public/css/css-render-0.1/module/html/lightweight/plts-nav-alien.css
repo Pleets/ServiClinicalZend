@@ -1,0 +1,27 @@
+/* Alien theme */
+
+/* nth-list */
+
+ul[class^="$"][class~="plts-nav"][class~="alien"] li > a {
+  background: rgb(20,20,20); color: silver;
+  text-decoration: none; box-shadow: 0 0 5px green; text-shadow: 0 0 3px green;
+}
+ul[class^="$"][class~="plts-nav"][class~="alien"] li:nth-child(even) > a,
+ul[class^="$"][class~="plts-nav"][class~="alien"] li:nth-child(even) > a::before 
+{ background: rgb(30,30,30); }
+
+/* all items in ul pointer */
+ul[class^="$"][class~="plts-nav"][class~="alien"] li > a:hover + ul > li a 
+{ box-shadow: 0 0 3px rgb(20,20,20); }
+
+/* item pointer */
+
+ul[class^="$"][class~="plts-nav"][class~="alien"] li > a:hover 
+{ background: rgb(210,210,210); color: green; }
+ul[class^="$"][class~="plts-nav"][class~="alien"] li > a::before {
+  background: rgb(20,20,20);
+}
+
+ul[class^="$"][class~="plts-nav"][class~="alien"] li > a:hover::before {
+  background: rgb(210,210,210);
+}

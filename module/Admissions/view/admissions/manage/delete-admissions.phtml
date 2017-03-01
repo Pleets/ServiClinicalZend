@@ -1,0 +1,32 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+	<?php
+	$title = 'Eliminar admisión';
+	$this->headTitle($title);
+	?>
+	<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+	<p>Estás seguro de que deseas eliminar la admisión
+		<strong><?php echo $this->escapeHtml($admission->cod_adm); ?></strong> para el usuario
+		<strong><?php echo $this->escapeHtml($admission->num_doc_pac); ?></strong> ?
+	</p>
+	<?php
+		$url = $this->url('admissions', array(
+			'action' => 'delete-admissions',
+			'id'     => $this->id,
+		));
+	?>
+	<form action="<?php echo $url; ?>" method="post">
+		<div>
+			<input type="hidden" name="id" value="<?= (int) $admission->cod_adm; ?>" />
+			<input type="submit" name="del" value="Si" class="btn btn-danger" />
+			<input type="submit" name="del" value="No" class="btn btn-primary" />
+		</div>
+	</form>
+<?php endif; ?>

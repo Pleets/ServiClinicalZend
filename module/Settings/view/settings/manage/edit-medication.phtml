@@ -1,0 +1,47 @@
+<?php
+$title = 'Editar medicamento';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+<?php if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  El medicamento ha sido editado satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('settings', array('action'=>'index')) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif; ?>
+
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php
+if (isset($form))
+{
+	$form = $this->form;
+	$form->setAttribute(
+		'action', $this->url('settings',
+		array(
+			'action' => 'edit-medication',
+			'id'     => $this->id,
+		)
+	));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formHidden($form->get('cod_med'));
+	echo $this->formRow($form->get('nom_med'));
+	echo $this->formRow($form->get('nom_gen'));
+	echo $this->formRow($form->get('con_med'));
+	echo $this->formRow($form->get('pre_med'));
+	if (!$xmlHttpRequest):
+		echo $this->formSubmit($form->get('submit'));
+	endif;
+	echo $this->form()->closeTag();
+}
+?>

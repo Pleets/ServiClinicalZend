@@ -1,0 +1,21 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+
+	<h2>Copia de seguridad</h2>
+
+	<p>Para continuar con la creación una copia de seguridad de la base de datos por
+	favor haga clic en <em>aceptar</em>, de lo contrario, puede consultar las copias creadas en el
+	enlace <em>consultar</em></p>
+
+	<button id='exec-copy' data-resource="<?= $this->url('application') . '/createdbcopy' ?>" class="btn btn-info btn-default">Aceptar</button>
+	<button id='view-copies' data-resource="<?= $this->url('application') . '/viewcopies' ?>" class="btn btn-info btn-default">Consultar</button>
+
+<?php endif; ?>	
+<br /><br />
+<div id='view'></div>

@@ -1,0 +1,43 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+    <?php if (!$xmlHttpRequest): ?>
+        <span class="glyphicon glyphicon-lock" style="font-size: 20px; color: rgb(0,150,200)"></span>
+        <h3 style="display: inline-block">Parametrización de permisos</h3>
+    <?php endif; ?>
+    
+    <div class="container" style="overflow: auto">
+    <?php if (isset($acl)): ?>
+        <table class="table table-striped table-hover table-condensed">
+
+        <thead>
+            <tr>
+                <th>Perfil</th>
+                <?php foreach ($resources as $resource): ?>
+                    <th><?= $controller->parseResource($resource) ?></th>
+                <?php endforeach; ?>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php foreach ($roles as $rol): ?>
+                <tr>
+                    <td><?= $rol ?></td>
+                <?php foreach ($resources as $resource): ?>
+                    <td>
+                        <?= $acl->isAllowed($rol, null, $resource) ? "<span class='glyphicon glyphicon-ok'></span>" : "<span class='glyphicon glyphicon-remove'></span>"; ?><br />
+                    </td>
+                <?php endforeach; ?>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+
+        </table>
+    <?php endif; ?>
+    </div>
+<?php endif; ?>

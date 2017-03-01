@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+/*
+ *  CSS Render - 3D transforms, transitions and animations
+ *
+
+  Copyright (C) 2013  Darío Rivera, Pleets Apps
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+  Release Notes
+
+  - Compatibility with Gecko, Webkit, Presto, and Trident
+  - Native transformations like rotate, translate, skew and scale are supported
+  - Many effects such as slide, fade, shadow, and others are built-in as classes
+  - Opera browser (presto) doesn't support 3D transforms (Only 2D), in this cases 
+    CSS Render get a 2D compatible animation 
+  - Style render for elements has been added
+  - Namespaces for modules has been added
+
+
+  [+] Visibility
+
+  The following parameters are used in this release.
+
+  [z-index property]
+
+  Range               Group/Elements
+  --------------------------------------
+  [0,	 1000)          Native elements
+  [1000, 2000)        Layout
+  [2000, 3000)        Main system
+  [3000, 4000)        Windows system
+  [4000, 5000)        Critical elements
+
+ */
+
+/* Load modules */
+@import "module/effect/autoload.css";
+@import "module/html/autoload.css";
+
+/* Load Basic handlers */
+@import "module/timing.render.css";
+@import "module/iterations.render.css";
+
+/* Namespace */
+*[class~="plts-nm"], *[class~="plts-nm"] * { font: 11px Tahoma, Sans-serif; }

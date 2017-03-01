@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+/*
+ *  About: Slide module interface for CSS Render
+ *  Version: 2013.09.01
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+ *[class^="$"][class~="rotate"] {
+  -webkit-animation: rotate 2s; 
+  -moz-animation: rotate 2s;
+  -ms-animation: rotate 2s;
+  -o-animation: rotate 2s;
+  animation: rotate 2s;
+}
+*[class^="$"][class~="rotate-x"] {
+  -webkit-animation: rotate-x 2s; 
+  -moz-animation: rotate-x 2s;
+  -ms-animation: rotate-x 2s;
+  -o-animation: rotate-x 2s;
+  animation: rotate-x 2s;
+}
+*[class^="$"][class~="rotate-y"] {
+  -webkit-animation: rotate-y 2s;
+  -moz-animation: rotate-y 2s;
+  -ms-animation: rotate-y 2s;
+  -o-animation: rotate-y 2s;
+  animation: rotate-y 2s;
+}
+*[class^="$"][class~="rotate-z"] {
+  -webkit-animation: rotate-z 2s; 
+  -moz-animation: rotate-z 2s;
+  -ms-animation: rotate-z 2s;
+  -o-animation: rotate-z 2s;
+  animation: rotate-z 2s;
+}

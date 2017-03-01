@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+/*
+ *  About: HTML module
+ *  Version: 2013.11.20
+ *  Company: Pleets Applications
+ *  Developer: Darío Rivera
+ *  E-mail: fermius.us@gmail.com
+ *  Copyright: All rights reserverd
+ *
+
+  Release Notes
+
+  - None
+
+ */
+
+/* Import animations */
+@import "lightweight/plts.css";

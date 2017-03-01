@@ -1,0 +1,104 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+
+<?php else: ?>
+
+    <?php if (count($admission) && isset($open) && $open): ?>
+
+        <?php if (isset($Success) && $Success): ?>
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> Se ha guardado satisfactoriamente la certificación </strong>
+        </div>
+            <?php if (!$xmlHttpRequest): ?>
+                <a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)); ?>" class="btn btn-default">Regresar</a>
+                <br /><br />
+            <?php endif; ?>
+        <?php endif; ?>
+
+    <?php elseif (isset($open) && !$open): ?>
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> La admisión no está abierta!
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php
+$title = 'Nueva certificación';
+$this->headTitle($title);
+?>
+
+<h3>
+    <?php echo $this->escapeHtml($title); ?>
+</h3>
+
+<?php
+if (isset($form)):
+    $form->setAttribute("class", "plts-form label-inline");
+    $form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addMedication')));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    $form->get('cod_adm')->setAttribute('readonly', 'readonly');
+    echo $this->formRow($form->get('cod_adm'));
+    echo $this->formHidden($form->get('cod_tip_doc'));
+    $form->get('cod_tip_doc')->setAttribute("disabled", "disabled");
+    echo $this->formRow($form->get('cod_tip_doc'));
+    $form->get('num_doc_pac')->setAttribute("readonly", "readonly");
+    echo $this->formRow($form->get('num_doc_pac'));
+    echo $this->formRow($form->get('fec_reg'));
+    $form->get('cod_usu')->setAttribute("readonly", "readonly");
+    echo $this->formHidden($form->get('cod_usu'));
+    $form->get('usu_med')->setAttribute("disabled", "disabled");
+    echo $this->formRow($form->get('usu_med'));
+    echo $this->formRow($form->get('tit_cer'));
+    echo $this->formRow($form->get('des_cer'));
+    if (!$xmlHttpRequest):
+        echo $this->formSubmit($form->get('submit'));
+    endif;
+    echo $this->form()->closeTag();
+endif;
+?>
+
+<h3>Certificaciones registrados</h3>
+
+
+    <div id="setting-controls">
+        <p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" id="run-certification-refresh" title="actualizar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'view-certifications', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+          <button type="button" class="btn btn-default" id="edit-selected-certifications" title="editar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'edit-certification', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-default" id="delete-selected-certifications" title="eliminar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'delete-certifications', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        </p>
+    </div>
+
+<div id="view-certifications">
+<?php if (count($certifications)): ?>
+    <table class="table table-striped table-hover table-condensed" id="certifications-table">
+        <tr>
+            <th><input id="app-certifications-check" type="checkbox" /></th>
+            <th>Fecha</th>
+            <th>Título</th>
+            <th>Detalle</th>
+        </tr>   
+        <?php foreach ($certifications as $certification) : ?>
+        <tr>
+            <td><input type="checkbox" data-selection-id="<?= $certification->cod_cer ?>" class="certification"></td>
+            <td><?= $this->escapeHtml($certification->fec_reg); ?> </td>
+            <td><?php $obs = trim($certification->tit_cer); if (empty($obs)) echo "Sín título"; else echo $this->escapeHtml($obs) ?></td>       
+            <td><?php $obs = trim($certification->des_cer); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        Aún no se han registrado certificaciones
+        </div>
+    </div>
+<?php endif; ?>
+</div>

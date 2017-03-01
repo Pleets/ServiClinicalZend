@@ -1,0 +1,96 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+
+<?php else: ?>
+
+    <?php if (count($admission) && isset($open) && $open): ?>
+
+        <?php if (isset($Success) && $Success): ?>
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> Se ha guardado satisfactoriamente la interconsulta </strong>
+        </div>
+            <?php if (!$xmlHttpRequest): ?>
+                <a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)); ?>" class="btn btn-default">Regresar</a>
+                <br /><br />
+            <?php endif; ?>
+        <?php endif; ?>
+
+    <?php elseif (isset($open) && !$open): ?>
+    <div class="alert alert-warning alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> La admisión no está abierta!
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php
+$title = 'Nueva interconsulta';
+$this->headTitle($title);
+?>
+
+<h3>
+    <?php echo $this->escapeHtml($title); ?>
+</h3>
+
+<?php
+if (isset($form)):
+    $form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addInterconsultation')));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formHidden($form->get('cod_dia'));
+    $form->get('nom_dia')->setAttribute("data-resource", $this->url('medicalHistory', array('action'=>'searchDiagnostic', 'id' => $admission->cod_adm)));
+    echo $this->formRow($form->get('nom_dia'));
+    echo $this->formHidden($form->get('cod_esp'));
+    $form->get('nom_esp')->setAttribute("data-resource", $this->url('medicalHistory', array('action'=>'searchSpecialty', 'id' => $admission->cod_adm)));
+    echo $this->formRow($form->get('nom_esp'));
+    echo $this->formRow($form->get('mot_int'));
+    if (!$xmlHttpRequest):
+        echo $this->formSubmit($form->get('submit'));
+    endif;
+    echo $this->form()->closeTag();
+endif;
+?>
+
+<h3>Interconsultas registradas</h3>
+
+
+    <div id="setting-controls">
+        <p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" id="run-interconsultation-refresh" title="actualizar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'view-interconsultations', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+          <button type="button" class="btn btn-default" id="edit-selected-interconsultations" title="editar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'edit-interconsultation', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-default" id="delete-selected-interconsultations" title="eliminar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'delete-interconsultations', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        </p>
+    </div>
+
+<div id="view-interconsultations">
+<?php if (count($interconsultations)): ?>
+    <table class="table table-striped table-hover table-condensed" id="interconsultations-table">
+        <tr>
+            <th><input id="app-interconsultations-check" type="checkbox" /></th>
+            <th>Diagnóstico</th>
+            <th>Especialidad</th>
+            <th>Motivo</th>
+        </tr>
+        <?php foreach ($interconsultations as $interconsultation) : ?>
+        <tr>
+            <td><input type="checkbox" data-selection-id="<?= $interconsultation->cod_int ?>" class="interconsultation"></td>
+            <td><?= $this->escapeHtml($interconsultation->nom_dia); ?> </td>
+            <td><?= $this->escapeHtml($interconsultation->nom_esp); ?></td>
+            <td><?php $obs = trim($interconsultation->mot_int); if (empty($obs)) echo "Ninguno"; else echo $this->escapeHtml($obs) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        Aún no se han registrado interconsultas
+        </div>
+    </div>
+<?php endif; ?>
+</div>

@@ -1,0 +1,78 @@
+<?php if (!$xmlHttpRequest): ?>
+
+<a class="back-button" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHistory', 'id' => $admission->cod_adm)); ?>">
+  <span class="glyphicon glyphicon-circle-arrow-left" style="font-size: 50px; color: rgb(0,150,200)" title="Historia del paciente"></span>
+</a>
+
+<img src="<?php echo $this->basePath('img/logo_medicadiz_min.png') ?>" alt="Logo medicadiz" width="150" style="display: none; position: absolute" class="logo-empresa" />
+
+<div class="container print-header" style="text-align: center; display: none">
+    <h3>NOMBRE DE LA CLÍNICA</h3>
+    <h4>CERTIFICACIÓN</h4><br /><br />
+</div>
+
+    <?php if (!is_null($certification)): ?>
+        <div class="font happy-monkey include-children">
+                <strong>Fecha: </strong> <u><?= $this->escapeHtml($certification->fec_reg); ?></u><br />
+                <strong>No. Ingreso:</strong> <u><?= $admission->cod_adm ?></u><br />
+                <strong>Entidad:</strong> <u><?= $admission->nom_ent ?></u><br />
+                <strong>Nombre:</strong> <u><?= $admission->nom_pac ?></u><br />
+                <strong>Doc:</strong> <u><?= $admission->num_doc_pac ?></u><br />
+        </div><br />
+
+        <?php $title = trim($certification->tit_cer); if (!empty($title)) echo $this->escapeHtml($title); ?>
+
+        <div class="panel panel-default container font paprika include-children" style="min-height: 400px">
+            <div class="panel-body">
+                <span style='font-size: 20px' class="font over-the-rainbow include-children force"><strong>R/.</strong></span>
+                <?php if (empty($certification->des_cer)) echo "Ninguna"; else echo $this->escapeHtml($certification->des_cer); ?>
+            </div>
+        </div>
+
+        <span>Carrera 5a. No. 31-114 - Conmutador: 2650573 - IBAGUÉ - TOLIMA</span><br /><br /><br />
+    <?php endif; ?>
+
+<?php else: ?>
+
+    <h4 style="text-align: center">Certificaciones del paciente</h4>
+
+    <div id="view-certifications">
+    <?php if (count($certifications)): ?>
+        <table class="table table-striped table-hover table-condensed" id="folios-table">
+            <tr>
+                <th>Código</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Fecha de registro</th>
+                <th>Acción</th>
+            </tr>   
+            <?php foreach ($certifications as $certification) : ?>
+            <tr>
+                <td><?= $this->escapeHtml($certification->cod_cer); ?> </td>
+                <td><?= $this->escapeHtml($certification->tit_cer); ?> </td>
+                <td><?= $this->escapeHtml($certification->des_cer); ?> </td>
+                <td><?= $this->escapeHtml($certification->fec_reg); ?> </td>
+                <td>
+                <a target='_blank' title="Ver diseño de impresión" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHccertifications', 'id' => $admission->cod_adm, 'type' => $certification->cod_cer)); ?>"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span> Visualizar</a>                
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else: ?>
+        <div class="panel panel-warning">
+            <div class="panel-body">
+            No se registraron certificaciones en el folio
+            </div>
+        </div>
+    <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+<?php if (!$xmlHttpRequest): ?>
+<div class="container" style="text-align: center">
+Médico: <em><?= $admission->usu_med ?></em>
+</div>
+<br /><br />
+<button class="btn btn-default print-function" title="Imprimir"><span style="font-size: 20px" class="glyphicon glyphicon-print"></span> Imprimir</button>
+<button class="btn btn-default view-print-version" title="Diseño de impresión"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span></button>
+<?php endif; ?>

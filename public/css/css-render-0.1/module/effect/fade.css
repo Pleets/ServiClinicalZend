@@ -1,0 +1,120 @@
+@charset "utf-8";
+
+/*
+ *  About: Fade module for CSS Render
+ *  Version: 2013.09.01
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+@import "fade-interface.css";
+
+/* fade */
+
+@-webkit-keyframes fade {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@-moz-keyframes fade {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@-ms-keyframes fade {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@-o-keyframes fade {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes fade {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* fade-in */
+
+@-webkit-keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@-moz-keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@-ms-keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@-o-keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* fade-out */
+
+@-webkit-keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@-moz-keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@-ms-keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@-o-keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* display-fade-out */
+
+@-webkit-keyframes display-fade-out {
+  from { opacity: 1; display: block; }
+  to { opacity: 0; }
+}
+
+@-moz-keyframes display-fade-out {
+  from { opacity: 1; display: block; }
+  to { opacity: 0; }
+}
+
+@-ms-keyframes display-fade-out {
+  from { opacity: 1; display: block; }
+  to { opacity: 0; }
+}
+
+@-o-keyframes display-fade-out {
+  from { opacity: 1; display: block; }
+  to { opacity: 0; }
+}
+
+@keyframes display-fade-out {
+  from { opacity: 1; display: block; }
+  to { opacity: 0; }
+}

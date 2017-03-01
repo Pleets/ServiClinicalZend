@@ -1,0 +1,109 @@
+<?php if (!$xmlHttpRequest || !$simulateXmlHttpRequest): ?>
+    <div id="setting-controls">
+        <p>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" id="run-diagnostic-refresh" title="actualizar" data-url="<?php echo $this->url('medicalHistory', array('action'=>'view-diagnostics', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-refresh"></span></button>
+          <button type="button" class="btn btn-default" id="edit-selected-diagnostics" title="editar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'edit-diagnostic', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-pencil"></span></button>
+          <button type="button" class="btn btn-default" id="delete-selected-diagnostics" title="eliminar" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'delete-diagnostics', 'id' => $admission->cod_adm)) ?>"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" id="diagnostics-alternation-table" title="alternar vista" data-exception="[1,2]"><span class= "glyphicon glyphicon-list-alt"></span></button>
+        </div>
+        </p>
+    </div>
+<?php endif; ?>
+
+<div id="view-diagnostics">
+<?php if (count($diagnostics)): ?>
+    <table class="table table-striped table-hover table-condensed" id="diagnostics-table">
+        <tr>
+            <th><input id="app-diagnostics-check" type="checkbox" /></th>
+            <th>Diagnóstico</th>
+            <th>Principal</th>
+            <th style="display: none">Tipo</th>
+            <th style="display: none">Clasificación</th>
+            <th style="display: none">Clase</th>
+            <th>Ingreso</th>
+            <th>Egreso</th>
+            <th>Observaciones</th>
+        </tr>   
+        <?php foreach ($diagnostics as $diagnostic) : ?>
+        <tr>
+            <td><input type="checkbox" data-selection-id="<?= $diagnostic->cod_dia ?>" class="diagnostic"></td>
+            <td><?= $this->escapeHtml($diagnostic->nom_dia);?> </td>           
+            <td><?php
+                switch ($diagnostic->dia_pri) {
+                    case 0:
+                        echo "No";
+                        break;
+                    case 1:
+                        echo "Si";
+                        break;
+                    default:
+                        echo "Indefinido";
+                        break;
+                }
+            ?></td>           
+            <td style="display: none"><?php
+                switch ($diagnostic->tip_dia) {
+                    case 1:
+                        echo "Presuntivo";
+                        break;
+                    case 2:
+                        echo "Definitivo";
+                        break;
+                    default:
+                        echo "Indefinido";
+                        break;
+                }
+            ?></td>
+            <td style="display: none"><?php
+                switch ($diagnostic->clasi_dia) {
+                    case 1:
+                        echo "Impresión diagnóstico";
+                        break;
+                    case 2:
+                        echo "Confirmado nuevo";
+                        break;
+                    case 3:
+                        echo "Confirmado nuevo";
+                        break;
+                    default:
+                        echo "Indefinido";
+                        break;
+                }
+            ?></td>
+            <td style="display: none"><?php
+                switch ($diagnostic->clase_dia) {
+                    case 1:
+                        echo "Preoperatorio";
+                        break;
+                    case 2:
+                        echo "Postoperatorio";
+                        break;
+                    case 3:
+                        echo "Histopatológico";
+                        break;
+                    case 4:
+                        echo "No corresponde";
+                        break;
+                    default:
+                        echo "Indefinido";
+                        break;
+                }
+            ?></td>
+            <td><?= ($diagnostic->dia_ing) ? "Si" : "No" ?></td>
+            <td><?= ($diagnostic->dia_egr) ? "Si" : "No" ?></td>
+            <td><?php $obs = trim($diagnostic->obs_dia); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        Aún no se han registrado diagnósticos
+        </div>
+    </div>
+<?php endif; ?>
+</div>

@@ -1,0 +1,22 @@
+
+
+<table class="table table-bordered">
+<thead>
+	<th>Código</th>
+	<th>Descripcion</th>
+</thead>
+<tbody>
+<?php
+foreach ($diagnosticos as $data):
+?>
+<tr>
+	<td><button onclick="$('#DIALOG_CIE10 .close').click(); $('#<?= $id_input ?>').val('<?= $data['cod_dia'] ?>') "><?= $data['cod_dia'] ?></button></td>
+	<td><?= $data['nom_dia'] ?></td>
+
+</tr>
+
+<?php 
+endforeach;
+?>
+</tbody>
+</table>

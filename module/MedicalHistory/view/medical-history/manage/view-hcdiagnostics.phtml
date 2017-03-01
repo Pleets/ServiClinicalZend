@@ -1,0 +1,120 @@
+<h4>Diagnósticos registrados</h4>
+
+<div id="view-diagnostics">
+<?php if (count($diagnostics)): ?>
+    <table class="table table-striped table-hover table-condensed" id="folios-table">
+        <tr>
+            <th>Código</th>
+            <th>Diagnóstico</th>
+            <th>Diagnóstico principal</th>
+            <th>Tipo</th>
+            <th>Clasificación</th>
+            <th>Clase</th>
+            <th>Ingreso</th>
+            <th>Egreso</th>
+            <th>Observaciones</th>
+        </tr>   
+        <?php foreach ($diagnostics as $diagnostic) : ?>
+        <tr>
+            <td><?= $this->escapeHtml($diagnostic->cod_dia); ?> </td>
+            <td><?= $this->escapeHtml($diagnostic->nom_dia); ?> </td>
+            <td><?php
+              switch ($diagnostic->dia_pri) {
+                case 1:
+                  echo "Si";
+                  break;
+                case 0:
+                  echo "No";
+                  break;
+                default:
+                  echo "Indefinido";
+                  break;
+              }
+            ?></td>
+            <td><?php
+              switch ($diagnostic->tip_dia) {
+                case 1:
+                  echo "Presuntivo";
+                  break;
+                case 2:
+                  echo "Definitivo";
+                  break;
+                default:
+                  echo "Indefinido";
+                  break;
+              }
+            ?></td>
+            <td><?php
+              switch ($diagnostic->clasi_dia) {
+                case 1:
+                  echo "Impresión diagnóstico";
+                  break;
+                case 2:
+                  echo "Confirmado nuevo";
+                  break;
+                case 3:
+                  echo "Confirmado repetido";
+                  break;
+                default:
+                  echo "Indefinido";
+                  break;
+              }
+            ?></td>
+            <td><?php
+              switch ($diagnostic->clase_dia) {
+                case 1:
+                  echo "Preoperatorio";
+                  break;
+                case 2:
+                  echo "Postoperatorio";
+                  break;
+                case 3:
+                  echo "Histopatológico";
+                  break;
+                default:
+                case 4:
+                  echo "No corresponde";
+                  break;
+                default:
+                  echo "Indefinido";
+                  break;
+              }
+            ?></td>
+            <td><?php
+              switch ($diagnostic->dia_ing) {
+                case 1:
+                  echo "Si";
+                  break;
+                case 0:
+                  echo "No";
+                  break;
+                default:
+                  echo "Indefinido";
+                  break;
+              }
+            ?></td>
+            <td><?php
+              switch ($diagnostic->dia_egr) {
+                case 1:
+                  echo "Si";
+                  break;
+                case 0:
+                  echo "No";
+                  break;
+                default:
+                  echo "Indefinido";
+                  break;
+              }
+            ?></td>
+            <td><?php $obs = trim($diagnostic->obs_dia); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        No se registraron diagnósticos en el folio
+        </div>
+    </div>
+<?php endif; ?>
+</div>

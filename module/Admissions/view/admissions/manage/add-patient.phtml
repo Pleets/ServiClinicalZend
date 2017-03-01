@@ -1,0 +1,44 @@
+<?php
+$title = 'Agregar paciente';
+$this->headTitle($title);
+?>
+
+<h3><?php echo $this->escapeHtml($title); ?></h3><?php
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  El paciente ha sido registrado satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('admissions', array('action'=>'index')); ?>" class="btn btn-default">Regresar</a>
+	<?php endif; ?>
+	<a href="<?php echo $this->url('admissions', array('action'=>'patient-admission', 'id' => $this->id, 'type' => $this->type));?>" class="btn btn-default">Admisionar</a>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+if (isset($form)):
+	$form->setAttribute('action', $this->url('admissions', array('action' => 'add-patient')));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('cod_tip_doc'));
+	echo $this->formRow($form->get('num_doc_pac'));
+	echo $this->formRow($form->get('pri_nom_pac'));
+	echo $this->formRow($form->get('seg_nom_pac'));
+	echo $this->formRow($form->get('pri_ape_pac'));
+	echo $this->formRow($form->get('seg_ape_pac'));
+	echo $this->formRow($form->get('fec_nac_pac'));
+	echo $this->formRow($form->get('dir_pac'));
+	echo $this->formRow($form->get('num_tel_pac'));
+	echo $this->formRow($form->get('num_cel_pac'));
+	if (!$xmlHttpRequest):
+		echo $this->formSubmit($form->get('submit'));
+	endif;
+	echo $this->form()->closeTag();
+endif;

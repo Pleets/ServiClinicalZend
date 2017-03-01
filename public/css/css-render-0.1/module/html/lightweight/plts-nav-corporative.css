@@ -1,0 +1,15 @@
+/* Corporative theme */
+
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li { text-align: left; padding: 1px; background: white; }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li > a { box-shadow: none; background: white; color: rgb(60,60,60); border: solid 1px white; }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li:nth-child(even) > a, ul[class^="$"][class~="plts-nav"][class~="corporative"] li:nth-child(even) > a::before { background: rgb(225,225,225); }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li:hover > a { background: white; border-radius: 5px; border: solid 1px rgb(150,150,150); }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li:hover > a::before { background: white; }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li > a:hover { border: solid 1px rgb(150,150,150); background: rgb(240,240,240); }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li > a::before { background: white; }
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li > a:hover::before { background: rgb(240,240,240); }
+
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li,
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li:first-child,
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li:last-child,
+ul[class^="$"][class~="plts-nav"][class~="corporative"] li:only-child { border-color: silver; }

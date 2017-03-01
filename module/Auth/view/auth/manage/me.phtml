@@ -1,0 +1,74 @@
+<?php
+
+$title = 'Mi perfil';
+$this->headTitle($title);
+?>
+
+<h3 class="font over-the-rainbow"><?php echo $this->escapeHtml($title); ?></h3>
+
+<?php if (isset($me)): ?>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-6 column" style="margin-bottom: 4px; padding: 5px">
+			<div class="thumbnail" style="padding: 8px">
+				<span class="glyphicon glyphicon-user" style="font-size: 50px"></span><br />
+				<div class="font happy-monkey include-children">
+					<strong>Usuario:</strong> <?= $me->cod_usu ?>
+					<br /><strong>Nombre:</strong> <?= $me->nom_usu ?>
+					<br /><strong>Registro:</strong> <?= $me->fec_reg_usu ?>
+					<br /><strong>Perfil:</strong> <?= $me->nom_per ?>
+				</div>
+			</div>
+			<div class="thumbnail" style="padding: 8px; margin-top: 10px">
+				<div>
+					<h4 class="font paprika include-children">Mis permisos</h4>
+					<?php
+					foreach ($resources as $resource) {
+						if ($acl->isAllowed($resource)) {
+							?> <span class="label label-success" style="display: inline-block"><?= $controller->parseResource($resource) ?></span> <?php
+						}
+					}
+					?>
+				</div>
+			</div>			
+		</div>
+		<div class="col-md-6 column font paprika include-children" style="margin-bottom: 4px; padding: 5px">
+			<div class="thumbnail" style="padding: 8px">
+			<h4>Mi actividad</h4>
+				<ul class="list-group">
+				<?php if ($num_entries): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_entries ?></span>
+				    Logueos
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_patients): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_patients ?></span>
+				    Pacientes registrados
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_admissions): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_admissions ?></span>
+				    Admisiones
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_income): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_income ?></span>
+				    Historias clínicas
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_certifications): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_certifications ?></span>
+				    Certificaciones
+				  </li>
+				<?php endif; ?>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>	
+<?php endif; ?>

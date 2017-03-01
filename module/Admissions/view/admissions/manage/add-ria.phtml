@@ -1,0 +1,612 @@
+<?php
+$datos_paciente=$datos_paciente[0];
+$datos_ria=$datos_ria[0];
+$fec_procedimiento="";
+$fecha_fur='';
+
+if($flag_registro )
+{
+	$fec_pro=$datos_ria_registrado['fec_pro'];
+	$fec_explode=explode("-", $fec_pro);
+	$fec_procedimiento=$fec_explode[2]."/".$fec_explode[1]."/".$fec_explode[0];
+}
+
+if($flag_registro and ($_POST['type']=='citologia') )
+{
+	$fec_fur=$datos_ria_registrado['fec_fur'];
+	$fec_explode=explode("-", $fec_fur);
+	$fecha_fur=$fec_explode[2]."/".$fec_explode[1]."/".$fec_explode[0];
+
+}
+
+if($_POST['type']=='patologia' or $_POST['type']=='liquidos' or $_POST['type']=='citologia'  ) {
+?>
+<style>
+.modal #DIALOG_CIE10
+{
+	z-index: 1045 !important;
+}
+</style>
+<form data-role='ajax-request' method="post" data-response="#response-add-ria" action="<?= $this->basePath() ?>/admissions/<?= ($flag_registro) ? "actualizarRia" : "add-riaadm" ?>/4" data-callback='v= {   
+		before: function() {
+
+			$("#btn_action_ria").attr("disabled", true);
+                
+            } } ' >
+
+<input type="hidden" name="folio" value="<?= $datos_paciente['numero_folio']  ?>">
+<input type="hidden" name="tipo_documento" value="<?= $datos_paciente['tipo_documento']  ?>">
+<input type="hidden" name="documento" value="<?= $datos_paciente['documento']  ?>">
+<input type="hidden" name="tipo_historia" value="<?= $datos_paciente['tipo_historia']  ?>">
+<input type="hidden" name="numero_admision" value="<?= $datos_paciente['numero_admision']  ?>">
+<div class="row">
+<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="nro_autorizacion">Número exámen</label>
+    <input type="text" value="<?= $datos_paciente['numero_examen']  ?>" class="form-control" name="numero_examen" reaonly id="numero_examen" >
+  </div>
+
+ </div>
+ <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="paciente">Paciente</label>
+    <input type="text" reaonly value="<?= $datos_paciente['primer_nombre']  ?> <?= $datos_paciente['segundo_nombre']  ?> <?= $datos_paciente['primer_apellido']  ?> <?= $datos_paciente['segundo_apellido']  ?>" class="form-control" name="paciente" id="paciente" placeholder="dia/mes/año">
+  </div>
+ </div>
+  </div>
+
+<div class="row">
+<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="nro_autorizacion">Número de autorización</label>
+    <input type="hidden" name="id_ria" value="<?= ($flag_registro) ? $datos_ria_registrado['id']  : ""  ?>">
+    <input type="text" value="<?= ($flag_registro) ? $datos_ria_registrado['num_aut']  : ""  ?>"  class="form-control" name="nro_autorizacion" id="nro_autorizacion" >
+  </div>
+
+ </div>
+ <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="fecha_procedimiento">Fecha procedimiento (dia/mes/año)</label>
+    <input type="text" class="form-control" name="fecha_procedimiento" id="fecha_procedimiento" value="<?= $fec_procedimiento  ?>"  placeholder="dia/mes/año">
+  </div>
+ </div>
+  </div>
+
+  <div class="row">
+<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="persona_atiende">Personal que atiende</label>
+    <select class="form-control" name="persona_atiende" id="persona_atiende">
+    	<option value="">Seleccione</option>
+    	<option value="1" <?= ($flag_registro) ? (($datos_ria_registrado['per_ati']=='1') ? "selected" : "" ): "" ?> >1- Médico especialista</option>
+    	<option value="2" <?= ($flag_registro) ? (($datos_ria_registrado['per_ati']=='2') ? "selected" : "" ): "" ?>  >2- Médico general</option>
+    	<option value="3" <?= ($flag_registro) ? (($datos_ria_registrado['per_ati']=='3') ? "selected" : "" ): "" ?> >3- Enfermera</option>
+    	<option value="4" <?= ($flag_registro) ? (($datos_ria_registrado['per_ati']=='4') ? "selected" : "" ): "" ?> >4- Auxiliar de enfermeria</option>
+    	<option value="5" <?= ($flag_registro) ? (($datos_ria_registrado['per_ati']=='5') ? "selected" : "" ): "" ?> >5- Otro</option>
+    </select>
+  </div>
+
+ </div>
+ <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="clase_procedimiento">Clase de procedimiento</label>
+    <select class="form-control" name="clase_procedimiento" id="clase_procedimiento">
+    	<option value="">Seleccione</option>
+    	<option value="1" <?= ($flag_registro) ? (($datos_ria_registrado['cla_pro']=='1') ? "selected" : "" ): "" ?>  >1- En atención ambulatoria</option>
+    	<option value="2" <?= ($flag_registro) ? (($datos_ria_registrado['cla_pro']=='2') ? "selected" : "" ): "" ?>  >2- En atención hospitalaria</option>
+    	<option value="3" <?= ($flag_registro) ? (($datos_ria_registrado['cla_pro']=='3') ? "selected" : "" ): "" ?>>3- En Urgencia</option>
+    	
+    </select>
+  </div>
+ </div>
+  </div>
+
+   <div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="persona_atiende">Condición usuaria</label>
+		    <select class="form-control" name="condicion_usuaria" id="condicion_usuario">
+		    	<option value="">Seleccione</option>
+		    	<option value="1" <?= ($flag_registro) ? (($datos_ria_registrado['con_usu']=='1') ? "selected" : "" ): "" ?> >1- Embarazo primer trimestre</option>
+		    	<option value="2" <?= ($flag_registro) ? (($datos_ria_registrado['con_usu']=='2') ? "selected" : "" ): "" ?>>2- Embarazo segundo trimestre</option>
+		    	<option value="3" <?= ($flag_registro) ? (($datos_ria_registrado['con_usu']=='3') ? "selected" : "" ): "" ?> >3- Embarazo tercer trimestre</option>
+		    	<option value="4" <?= ($flag_registro) ? (($datos_ria_registrado['con_usu']=='4') ? "selected" : "" ): "" ?> >4- No embarazada</option>
+		    	
+		    </select>
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="cantidad_procedimiento">Cantidad procedimiento</label>
+		    <input type="text" class="form-control numeros" name="cantidad_procedimiento" id="cantidad_procedimiento" value="<?= ($flag_registro) ? $datos_ria_registrado['can_pro']  : ""  ?>" >
+		  </div>
+		 </div>
+  </div>
+
+    <div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="tipo_procedimiento">Tipo de procedimiento</label>
+		    <select class="form-control" name="tipo_procedimiento" id="tipo_procedimiento">
+		    	<option value="">Seleccione</option>
+		    	<option value="1" <?= ($flag_registro) ? (($datos_ria_registrado['tip_pro']=='1') ? "selected" : "" ): "" ?> >1- Diagnóstico</option>
+		    	<option value="2" <?= ($flag_registro) ? (($datos_ria_registrado['tip_pro']=='2') ? "selected" : "" ): "" ?> >2- Terapéutico</option>
+		    	<option value="3" <?= ($flag_registro) ? (($datos_ria_registrado['tip_pro']=='3') ? "selected" : "" ): "" ?>>3- Protección especifica</option>
+		    	<option value="4" <?= ($flag_registro) ? (($datos_ria_registrado['tip_pro']=='4') ? "selected" : "" ): "" ?>>4- Detección temprana</option>
+		    	
+		    </select>
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="medico_remitente">Médico remitente</label>
+		    <input type="text" class="form-control" name="medico_remitente" id="medico_remitente" value="<?= ($flag_registro) ? $datos_ria_registrado['med_rem']  : ""  ?>" >
+		  </div>
+		 </div>
+  	</div>
+
+	<?php if($_POST['type']=='citologia') { ?>	
+  	<div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="fur">F.U.R (dia/mes/año)</label>
+		     <input type="text" class="form-control" name="fur" id="fur" placeholder="dia/mes/año" value="<?= $fecha_fur  ?>" >
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="gravidez ">Gravidez</label>
+		    <input type="text" value="<?= ($flag_registro) ? $datos_ria_registrado['gravidez']  : ""  ?>" class="form-control" name="gravidez" id="gravidez" >
+		  </div>
+		 </div>
+  	</div> 
+  	<?php } ?>
+
+
+ 	<div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">	
+		  <div class="form-group">
+		    <label for="tejido_enviado">Tejido enviado</label>
+		     <input type="text" class="form-control" name="tejido_enviado" id="tejido_enviado" value="<?= $datos_ria['material_estudio'] ?>" >
+		  </div>
+
+		 </div>
+		 
+  	</div>
+
+  	 <div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Diagnóstico clínico</label>
+		     <input type="text" class="form-control" name="diagnostico_clinico" id="diagnostico_clinico" value="<?= $datos_ria['diagnostico_clinico'] ?>" >
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="codigo_diagnostico">Código diagnóstico clínico</label>
+		   
+		    <input type="text" class="form-control" value="<?= ($flag_registro) ? $datos_ria_registrado['cod_dia']  : ""  ?>"  name="codigo_diagnostico" id="codigo_diagnostico" >
+		    <span data-url="<?= $this->basePath() ?>/admissions/search-diagnostico/4"  data-action='show-dialog' data-width="large" data-id="DIALOG_CIE10" data-type="post" data-title="BUSQUEDA DE DIAGNOSTICOS CIE10" data-object=" v= { id_input :  'codigo_diagnostico' }" class="glyphicon glyphicon-zoom-in" style="color: blue; cursor: pointer;" data-callback="  v= {
+				success: function(data)
+	            {
+	                $('#DIALOG_CIE10').css('z-index', '1045');
+	                
+	            }
+
+		    } "></span>
+		  </div>
+		 </div>
+  	</div>
+
+  		<div class="row">
+  		
+	 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="codigo_diagnostico">Código orden</label>
+		 
+		    <input type="text" class="form-control" name="cod_orden" value="<?= ($flag_registro) ? $datos_ria_registrado['cod_ord']  : ""  ?>"  >
+		  </div>
+		 </div>
+
+  	</div>
+
+  	<?php if(count($datos_cups_ria_registrado)) : ?>
+			<div  class="row alert alert-info">
+				Procedimientos CUPS registrados
+
+			</div>
+
+		<div class="row">
+
+		<?php  $i=1; foreach($datos_cups_ria_registrado as  $datos): ?>
+
+		<div class="row" id="div_<?= $i ?>">
+		<div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Cups</label>
+		     <input type="text" disabled class="form-control" value="<?= $datos['cod_cup'] ?>" >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Total</label>
+		     <input type="text" disabled class="form-control numeros" value="<?= $datos['valor_total'] ?>"  >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Copago</label>
+		     <input type="text" disabled class="form-control numeros" value="<?= $datos['copago'] ?>"  >
+		  </div>
+
+		 </div>	
+
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Valor</label>
+		     <input type="text" disabled class="form-control numeros" value="<?= $datos['valor'] ?>"  >
+		  </div>
+
+		</div>
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+			<label for="diagnostico_clinico">Acción</label>
+		  <button class="btn btn-xs btn-default" style="color: red
+		  " data-url="<?= $this->basePath() ?>/admissions/eliminarCupSia/4"  data-action='show-dialog' data-width="large" data-id="DIALOG_ELIMINAR_CUP" data-type="post" data-title="ELIMINACION CUPS DE SERVICIO DE SALUD" data-object=" v= { id_capa :  <?= $i ?>, id_ria :  <?= $datos['id'] ?>, cod_cup : '<?= $datos['cod_cup'] ?>'  }"  data-callback="  v= {
+				success: function(data)
+	            {
+	                $('#DIALOG_ELIMINAR_CUP').css('z-index', '1045');
+	                
+	            }
+
+		    } " >Eliminar</button>
+					
+		  </div>
+
+		 </div>
+		 </div>
+			
+	<?php $i++; endforeach; ?>
+
+		</div>
+
+  	<?php endif; ?>
+
+  	  	<?php if(count($datos_cups_ria_registrado)) : ?>
+			<div  class="row alert alert-info">
+				Adicionar más CUPS
+
+			</div>
+
+		<?php endif; ?>	
+
+  	<div class="row">
+
+  	<div id="row-cups" class="rowcups">
+  	
+  		<div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Cups</label>
+		     <input type="text" class="form-control" name="procedimiento[]" data-id="1"  data-url="<?= $this->basePath() ?>/admissions/search-cups/4"  data-action='show-dialog-focus' data-width="large" data-id-modal="DIALOG_CUPS" data-type="post" data-title="BUSQUEDA CUPS" data-object=" v= { id_input :  $(this).attr('data-id') }" >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Total</label>
+		     <input type="text" class="form-control numeros" name="valor_total[]"  >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Copago</label>
+		     <input type="text" class="form-control numeros" name="valor_copago[]"  >
+		  </div>
+
+		 </div>	
+
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Valor</label>
+		     <input type="text" class="form-control numeros" name="valor[]"  >
+		  </div>
+
+		</div>	
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Opcion.</label>
+		     <span id="btn_add_cups" onclick="  
+		     var element=$('#row-cups.rowcups').clone();
+		     element.find('input').val('');
+		     element.find('.delete-cups').removeAttr('disabled');	
+		     element.removeClass('rowcups');
+		     element.find('input[name=\'procedimiento[]\']').attr('data-id', ( parseInt(element.find('input').attr('data-id'))+1 ));
+		     $('#row-cups').parent().append( element); 
+		     $('.delete-cups').show();
+
+		      
+		     " class="glyphicon glyphicon-plus" style="color: green; cursor: pointer;"></span>
+				&nbsp;
+		     <button disabled class="delete-cups" onclick="$(this).parent().parent().parent().remove()" style="color: red; cursor: pointer; display: none;"><span class="glyphicon glyphicon-minus"></span></button>
+		  </div>
+
+		</div>	
+	</div>	
+
+
+	<!--<div id="row-cups2">
+  	
+  		<div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Cups</label>
+		     <input type="text" class="form-control" name="procedimiento[]" data-id="1"  data-url="<?= $this->basePath() ?>/admissions/search-cups/4"  data-action='show-dialog-focus' data-width="large" data-id-modal="DIALOG_CUPS" data-type="post" data-title="BUSQUEDA CUPS" data-object=" v= { id_input :  $(this).attr('data-id') }" >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Total</label>
+		     <input type="text" class="form-control numeros" name="valor_total[]"  >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Copago</label>
+		     <input type="text" class="form-control numeros" name="valor_copago[]"  >
+		  </div>
+
+		 </div>	
+
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Valor</label>
+		     <input type="text" class="form-control numeros" name="valor[]"  >
+		  </div>
+
+		</div>	
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Opcion.</label>
+		     <span id="btn_add_cups" onclick="  
+		     var element=$('#row-cups.rowcups').clone();
+		     element.show();
+		     element.find('input').val('');
+		     element.find('.delete-cups').removeAttr('disabled');	
+		     $('#row-cups.rowcups').removeClass('rowcups');
+		     element.find('input[name=\'procedimiento[]\']').attr('data-id', ( parseInt(element.find('input').attr('data-id'))+1 ));
+		     $('#row-cups').parent().append( element); 
+		     $('.delete-cups').show();
+
+		      
+		     " class="glyphicon glyphicon-plus" style="color: green; cursor: pointer;"></span>
+				&nbsp;
+		     <button disabled class="delete-cups" onclick="$(this).parent().parent().parent().remove()" style="color: red; cursor: pointer; display: none;"><span class="glyphicon glyphicon-minus"></span></button>
+		  </div>
+
+		</div>	
+	</div>	-->
+
+
+
+  </div>
+
+
+
+  <button type="submit" id="btn_action_ria" class="btn btn-success"><?= ($flag_registro) ? "Actualizar" : "Guardar" ?></button>
+</form>
+
+<div id="response-add-ria"></div>
+
+
+
+<?php }  else { ?>
+
+<form>
+
+<div class="row">
+<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="nro_autorizacion">Número de autorización</label>
+    <input type="text" class="form-control" name="nro_autorizacion" id="nro_autorizacion" >
+  </div>
+
+ </div>
+ <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="fecha_procedimiento">Fecha procedimiento</label>
+    <input type="text" class="form-control" name="fecha_procedimiento" id="fecha_procedimiento" placeholder="dia/mes/año">
+  </div>
+ </div>
+  </div>
+
+  <div class="row">
+<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="persona_atiende">Personal que atiende</label>
+    <select class="form-control" name="persona_atiende" id="persona_atiende">
+    	<option value="1">1- Médico especialista</option>
+    	<option value="2">2- Médico general</option>
+    	<option value="3">3- Enfermera</option>
+    	<option value="4">4- Auxiliar de enfermeria</option>
+    	<option value="5">5- Otro</option>
+    </select>
+  </div>
+
+ </div>
+ <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+  <div class="form-group">
+    <label for="clase_procedimiento">Clase de procedimiento</label>
+    <select class="form-control" name="clase_procedimiento" id="clase_procedimiento">
+    	<option value="1">1- En atención ambulatoria</option>
+    	<option value="2">2- En atención hospitalaria</option>
+    	<option value="3">3- En Urgencia</option>
+    	
+    </select>
+  </div>
+ </div>
+  </div>
+
+   <div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="persona_atiende">Condición usuaria</label>
+		    <select class="form-control" name="condicion_usuaria" id="condicion_usuario">
+		    	<option value="1">1- Embarazo primer trimestre</option>
+		    	<option value="2">2- Embarazo segundo trimestre</option>
+		    	<option value="3">3- Embarazo tercer trimestre</option>
+		    	<option value="4">4- No embarazada</option>
+		    	
+		    </select>
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="cantidad_procedimiento">Cantidad procedimiento</label>
+		    <input type="text" class="form-control" name="cantidad_procedimiento" id="cantidad_procedimiento" >
+		  </div>
+		 </div>
+  </div>
+
+    <div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="tipo_procedimiento">Tipo de procedimiento</label>
+		    <select class="form-control" name="tipo_procedimiento" id="tipo_procedimiento">
+		    	<option value="1">1- Diagnóstico</option>
+		    	<option value="2">2- Terapéutico</option>
+		    	<option value="3">3- Protección especifica</option>
+		    	<option value="4">4- Detección temprana</option>
+		    	
+		    </select>
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="medico_remitente">Médico remitente</label>
+		    <input type="text" class="form-control" name="medico_remitente" id="medico_remitente" >
+		  </div>
+		 </div>
+  	</div>
+
+  	 	<div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="fur">F.U.R</label>
+		     <input type="text" class="form-control" name="fur" id="fur" placeholder="dia/mes/año" >
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="gravidez ">Gravidez</label>
+		    <input type="text" class="form-control" name="gravidez" id="gravidez" >
+		  </div>
+		 </div>
+  	</div> 
+
+  	 <div class="row">
+		<div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Diagnóstico clínico</label>
+		     <input type="text" class="form-control" name="diagnostico_clinico" id="diagnostico_clinico" >
+		  </div>
+
+		 </div>
+		 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="codigo_diagnostico">Código diagnóstico clínico</label>
+		    <input type="hidden" id="diagnostic_id" name="cod_dia">
+		    <input type="text" class="form-control" name="nom_dia" data-resource="<?= $this->basePath() ?>/medicalHistory/searchDiagnostico" id="diagnosticSuggestion" >
+		  </div>
+		 </div>
+  	</div>
+
+  	<div class="row">
+  		
+	 <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6">	
+		  <div class="form-group">
+		    <label for="codigo_diagnostico">Código orden</label>
+		 
+		    <input type="text" class="form-control" name="cod_orden"  >
+		  </div>
+		 </div>
+
+  	</div>
+
+  	<div class="row">
+
+  	<div id="row-cups">
+  		<div class="col-sm-4 col-xs-4 col-md-4 col-lg-4">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Cups</label>
+		     <input type="text" class="form-control" name="procedimiento[]"  >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Total</label>
+		     <input type="text" class="form-control" name="valor_total[]"  >
+		  </div>
+
+		 </div>	
+
+		 <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Copago</label>
+		     <input type="text" class="form-control" name="valor_copago[]"  >
+		  </div>
+
+		 </div>	
+
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Valor</label>
+		     <input type="text" class="form-control" name="valor[]"  >
+		  </div>
+
+		</div>	
+
+		<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">	
+		  <div class="form-group">
+		    <label for="diagnostico_clinico">Opcion</label>
+		     <span id="btn_add_cups" onclick="  $('#row-cups').append( $('#row-cups').clone() ); $('.glyphicon-minus').show() " class="glyphicon glyphicon-plus" style="color: green; cursor: pointer;"></span>
+				&nbsp;
+		     <span class="glyphicon glyphicon-minus" style="color: red; cursor: pointer; display: none;"></span>
+		  </div>
+
+		</div>	
+	</div>	
+  </div>
+
+
+
+  <button type="submit" class="btn btn-success">Guardar</button>
+</form>
+
+
+<?php } ?>

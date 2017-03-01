@@ -1,0 +1,225 @@
+<?php echo $this->doctype(); ?>
+
+<?php
+$auth = $this->getHelperPluginManager()->getServiceLocator()->get('authenticationService');
+if ($auth->hasIdentity())
+{
+    $acl = $this->getHelperPluginManager()->getServiceLocator()->get('AclAdapter');
+    $userTable = $this->getHelperPluginManager()->getServiceLocator()->get('Auth\Model\Entity\UserTable');
+    $acl->parseRol($userTable->getPermission($auth->getIdentity()->cod_usu));
+
+    # Identificación de usuario
+    $userName = $userTable->getUser($auth->getIdentity()->cod_usu)->nom_usu;
+}
+?>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <?php echo $this->headTitle('&reg; ServiClinical v1.0')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?php echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                    ->prependStylesheet("http://fonts.googleapis.com/css?family=Over+the+Rainbow", 'all')
+                    ->prependStylesheet("http://fonts.googleapis.com/css?family=Paprika", 'all')
+                    ->prependStylesheet("http://fonts.googleapis.com/css?family=Happy+Monkey", 'all')
+                    ->prependStylesheet($this->basePath() . '/js/jRender/jRender.css', 'all')
+                    ->prependStylesheet($this->basePath() . '/css/css-render-0.1/css-render.css', 'all')
+                    #->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css', 'all')
+                    ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css', 'all')
+                    ->prependStylesheet($this->basePath() . '/css/application/style.css', 'all')
+                    ->prependStylesheet($this->basePath() . '/css/application/printer.css', 'print')
+                    ->prependStylesheet($this->basePath() . '/js/jquery-ui-1.10.4/themes/flick/jquery-ui.css', 'all')
+                    ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css', 'all')
+                    ->prependStylesheet($this->basePath() . '/libs/JScript-Render/css/JScriptRender.css', 'all')
+                    ?>
+
+    <!-- Scripts -->
+    <?php echo $this->headScript()
+        ->prependFile($this->basePath() . '/js/app.js')
+        ->prependFile($this->basePath() . '/js/application/user.js')
+        ->prependFile($this->basePath() . '/js/application/settings.js')
+        ->prependFile($this->basePath() . '/libs/JScript-Render/JScriptRender.js')
+        ->prependFile($this->basePath() . '/js/jRender/jRender.js')
+        ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+        ->prependFile($this->basePath() . '/js/jquery-ui-1.10.4/ui/jquery-ui.js')
+        ->prependFile($this->basePath() . '/js/jquery-2.0.3.min.js')
+        ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+        ->prependFile($this->basePath() . '/js/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',))
+    ; ?>
+
+</head>
+<body>
+<div class="container" id="rootContainer">
+    <div class="row clearfix" id="rootNavigation">
+        <div class="col-md-12 column">
+            <nav class="navbar navbar-default navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                             <a class="navbar-brand" href="<?php echo $this->url('home') ?>"><span class="glyphicon glyphicon-home"></span> ServiClinical <sub>v1.0</sub></a>
+                        </li>
+                    </ul>
+                    <?php
+			        /*echo $this->navigation('navigation') ->menu()
+			                            ->setOnlyActiveBranch(false)
+			                            ->setRenderParents(false)
+			                            ->setUlClass('nav navbar-nav pseudo-nav')
+			                            ->setRole()
+			                            ->render()
+			        ; */
+                    ?>
+                    <?php if ($auth->hasIdentity()): ?>
+                    <ul class="nav navbar-nav pseudo-nav">
+                        <?php if ($acl->isAllowed("viewUsers") || $acl->isAllowed("viewPermissions")): ?>
+                        <li class="dropdown">
+                            <a href="<?= $this->url('auth') ?>" role="button" data-toggle="dropdown" data-target="#">Usuarios</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php if ($acl->isAllowed("viewUsers")): ?>
+                                <li>
+                                    <a href="<?= $this->url('auth', array('action' => 'view-users')) ?>">Usuarios</a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($acl->isAllowed("viewPermissions")): ?>
+                                <li>
+                                    <a href="<?= $this->url('auth', array('action' => 'permissions')) ?>">Permisos</a>
+                                </li>
+                                <?php endif; ?>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ($acl->isAllowed("viewAdmissions") || $acl->isAllowed("viewPatients")): ?>
+                        <li class="dropdown">
+                            <a href="<?= $this->url('admissions') ?>" role="button" data-toggle="dropdown" data-target="#">Admisiones</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php if ($acl->isAllowed("viewAdmissions")): ?>
+                                <li>
+                                    <a href="<?= $this->url('admissions', array('action' => 'view-admissions')) ?>">Admisiones</a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($acl->isAllowed("viewPatients")): ?>
+                                <li>
+                                    <a href="<?= $this->url('admissions', array('action' => 'view-patients')) ?>">Pacientes</a>
+                                </li>
+                                <?php endif; ?>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ($acl->isAllowed("viewExams") || $acl->isAllowed("viewMedications") || $acl->isAllowed("viewEntities")): ?>
+                        <li class="dropdown">
+                            <a href="<?= $this->url('settings') ?>" role="button" data-toggle="dropdown" data-target="#">Configuración</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php if ($acl->isAllowed("viewExams")): ?>
+                                <li>
+                                    <a href="<?= $this->url('settings', array('action' => 'view-exams')) ?>">Exámenes</a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($acl->isAllowed("viewMedications")): ?>
+                                <li>
+                                    <a href="<?= $this->url('settings', array('action' => 'view-medications')) ?>">Medicamentos</a>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($acl->isAllowed("viewEntities")): ?>
+                                <li>
+                                    <a href="<?= $this->url('settings', array('action' => 'view-entities')) ?>">Entidades</a>
+                                </li>
+                                <?php endif; ?>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ($acl->isAllowed("viewHistory")): ?>
+                        <li>
+                            <a href="<?= $this->url('medicalHistory') ?>">Historia clínica</a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if ($acl->isAllowed("viewDevelopment")): ?>
+                        <li class="dropdown">
+                            <a href="<?= $this->url('application') ?>" role="button" data-toggle="dropdown" data-target="#">Sistema</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="<?= $this->url('application', array('action' => 'development')) ?>">Desarrollo</a>
+                                </li>
+                                <li>
+                                    <a href="<?= $this->url('application', array('action' => 'dbcopy')) ?>">Copia de seguridad</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                    <?php endif; ?>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if ($auth->hasIdentity()): ?>
+                            <li>
+                                <a href="<?php echo $this->url('auth', array('action' => 'me')) ?>"><?= $userName ?></a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if($auth->hasIdentity()): ?>
+                        <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span><strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?= $this->url('auth') . '/change-password' ?>">Cambiar contraseña</a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->url('auth', array('action'=>'logout')) ?>">Cerrar sesión</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <?php if ($auth->hasIdentity()): ?>
+    <div class="panel panel-default" id="rootBreadcrumbs">
+        <div class="panel-body">
+            <?php if ($acl->isAllowed("viewUsers") || $acl->isAllowed("viewPermissions")): ?>
+                <a title="Usuarios y permisos" href="<?php echo $this->url('auth') ?>"><span style="font-size: 20px" class="glyphicon glyphicon-user"></span></a>
+            <?php endif; ?>
+            <?php if ($acl->isAllowed("viewAdmissions") || $acl->isAllowed("viewPatients")): ?>
+                <a title="Pacientes y admisiones" href="<?php echo $this->url('admissions') ?>"><span style="font-size: 20px" class="glyphicon glyphicon-ok"></span></a>
+            <?php endif; ?>
+            <?php if ($acl->isAllowed("viewExams") || $acl->isAllowed("viewMedications") || $acl->isAllowed("entities")): ?>
+                <a title="Configuración" href="<?php echo $this->url('settings') ?>"><span style="font-size: 20px" class="glyphicon glyphicon-cog"></span></a>
+            <?php endif; ?>
+            <?php if ($acl->isAllowed("viewHistory")): ?>
+                <a title="Historia clínica" href="<?php echo $this->url('medicalHistory') ?>"><span style="font-size: 20px" class="glyphicon glyphicon-time"></span></a>
+            <?php endif; ?>
+                <a title="Mi perfil" href="<?php echo $this->url('auth', array('action' => 'me')) ?>"><span style="font-size: 20px" class="glyphicon glyphicon-star"></span></a>
+            <?php
+            echo $this->navigation('navigation') ->breadcrumbs()
+                                ->setIndent(6)
+                                ->setRole()
+                                ->render()
+            ;
+            ?>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div class="$ fade-in fast container" id="wrapper">
+        <?php echo $this->layout()->content; ?>
+        <footer id="wrapperFooter">
+            <hr />
+            <p>&copy; 2017 by Pleets. <?php echo $this->translate('All rights reserved.') ?></p>
+        </footer>
+    </div> <!-- /container -->
+    <?php echo $this->inlineScript() ?>
+</div>
+</body>
+</html>
+

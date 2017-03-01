@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+/*
+ *  About: Fade module interface for CSS Render
+ *  Version: 2013.09.01
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+ *[class^="$"][class~="fade"] {
+  -webkit-animation: fade 2s; 
+  -moz-animation: fade 2s;
+  -ms-animation: fade 2s;
+  -o-animation: fade 2s;
+  animation: fade 2s; 
+}
+*[class^="$"][class~="fade-in"] {
+  -webkit-animation: fade-in 2s; 
+  -moz-animation: fade-in 2s;
+  -ms-animation: fade-in 2s;
+  -o-animation: fade-in 2s;
+  animation: fade-in 2s; 
+}
+*[class^="$"][class~="fade-out"] {
+  -webkit-animation: fade-out 2s; 
+  -moz-animation: fade-out 2s;
+  -ms-animation: fade-out 2s;
+  -o-animation: fade-out 2s;
+  animation: fade-out 2s; 
+}
+*[class^="$"][class~="display-fade-out"] {
+  -webkit-animation: display-fade-out 2s; 
+  -moz-animation: display-fade-out 2s;
+  -ms-animation: display-fade-out 2s;
+  -o-animation: display-fade-out 2s;
+  animation: display-fade-out 2s; 
+}

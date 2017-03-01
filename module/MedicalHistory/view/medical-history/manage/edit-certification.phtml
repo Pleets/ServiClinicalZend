@@ -1,0 +1,57 @@
+<?php
+
+$title = 'Editar certificación';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+<?php
+$form = $this->form;
+$form->setAttribute(
+	'action', $this->url('medicalHistory',
+	array(
+		'action' => 'edit-certification',
+		'id'     => $this->id,
+	)
+));
+$form->prepare();
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  La certificación ha sido actualizada satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('medicalHistory', array('action'=>'index')) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+$form->setAttribute("class", "plts-form label-inline");
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('cod_cer'));
+$form->get('cod_cer')->setAttribute('readonly', 'readonly');
+echo $this->formRow($form->get('cod_cer'));
+$form->get('cod_adm')->setAttribute('readonly', 'readonly');
+echo $this->formRow($form->get('cod_adm'));
+echo $this->formHidden($form->get('cod_tip_doc'));
+$form->get('cod_tip_doc')->setAttribute("disabled", "disabled");
+echo $this->formRow($form->get('cod_tip_doc'));
+$form->get('num_doc_pac')->setAttribute("readonly", "readonly");
+echo $this->formRow($form->get('num_doc_pac'));
+echo $this->formRow($form->get('fec_reg'));
+$form->get('cod_usu')->setAttribute("readonly", "readonly");
+echo $this->formRow($form->get('cod_usu'));
+$form->get('usu_med')->setAttribute("disabled", "disabled");
+echo $this->formRow($form->get('tit_cer'));
+echo $this->formRow($form->get('des_cer'));
+if (!$xmlHttpRequest):
+	echo $this->formSubmit($form->get('submit'));
+endif;
+echo $this->form()->closeTag();

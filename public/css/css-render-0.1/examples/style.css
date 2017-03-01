@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+/*
+ *  About: CSS Render examples
+ *  Version: 2013.11.22
+ *  Company: Pleets Applications
+ *  Developer: Darío Rivera
+ *  E-mail: fermius.us@gmail.com
+ *  Copyright: All rights reserverd
+ *
+
+  Release Notes
+
+  - none
+
+ */
+
+*[class~="dem"] { width: 200px; height: 200px; padding: 10px; box-shadow: 0 0 2px black;
+  background-image:-webkit-gradient(linear,left 0,left 100%,from(rgb(240,240,240)),to(rgb(210,210,210))) !important;
+  background-image:-webkit-linear-gradient(top,rgb(240,240,240),0%,rgb(210,210,210),100%);
+  background-image:-moz-linear-gradient(top,rgb(240,240,240) 0,rgb(210,210,210) 100%);
+  background-image: linear-gradient(to bottom,rgb(240,240,240) 0,rgb(210,210,210) 100%);
+  background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff323232',endColorstr='#ff282828',GradientType=0)
+}
+
+
+
+*[class~="plts-nm"] h1 { color: rgb(0,150,200); font-size: 55px; }
+*[class~="plts-nm"] h2 { color: rgb(0,180,200); font-size: 40px; }
+*[class~="plts-nm"] h3 { color: rgb(50,150,200); font-size: 25px; }
+*[class~="plts-nm"] h4 { color: rgb(50,150,200); margin-bottom: 1px; }
+
+*[class^="$"][class~="plts-btn"] { padding: 8px 14px; margin: 4px 0px; display: inline-block;
+    border: solid 1px silver; cursor: pointer; color: rgb(100,100,100); box-shadow: 0 0 2px rgb(210, 210, 210);
+    background: rgb(240, 240, 240); border-radius: 6px;
+    -webkit-transition: background 0.5s, color 0.3s;
+}
+*[class^="$"][class~="plts-btn"]:hover { background: rgb(210,210,210); color: rgb(70,70,70); }
+
+.center-module { background: rgb(248,248,248); max-width: 800px; text-align: center; padding: 5px; border-top: dashed 1px silver; }
+.figure { display: inline-block; margin-bottom: 10px; }
+.code { background: rgb(0,155,200); color: white; padding: 7px; margin: 5px; font: 16px consolas; }

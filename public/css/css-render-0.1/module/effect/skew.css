@@ -1,0 +1,37 @@
+@charset "utf-8";
+
+/*
+ *  About: Skew module for CSS Render
+ *  Version: 2013.09.01
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+@import "skew-interface.css";
+
+@-webkit-keyframes skew {
+  from { -webkit-transform: skew(0deg,0deg); }
+  to { -webkit-transform: skew(180deg,180deg); }
+}
+
+@-moz-keyframes skew {
+  from { -moz-transform: skew(0deg,0deg); }
+  to { -moz-transform: skew(180deg,180deg); }
+}
+
+@-ms-keyframes skew {
+  from { -ms-transform: skew(0deg,0deg); }
+  to { -ms-transform: skew(180deg,180deg); }
+}
+
+@-o-keyframes skew {
+  from { -o-transform: skew(0deg,0deg); }
+  to { -o-transform: skew(180deg,180deg); }
+}
+
+@keyframes skew {
+  from { transform: skew(0deg,0deg); }
+  to { transform: skew(180deg,180deg); }
+}

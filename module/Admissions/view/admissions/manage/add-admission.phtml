@@ -1,0 +1,53 @@
+<?php
+$title = 'Agregar admisión';
+$this->headTitle($title);
+?>
+
+<h3><?php echo $this->escapeHtml($title); ?></h3><?php
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  El paciente ha sido admisionado satisfactoriamente con el código de admisión número <strong><?= $this->cod_adm ?></strong>
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('admissions', array('action'=>'index')); ?>" class="btn btn-default">Regresar</a>
+		<br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+
+  <?php 
+  	if ($noExiste == 4459) {
+  		?>
+			<a target='_blank' href="<?= $this->url('admissions') . '/add-patient' ?>"> Registrar paciente</a>
+  		<?php
+  	}
+  ?>
+</div>
+<?php endif;
+
+if (isset($form)):
+	$form->setAttribute(
+		'action', $this->url('admissions',
+		array(
+			'action' => 'add-admission',
+		)
+	));
+	$form->prepare();
+	echo $this->form()->openTag($form);
+	echo $this->formRow($form->get('cod_tip_doc'));
+	echo $this->formRow($form->get('num_doc_pac'));
+	echo $this->formRow($form->get('cod_usu_med'));
+	echo $this->formRow($form->get('cod_are'));
+	echo $this->formRow($form->get('cod_ent'));
+	echo $this->formRow($form->get('obs_adm'));
+	if (!$xmlHttpRequest):
+		echo $this->formSubmit($form->get('submit'));
+	endif;
+	echo $this->form()->closeTag();
+endif;

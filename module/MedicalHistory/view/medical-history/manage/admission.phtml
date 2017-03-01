@@ -1,0 +1,82 @@
+<?php
+$title = 'Historia Clínica';
+$this->headTitle($title);
+?>
+
+<a href="<?php echo $this->url('admissions', array('action'=>'view-admissions')); ?>">
+	<span class="glyphicon glyphicon-circle-arrow-left" style="font-size: 50px; color: rgb(0,150,200)"></span>
+</a>
+
+<?php if (count($admission)): ?>
+<div style="display: inline-block; margin-left: 50px">
+	<strong>ID admisión:</strong> <?= $admission->cod_adm ?> <br />
+	<strong>Paciente:</strong> <?= $admission->nom_pac ?> <br />
+	<strong>Médico:</strong> <?= $admission->usu_med ?> <br />
+</div>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php endif; ?>
+
+<?php if (isset($open) && !$open): ?>
+<div class="alert alert-warning alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> La admisión a la que intentas acceder no está abierta!
+</div>
+<?php endif; ?>
+
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+/*
+	<option value="firstHistory" style="display: none;">Primera vez</option>
+					<option value="controlHistory" style="display: none;">Control</option>
+					<option value="observations" style="display: none;">Observaciones</option>
+*/ ?>
+
+<?php if (count($admission)): ?>
+<div class="row clearfix">
+	<?php if (isset($acl) && $acl->isAllowed("addHistory") && isset($open) && $open): ?>
+	<div class="col-md-6 column">
+		<div class="thumbnail" style="text-align: center">
+			<span class="glyphicon glyphicon-file" style="display: block; font-size: 120px;"></span>
+			<div class="caption">
+			<h3>Registrar historia</h3>
+			<form method="post" action="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm));?>">
+				<label for="type">Tipo</label>
+				<select name="type" id="type" class="form-control" style="display: inline-block; width: 200px">
+				    <option value="firstHistory" >Primera vez</option>	
+                    <option value="patologia">Patologia</option>
+                    <option value="liquidos">Liquidos</option>
+                    <option value="citologia">Citologia</option>
+				</select><br /><br />
+				<button type="submit" class="btn btn-primary">Acceder</button>				
+			</form>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
+	<?php if (isset($acl) && $acl->isAllowed("viewHistory")): ?>
+	<div class="col-md-6 column">
+		<div class="thumbnail" style="text-align: center">
+			<span class="glyphicon glyphicon-folder-open" style="display: block; font-size: 120px; text-align: center;"></span>
+			<div class="caption">
+			<h3>Consultar historia</h3>
+			<p>
+				<a href="<?php echo $this->url('medicalHistory', array('action'=>'viewHistory', 'id' => $admission->cod_adm));?>" class="btn btn-primary" role="button">Acceder</a>
+			</p>
+			<div class="panel panel-warning">
+				<div class="panel-heading">TIP</div>
+					<div class="panel-body">
+						También puedes consultar la historia clínica del paciente desde el siguiente enlace
+						<a href="<?php echo $this->url('medicalHistory', array('action'=>'index'));?>" role="button"><span class="glyphicon glyphicon-file"></span>Historia</a>			
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php endif; ?>
+</div>
+<?php endif; ?>

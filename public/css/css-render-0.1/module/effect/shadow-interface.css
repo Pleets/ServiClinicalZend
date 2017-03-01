@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+/*
+ *  About: Shadow effect interface for CSS Render
+ *  Version: 2013.11.20
+ *  Company: Pleets Applications
+ *  Developer: Darío Rivera
+ *  E-mail: fermius.us@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+*[class^="$"][class~="white-shadow"], *[class~="css-render-nm"][class~="white-shadow"] {
+  -webkit-animation: white-shadow 2s; 
+  -moz-animation: white-shadow 2s;
+  -ms-animation: white-shadow 2s;
+  -o-animation: white-shadow 2s;
+  animation: white-shadow 2s;
+}
+*[class^="$"][class~="black-shadow"], *[class~="css-render-nm"][class~="black-shadow"] {
+  -webkit-animation: black-shadow 2s;
+  -moz-animation: black-shadow 2s;
+  -ms-animation: black-shadow 2s;
+  -o-animation: black-shadow 2s;
+  animation: black-shadow 2s;
+}

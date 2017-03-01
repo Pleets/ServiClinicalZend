@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+/*
+ *  About: Shadow effect for CSS Render
+ *  Version: 2013.11.20
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: fermius.us@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+@import "shadow-interface.css";
+
+/* white-shadow */
+
+@-webkit-keyframes white-shadow {
+  50% { box-shadow: 0 0 10px white; }
+}
+
+@-moz-keyframes white-shadow {
+  50% { box-shadow: 0 0 10px white; }
+}
+
+@-ms-keyframes white-shadow {
+  50% { box-shadow: 0 0 10px white; }
+}
+
+@-o-keyframes white-shadow {
+  50% { box-shadow: 0 0 10px white; }
+}
+
+@keyframes white-shadow {
+  50% { box-shadow: 0 0 10px white; }
+}
+
+/* black-shadow */
+
+@-webkit-keyframes black-shadow {
+  50% { box-shadow: 0 0 10px black; }
+}
+
+@-moz-keyframes black-shadow {
+  50% { box-shadow: 0 0 10px black; }
+}
+
+@-ms-keyframes black-shadow {
+  50% { box-shadow: 0 0 10px black; }
+}
+
+@-o-keyframes black-shadow {
+  50% { box-shadow: 0 0 10px black; }
+}
+
+@keyframes black-shadow {
+  50% { box-shadow: 0 0 10px black; }
+}

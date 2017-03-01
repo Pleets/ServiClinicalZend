@@ -1,0 +1,68 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<div class="list-group">
+					<?php if ($viewUsers): ?>
+					  <a href="<?php echo $this->url('auth', array('action'=>'view-users')) ?>" class="list-group-item">
+					    <h4 class="list-group-item-heading">Usuarios</h4>
+						<span class="glyphicon glyphicon-user" style="font-size: 30px; color: rgb(0,150,200)"></span>
+					    <p class="list-group-item-text">Lista los usuarios registrados en el sistema
+						    <button title="Vista rápida" class="btn" data-resource="<?php echo $this->url('auth', array('action'=>'view-users'));?>" id="users-mode"><span class="glyphicon glyphicon-chevron-down"></span></button>
+					    </p>
+					  </a>
+					<?php endif; ?>
+					<?php if ($viewUsersPermissions): ?>
+					  <a href="<?php echo $this->url('auth', array('action'=>'permissions')) ?>" class="list-group-item">
+					    <h4 class="list-group-item-heading">Permisos</h4>
+						<span class="glyphicon glyphicon-lock" style="font-size: 30px; color: rgb(0,150,200)"></span>
+					    <p class="list-group-item-text">Lista los permisos asociados a los perfiles del usuario
+						    <button title="Vista rápida" class="btn" data-resource="<?php echo $this->url('auth', array('action'=>'permissions'));?>" id="permissions-mode"><span class="glyphicon glyphicon-chevron-down"></span></button>
+					    </p>
+					  </a>
+					<?php endif; ?>
+				</div>			
+			</div>
+			<div class="col-md-6 column">
+				<h4>Registro</h4>
+				<ul class="list-group">
+				<?php if ($num_users): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_users ?></span>
+				    Usuarios
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_users): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_active_users ?></span>
+				    Usuarios activos
+				  </li>
+				<?php endif; ?>
+				<?php if ($num_users): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $num_inactive_users ?></span>
+				    Usuarios inactivos
+				  </li>
+				<?php endif; ?>
+				</ul>
+				<h4>Actividad</h4>
+				<ul class="list-group">
+				<?php if ($num_users): ?>
+				  <li class="list-group-item">
+				    <span class="badge"><?= $last_user_registered->nom_usu ?></span>
+				    Último usuario registrado
+				  </li>
+				<?php endif; ?>
+				</ul>			
+			</div>
+		</div>
+	</div>
+	<div id="view"></div>
+<?php endif; ?>

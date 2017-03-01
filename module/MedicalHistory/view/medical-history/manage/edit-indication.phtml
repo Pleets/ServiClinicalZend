@@ -1,0 +1,42 @@
+<?php
+
+$title = 'Editar Indicación';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+$form = $this->form;
+$form->setAttribute(
+	'action', $this->url('medicalHistory',
+	array(
+		'action' => 'edit-indication',
+		'id'     => $this->id,
+	)
+));
+$form->prepare();
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  La indicación ha sido actualizado satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('cod_ind'));
+echo $this->formRow($form->get('indicacion'));
+if (!$xmlHttpRequest):
+	echo $this->formSubmit($form->get('submit'));
+endif;
+echo $this->form()->closeTag();

@@ -1,0 +1,50 @@
+<?php
+$title = 'Editar antecedente';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+<?php
+$form = $this->form;
+$form->setAttribute(
+	'action', $this->url('medicalHistory',
+	array(
+		'action' => 'edit-background',
+		'id'     => $this->id,
+	)
+));
+$form->prepare();
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  El antecedente ha sido actualizado satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('medicalHistory', array('action'=>'index')) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+$form->setAttribute("class", "plts-form label-inline");
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('cod_ant'));
+echo $this->formHidden($form->get('cod_tip_doc'));
+$form->get('cod_tip_doc')->setAttribute("disabled", "disabled")->setLabelAttributes(array('style' => 'float: left'));
+echo $this->formRow($form->get('cod_tip_doc'));
+$form->get('num_doc_pac')->setAttribute("readonly", "readonly");
+echo $this->formRow($form->get('num_doc_pac'));
+$form->get('usu_reg')->setAttribute("readonly", "readonly");
+echo $this->formHidden($form->get('usu_reg'));
+echo $this->formRow($form->get('tip_ant'));
+echo $this->formRow($form->get('des_ant'));
+if (!$xmlHttpRequest):
+	echo $this->formSubmit($form->get('submit'));
+endif;
+echo $this->form()->closeTag();

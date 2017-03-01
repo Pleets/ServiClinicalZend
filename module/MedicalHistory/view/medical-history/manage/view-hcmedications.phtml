@@ -1,0 +1,169 @@
+<?php if (!$xmlHttpRequest): ?>
+
+<a class="back-button" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHistory', 'id' => $admission->cod_adm)); ?>">
+  <span class="glyphicon glyphicon-circle-arrow-left" style="font-size: 50px; color: rgb(0,150,200)" title="Historia del paciente"></span>
+</a>
+
+<img src="<?php echo $this->basePath('img/logo_medicadiz_min.png') ?>" alt="Logo medicadiz" width="150" style="display: none; position: absolute" class="logo-empresa" />
+
+<div class="container print-header" style="text-align: center; display: none">
+    <h3>NOMBRE DE LA CLÍNICA</h3>
+    <h4>PLAN DE MANEJO EXTERNO</h4><br /><br />
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos generales</div>
+    <div class="panel-body">
+        <table class="table table-no-bordered no-margin table-no-padding">
+            <tbody>
+                <tr>
+                    <td><strong>No. Ingreso:</strong> <?= $admission->cod_adm ?></td>
+                    <td><strong>Fecha Ingreso:</strong> <?= $admission->fec_adm ?></td>
+                    <td><strong>Fecha de expedición:</strong> <?= date("Y-m-d") ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Entidad:</strong> <?= $admission->nom_ent ?></td>
+                    <td colspan="2"><strong>Folio:</strong> <?= $admission->num_fol ?></td>
+                </tr>
+            </tbody>
+        </table>    
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos personales</div>
+    <div class="panel-body">
+        <table class="table table-no-bordered no-margin table-no-padding">
+            <tbody>
+                <tr>
+                    <td><strong>Paciente:</strong> <?= $admission->nom_pac ?></td>
+                    <td><strong>Identificación:</strong> <?= $admission->num_doc_pac ?></td>
+                    <td><strong>Fecha de nacimiento:</strong> <?= $admission->fec_nac_pac ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Dirección:</strong> <?= $admission->dir_pac ?></td>
+                    <td colspan="2"><strong>Teléfono:</strong> <?= (!empty($admission->num_tel_pac)) ? $admission->num_tel_pac : " --- " ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php endif; ?>
+
+<h4 style="text-align: center">Medicamentos</h4>
+
+<div id="view-medications">
+<?php if (count($medications)): ?>
+    <table class="table table-striped table-hover table-condensed" id="folios-table">
+        <tr>
+            <th>Código</th>
+            <th>Medicamento</th>
+            <th>Posología</th>
+            <th>Cantidad</th>
+            <th>No. días</th>
+            <th>Terminación</th>
+            <th>Aplicación</th>
+        </tr>   
+        <?php foreach ($medications as $medication) : ?>
+        <tr>
+            <td><?= $this->escapeHtml($medication->cod_med); ?> </td>
+            <td><?= $this->escapeHtml($medication->nom_med); ?> </td>
+            <td><?php $obs = trim($medication->pos_med); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+            <td><?= $this->escapeHtml($medication->can_med); ?> </td>
+            <td><?= $this->escapeHtml($medication->num_dia); ?> </td>
+            <td><?php 
+              switch ($medication->ter_med) {
+                case '1':
+                  echo "Definida";
+                  break;
+                case '2':
+                  echo "Indefinida";
+                  break;
+                default:
+                  echo "Error!";
+                  break;
+              }
+            ?></td>
+            <td><?php
+                switch ($medication->cod_apl_med) {
+                    case 1:
+                        echo "Endovenosa";
+                        break;
+                    case 2:
+                        echo "Enteral";
+                        break;
+                    case 3:
+                        echo "Infusión";
+                        break;
+                    case 4:
+                        echo "Intradérmica";
+                        break;
+                    case 5:
+                        echo "Intramuscular";
+                        break;
+                    case 6:
+                        echo "Intrarectal";
+                        break;
+                    case 7:
+                        echo "Intravenosa";
+                        break;
+                    case 8:
+                        echo "Oftalmica";
+                        break;
+                    case 9:
+                        echo "Oral";
+                        break;
+                    case 10:
+                        echo "Oral sonda";
+                        break;
+                    case 11:
+                        echo "Oral succión";
+                        break;
+                    case 12:
+                        echo "Otros";
+                        break;
+                    case 13:
+                        echo "Parenteral";
+                        break;
+                    case 14:
+                        echo "Respiratoria";
+                        break;
+                    case 15:
+                        echo "Subcutánea";
+                        break;
+                    case 16:
+                        echo "Todas las vías";
+                        break;
+                    case 17:
+                        echo "Tópico";
+                        break;
+                    default:
+                        echo "Indefinido";
+                        break;
+                }
+            ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        No se registraron medicamentos en el folio
+        </div>
+    </div>
+<?php endif; ?>
+</div>
+
+<?php if ($xmlHttpRequest): ?>
+<a target='_blank' title="Ver diseño de impresión" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHcmedications', 'id' => $admission->cod_adm)); ?>"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span> Visualizar</a>
+<?php endif; ?>
+
+<?php if (!$xmlHttpRequest): ?>
+<div class="container" style="text-align: center">
+Médico: <em><?= $admission->usu_med ?></em>
+</div>
+<br /><br />
+<button class="btn btn-default print-function" title="Imprimir"><span style="font-size: 20px" class="glyphicon glyphicon-print"></span> Imprimir</button>
+<button class="btn btn-default view-print-version" title="Diseño de impresión"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span></button>
+<?php endif; ?>

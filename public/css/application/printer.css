@@ -1,0 +1,19 @@
+/**
+ * Historia clínica v1.0
+ *
+ * @link        http://www.medicadiz.com.co
+ * @copyright   Copyright (c) 2014 Medicadiz S.A.S.
+ * @license     Free to use under the MIT license. (http://www.opensource.org/licenses/mit-license.php)
+ * @version     1.0
+ *
+ * Date:        2014-04-25
+ * Autor:       Darío Rivera
+ */
+
+body { color: #000; font: 100%/150% Georgia, "Times New Roman", Times, serif !important; }
+#rootNavigation, #rootBreadcrumbs, #wrapperFooter, .print-function, .view-print-version, .back-button { display: none !important; }
+.print-header, .logo-empresa { display: block !important; }
+.documentToPrint { border: none !important; }
+
+.panel.panel-default * { padding: 5px; }
+.panel-default { margin-bottom: 8px }

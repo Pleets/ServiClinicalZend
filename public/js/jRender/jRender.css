@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+/*
+ * jRender v0.1 - Stylesheet
+ * http://development.pleets.org/apps/j-render
+ *
+ * Copyright 2014, Pleets Apps
+ * Free to use under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+ 
+
+/* 
+ *   Html Class
+ */
+
+*[class~="overlay"] { width: 100%; height: 100%; background: rgba(25,25,25,0.4); color: white; position: fixed; top: 0; left: 0; display: none; z-index: 1900 }
+
+/* Slide */
+
+.jrender-slide { position: relative; z-index: 29; text-align: center; padding-bottom: 50px; overflow: hidden; }
+.jrender-slide > .item > * { text-align: left; }
+
+.jrender-slide > .state { display: inline-block; min-width: 40px; min-height: 40px; background: rgb(230,230,230); 
+    border-radius: 8px; color: rgb(70,70,70); font-size: 25px; padding: 10px;
+    position: absolute; top: 1px; right: 1px;
+}
+
+
+/* Toolbar */
+.jrender-slide > .toolbar { width: 100%; position: absolute; bottom: 0; text-align: center; }
+.jrender-slide > .toolbar > * { display: inline-block; }
+.jrender-slide > .toolbar > .button-right, .jrender-slide > .toolbar > .button-left, .jrender-slide > .toolbar > .button-down { color: rgb(70,70,70); background: rgb(180,180,180); 
+    opacity: 0.3; cursor: pointer; z-index: 29; border-radius: 15px; text-align: center;
+    -webkit-transition: opacity 1s, background 1.5s, color 0.2s;
+    -moz-transition: opacity 1s, background 1.5s, color 0.2s;
+    -ms-transition: opacity 1s, background 1.5s, color 0.2s;
+    -o-transition: opacity 1s, background 1.5s, color 0.2s;
+    transition: opacity 1s, background 1.5s, color 0.2s;
+}
+.jrender-slide > .toolbar > .button-right:hover, .jrender-slide > .toolbar > .button-left:hover, .jrender-slide > .button-down:hover {
+    opacity: 0.8; color: white; background: rgb(20,20,20); }
+.jrender-slide > .toolbar > .button-right, .jrender-slide > .toolbar > .button-left { padding: 5px; font-size: 30px; }
+
+/* General loader */
+.base-loader { position: fixed; top: 50%; left: 50%; z-index: 10000; }
+.base-loader-style { background: white; }
+
+/* Context loader */
+.context .base-loader { position: static; }
+
+.loader { position: fixed; top: 50%; left: 50%; margin: -175px 0 0 -175px; z-index: 10000; width: 350px; height: 350px; }
+.loader.tiny { width: 70px; height: 70px; margin: -35px 0 0 -35px; }
+.loader.small { width: 100px; height: 100px; margin: -50px 0 0 -50px; }
+.loader.medium { width: 250px; height: 250px; margin: -125px 0 0 -175px; }
+.loader.static { position: static; margin: 0; }
+
+*[class~="input-error"] { border: solid 1px red !important; }
+*[class~="input-error"]:focus { box-shadow: inset 0 1px 40px rgb(250,100,100),0 0 3px rgb(250,80,80); outline: 0; color: rgb(190,50,50); }
+
+/* Examples */
+tr.success { background: rgba(0,255,0,0.5); }

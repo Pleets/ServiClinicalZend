@@ -1,0 +1,20 @@
+<table class="table table-bordered">
+<thead>
+	<th>Código</th>
+	<th>Descripcion</th>
+</thead>
+<tbody>
+<?php
+foreach ($cups as $data):
+?>
+<tr>
+	<td><button onclick="$('#DIALOG_CUPS .close').click(); $('[data-id=\'<?= $id_input ?>\']').val('<?= $data['cod_cup'] ?>') "><?= $data['cod_cup'] ?></button></td>
+	<td><?= $data['nom_cup'] ?></td>
+
+</tr>
+
+<?php 
+endforeach;
+?>
+</tbody>
+</table>

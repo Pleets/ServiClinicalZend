@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+/*
+ *  About: Iterations for CSS Render
+ *  Version: 2013.09.01
+ *  Company: Pleets Applications
+ *  Developer: Darí­o Rivera
+ *  E-mail: admin@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+*[class^="$"][class~="iter-2"] {
+  -webkit-animation-iteration-count: 2;
+  -moz-animation-iteration-count: 2;
+  -ms-animation-iteration-count: 2;
+  -o-animation-iteration-count: 2;
+  animation-iteration-count: 2;
+}
+*[class^="$"][class~="iter-3"] {
+  -webkit-animation-iteration-count: 3;
+  -moz-animation-iteration-count: 3;
+  -ms-animation-iteration-count: 3;
+  -o-animation-iteration-count: 3;
+  animation-iteration-count: 3;
+}
+*[class^="$"][class~="iter-4"] {
+  -webkit-animation-iteration-count: 4;
+  -moz-animation-iteration-count: 4;
+  -ms-animation-iteration-count: 4;
+  -o-animation-iteration-count: 4;
+  animation-iteration-count: 4;
+}
+*[class^="$"][class~="iter-5"] {
+  -webkit-animation-iteration-count: 5;
+  -moz-animation-iteration-count: 5;
+  -ms-animation-iteration-count: 5;
+  -o-animation-iteration-count: 5;
+  animation-iteration-count: 5;
+}
+*[class^="$"][class~="infinite"], *[class~="css-render-nm"][class~="infinite"] {
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -ms-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}

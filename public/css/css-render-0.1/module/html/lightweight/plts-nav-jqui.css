@@ -1,0 +1,13 @@
+/* jQuery UI theme */
+
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li { text-align: left; padding: 1px; background: white; }
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li > a { box-shadow: none; background: white; color: #222222; border: solid 1px white; }
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li:hover > a { background: white; border-radius: 5px; border: solid 1px rgb(150,150,150); }
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li > a:hover { border: solid 1px rgb(150,150,150); background: rgb(240,240,240); }
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li > a::before { background: white; }
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li > a:hover::before { background: rgb(240,240,240); }
+
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li,
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li:first-child,
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li:last-child,
+ul[class^="$"][class~="plts-nav"][class~="jqui"] li:only-child { border-color: silver; }

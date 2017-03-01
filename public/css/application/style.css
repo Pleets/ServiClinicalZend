@@ -1,0 +1,153 @@
+/**
+ * Historia clínica v1.0
+ *
+ * @link        http://www.medicadiz.com.co
+ * @copyright   Copyright (c) 2014 Medicadiz S.A.S.
+ * @license     Free to use under the MIT license. (http://www.opensource.org/licenses/mit-license.php)
+ * @version     1.0
+ *
+ * Date:        2014-04-25
+ * Autor:       Darío Rivera
+ */
+
+.documentToPrint { border-left: solid 1px silver; border-right: solid 1px silver; }
+#rootContainer { padding-top: 5px; }
+#wrapper { padding-bottom: 15px; }
+
+.font.over-the-rainbow { font-family: 'Over the Rainbow', cursive; }
+.font.over-the-rainbow.force { font-family: 'Over the Rainbow', cursive !important; }
+.font.over-the-rainbow.include-children * { font-family: 'Over the Rainbow', cursive; }
+.font.over-the-rainbow.include-children.force * { font-family: 'Over the Rainbow', cursive !important; }
+
+.font.paprika { font-family: 'Paprika', cursive; }
+.font.paprika.include-children * { font-family: 'Paprika', cursive; }
+
+.font.happy-monkey { font-family: 'Happy Monkey', cursive; }
+.font.happy-monkey.include-children * { font-family: 'Happy Monkey', cursive; }
+
+.table.table-no-bordered  tr th,.table.table-no-bordered  tr td { border: none; }
+.no-margin { margin: 0 !important; }
+.table-no-padding * { padding: 0 !important; }
+
+body, html { height: 100%; background: #fafafa url('../../img/main-back.png') !important; }
+body { position: relative; } 
+
+form.login {
+    background: rgb(16, 16, 16);
+    border-radius: 5px;
+    color: white;
+    padding: 50px;
+}
+form.login .input-group-addon { color: black; }
+
+.box-center {
+    border-radius: 5px;
+    margin: 0 auto !important;
+}
+.box-border {
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 0 0 12px black;
+	background: white;
+}
+
+form.general { padding: 20px; background: rgb(240,240,240); text-align: left; }
+
+
+/* Bootstrap customize */
+
+.jumbotron.well.enlighten, .well.enlighten { 
+	position: relative;
+	background: black ; color: white; text-shadow: 0 0 12px white;
+	border: solid 3px rgb(60,60,60);
+}
+
+label { display: block !important; }
+
+.btn-group-vertical { max-width: 100%; }
+.btn-group-vertical > .btn { width: 100%; white-space: normal; }
+.btn-group-vertical > .btn-group > .btn { width: 100%; }
+
+/* DEV CSS Render*/
+.plts-layout { overflow: hidden; }
+.plts-layout.simple-grid .left-sidebar { float: left; width: 200px; }
+.plts-layout.simple-grid .contents { overflow: hidden; position: relative; }
+
+.plts-form.label-inline {}
+.plts-form.label-inline label { display: inline-block !important; width: auto; margin: 2px 3px 2px 3px; }
+.plts-form.label-inline div.radio { padding-left: 0; }
+.plts-form.label-inline div.checkbox { display: inline-block; margin-top: 10px;}
+.plts-form.label-inline div.radio label { padding-left: 20px; }
+.plts-form.label-inline div.radio legend { font-weight: bold; border: none; margin: 0; font-size: 14px; }
+
+.navbar, .plts-nav * { z-index: 100 !important; }
+
+ul[class^="$"][class~="plts-nav"] li > a { padding: 12px 14px !important; }
+
+a.cell { padding: 1px 10px; background: rgb(80, 155, 240); color: white; text-decoration: none; display: block; border-radius: 10px;
+    -webkit-transition: 0.3s all;
+    -moz-transition: 0.3s all;
+    -ms-transition: 0.3s all;
+    -o-transition: 0.3s all;
+    transition: 0.3s all;
+}
+a.cell:hover { box-shadow: 0 0 8px black; text-decoration: none; color: white; }
+a.cell:visited { box-shadow: 0 0 8px black; text-decoration: none; color: rgb(70,70,70); background: rgb(153, 153, 153); }
+
+.ui-autocomplete.ui-front.ui-menu { height: 200px !important; overflow: auto; }
+
+.plts-layout.simple-grid.no-saved {
+    padding: 0 10px;
+    border-left: dashed 2px #f60;
+    border-right: dashed 2px #f60;
+    position: relative;
+    overflow: visible;
+}
+
+.plts-layout.simple-grid.no-saved::before {
+    content: 'No guardado';
+    padding: 10px;
+    background: #f60; color: white;
+    position: absolute; top: 40px; left: -71px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.plts-layout.simple-grid.saved {
+    padding: 0 10px;
+    border-left: dashed 2px #B2DBA1;
+    border-right: dashed 2px #B2DBA1;
+    position: relative;
+    overflow: visible;
+}
+
+.plts-layout.simple-grid.saved::before {
+    content: 'Guardado';
+    padding: 10px;
+    background: #B2DBA1; color: #468847;
+    position: absolute; top: 40px; left: -62px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.table > thead > tr > td.success, .table > tbody > tr > td.success, .table > tfoot > tr > td.success, 
+.table > thead > tr > th.success, .table > tbody > tr > th.success, .table > tfoot > tr > th.success, 
+.table > thead > tr.success > td, .table > tbody > tr.success > td, .table > tfoot > tr.success > td, 
+.table > thead > tr.success > th, .table > tbody > tr.success > th, .table > tfoot > tr.success > th 
+{
+    background-color: rgb(182, 235, 158) !important;
+}
+
+.table > thead > tr > td.success:hover, .table > tbody > tr > td.success:hover, .table > tfoot > tr > td.success:hover, 
+.table > thead > tr > th.success:hover, .table > tbody > tr > th.success:hover, .table > tfoot > tr > th.success:hover, 
+.table > thead > tr.success:hover > td, .table > tbody > tr.success:hover > td, .table > tfoot > tr.success > td:hover, 
+.table > thead > tr.success > th:hover, .table > tbody > tr.success > th:hover, .table > tfoot > tr.success > th:hover
+{
+    background-color: rgb(182, 255, 158) !important;    
+}

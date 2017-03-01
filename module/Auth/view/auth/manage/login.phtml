@@ -1,0 +1,121 @@
+<?php
+
+use Zend\Authentication\Result;
+
+$form = $this->formLogin->prepare();
+$form->setAttributes(array(
+    'action' => $this->formAction . '/auth/login',
+    'method' => 'post',
+    'class' => 'login',
+    'role' => 'form'
+));
+
+$username = $form->get('cod_usu');
+$password = $form->get('pas_usu');
+$send = $form->get('submit');
+
+$formLabel = $this->plugin('formLabel');
+
+switch ($this->authCode):
+    case null:
+        break;
+    case Result::SUCCESS:
+        ?>
+        <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Acceso concedido!</strong> Has iniciado sesión correctamente
+        </div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="jumbotron">
+                        <h1>
+                            Bienvenido!
+                        </h1>
+                        <p>
+                            <strong>Serviclinical</strong> como sistema de información brinda un manejo rápido y eficiente de los datos médicos de los pacientes con integridad profesional. Guarde fácilmente los diagnósticos, exámenes, consultas, certificaciones y demás datos todo desde una misma bitácora!.
+                        </p>
+                        <p>
+                            <a href="<?= $this->basePath() ?>" class="btn btn-primary">Ir al Inicio</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        break;
+    case Result::FAILURE_IDENTITY_NOT_FOUND:
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Error!</strong> El usuario con el que intentas acceder no existe!
+        </div>
+        <?php
+        break;
+    case Result::FAILURE_CREDENTIAL_INVALID:
+        ?>
+        <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Error!</strong> La contraseña es incorrecta!
+        </div>
+        <?php
+        break;
+    case Result::FAILURE_IDENTITY_AMBIGUOUS:
+        ?>
+        <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Advertencia!</strong> La identidad del usuario es ambigua y no está confirmada!
+        </div>
+        <?php
+        break;
+    default:
+        ?>
+        <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Error!</strong> Ha ocurido un error inesperado!
+        </div>
+        <?php
+        break;
+endswitch; ?>
+
+<?php if ($this->authCode != Result::SUCCESS): ?>
+    <div class="box-border box-center" style="width: 350px">
+        <?= $this->form()->openTag($form) ?>
+        <div class="form-group">
+            <?= $formLabel->openTag() . $username->getOption('label') ?>
+            <div class="input-group">
+                <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-user"></span></span>
+                <?= $this->formInput($username) ?>
+                <?= $this->formElementErrors($username) ?>
+            </div>
+            <?= $formLabel->closeTag() ?>
+        </div>
+        <div class="form-group">
+            <?= $formLabel->openTag() . $password->getOption('label') ?>
+            <div class="input-group">
+                <span class="input-group-addon input-sm"><span class="glyphicon glyphicon-lock"></span></span>
+                <?= $this->formInput($password) ?>
+                <?= $this->formElementErrors($password) ?>
+            </div>
+            <?= $formLabel->closeTag() ?>
+        </div>
+        <div class="form-group">
+            <?= $this->formElement($send) ?>
+        </div>
+        <?= $this->form()->closeTag($form) ?>
+    </div><br />
+    <div class="alert alert-info">Ingrese con los siguientes usuarios para la versión DEMO: <strong>admin</strong>, <strong>auxiliar</strong>, <strong>medico</strong>.
+    La contraseña para cualquiera de ellos es <strong>12345678</strong></div>
+<?php endif; ?>
+
+<?php if (!count($users)): ?>
+<br />
+<div class="panel panel-default">
+  <div class="panel-body">
+    Aún no se han registrado usuarios!, puedes crear un usuario de prueba haciendo click en el siguiente
+    enlace <a href="<?php echo $this->url('auth', array('action'=>'create-default-user')) ?>"
+    class="btn btn-default">Crear usuario de prueba</a>. El usuario creado tendrá como identificador la palabra
+    <strong>admin</strong> y la contraseña <strong>admin</strong>.
+  </div>
+</div>
+<?php endif; ?>

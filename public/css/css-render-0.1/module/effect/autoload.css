@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+/*
+ *  About: Effects module
+ *  Version: 2013.11.20
+ *  Company: Pleets Applications
+ *  Developer: Darío Rivera
+ *  E-mail: fermius.us@gmail.com
+ *  Copyright: All rights reserverd
+ *
+
+  Release Notes
+
+  - Native transformations like rotate, translate, skew and scale are supported.
+  - Many effects such as slide, fade, shadow, and others are built-in as classes.
+  - Compatibility with Gecko, Webkit, Presto, and Trident.
+  - Opera browser (presto) doesn't support 3D transforms (Only 2D).
+
+ */
+
+/* Import animations */
+@import "sk-slide.css";
+@import "rotate.css";
+@import "shadow.css";
+@import "scale.css";
+@import "slide.css";
+@import "skew.css";
+@import "fade.css";

@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+/*
+ *  About: Scale effect interface for CSS Render
+ *  Version: 2013.11.20
+ *  Company: Pleets Applications
+ *  Developer: Darío Rivera
+ *  E-mail: fermius.us@pleets.org
+ *  Copyright: All rights reserverd
+ */
+
+*[class^="$"][class~="scale-2x"] {
+  -webkit-animation: scale-2x 2s; 
+  -moz-animation: scale-2x 2s;
+  -ms-animation: scale-2x 2s;
+  -o-animation: scale-2x 2s;
+  animation: scale-2x 2s;
+}

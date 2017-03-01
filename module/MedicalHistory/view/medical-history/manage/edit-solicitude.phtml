@@ -1,0 +1,88 @@
+<?php
+$title = 'Editar solicitud ';
+switch ($type) {
+    case 1:
+        $str = "Exámen";
+        break;
+    case 2:
+        $str = "Patología";
+        break;
+    case 3:
+        $str = "Procedimiento quirúrgico";
+        break;
+    case 4:
+        $str = "Procedimiento no quirúrgico";
+        break;
+    default:
+        $str = "Indefinida";
+        break;
+}
+$title .= "(".$str.")";
+$this->headTitle($title);
+?>
+
+<h3>
+    <?php echo $this->escapeHtml($title); ?>
+</h3>
+
+
+<?php
+    switch ($type) {
+        case 1:
+            $_type = "exam";
+            break;
+        case 2:
+            $_type = "pathology";
+            break;        
+        case 3:
+            $_type = "proc-qx";
+            break;
+        case 4:
+            $_type = "proc";
+            break;
+    }
+?>
+
+<?php
+$form = $this->form;
+$form->setAttribute(
+	'action', $this->url('medicalHistory',
+	array(
+		'action' => 'edit-solicitude',
+		'id'     => $this->id,
+		'type'	 => $this->type,
+	)
+));
+$form->prepare();
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  la solcicitud ha sido actualizado satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+echo $this->form()->openTag($form);
+$form->setAttribute("class", "plts-form label-inline");
+echo $this->formHidden($form->get('cod_exa'));
+echo $this->formHidden($form->get('nom_exa'));
+$form->get('nom_exa')->setAttribute("disabled", "disabled");
+echo $this->formHidden($form->get('tip_exa'));
+echo $this->formRow($form->get('nom_exa'));
+echo $this->formRow($form->get('can_exa'));
+echo $this->formRow($form->get('est_exa'));
+echo $this->formRow($form->get('obs_exa'));
+if (!$xmlHttpRequest):
+	echo $this->formSubmit($form->get('submit'));
+endif;
+echo $this->form()->closeTag();

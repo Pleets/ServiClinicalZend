@@ -1,0 +1,930 @@
+<?php
+
+$title = 'Historia Clínica';
+
+$t = base64_encode(time() . uniqid());
+$token = substr($t, 0, 30);
+
+$this->headTitle($title);
+
+$formLabel = $this->plugin('formLabel');
+
+?>
+
+<a href="<?php echo $this->url('medicalHistory', array('action'=>'admission', 'id' => $admission->cod_adm)); ?>">
+	<span class="glyphicon glyphicon-circle-arrow-left" style="font-size: 50px; color: rgb(0,150,200)"></span>
+</a>
+
+<?php $code = (isset($Exception)) ? $Exception->getCode(): 0; ?>
+
+<?php if (count($admission) && $code != 111): ?>
+
+<div style="display: inline-block; margin-left: 50px">
+	<strong>ID admisión:</strong> <?= $admission->cod_adm ?> <br />
+	<strong>Paciente:</strong> <?= $admission->nom_pac ?> <br />
+	<strong>Médico:</strong> <?= $admission->usu_med ?> <br />
+</div>
+
+<?php endif; ?>
+
+<div class="thumbnail" style="margin-top: 15px">
+	<button class="btn btn-default" id="add-certification" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addCertification', 'id' => $admission->cod_adm)); ?>"><span class="glyphicon glyphicon-file"></span> Certificaciones</button>
+	<button class="btn btn-default" id="add-background" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'add-Background', 'id' => $admission->cod_adm)); ?>"><span class="glyphicon glyphicon-file"></span> Antecedentes</button>
+</div>
+
+<?php if (count($admission)): ?>
+
+<div class="plts-layout simple-grid <?php if (isset($Success) && $Success) echo 'saved' ?> <?php if (isset($Exception) || isset($myException)) echo 'no-saved' ?> ">
+
+	<div class="left-sidebar" style="text-align: center; margin-right: 10px">
+
+	<?php if(in_array($type, array('firstHistory', 'controlHistory')) && !(isset($Exception) && in_array($Exception->getCode(), array(100,101,110,111)))): ?>
+
+		<span class="glyphicon glyphicon-briefcase" style="display: block; font-size: 6em"></span><br />
+
+		<div class="btn-group-vertical">
+
+				<h4>Diagnóstico y plan</h4><hr />
+
+				<button class="btn btn-default" id="add-diagnostic" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addDiagnostic', 'id' => $admission->cod_adm)); ?>">Diagnósticos</button>
+
+				<div class="btn-group">
+
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Plan de manejo externo <span class="caret"></span></button>
+
+					<ul class="dropdown-menu">
+
+						<li><a href="#" id="add-medication" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addMedication', 'id' => $admission->cod_adm)); ?>">Medicamentos</a></li>
+
+						<li><a href="#" id="add-indication" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addIndication', 'id' => $admission->cod_adm)); ?>">Indicaciones</a></li>
+
+					</ul>
+
+				</div>
+
+
+				<br /><h4>Solicitudes</h4><hr />
+
+				<button class="btn btn-default" id="add-exam-solicitude" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addSolicitude', 'id' => $admission->cod_adm, 'type' => 1)); ?>">Exámenes</button>
+
+				<button class="btn btn-default" id="add-pathology-solicitude" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addSolicitude', 'id' => $admission->cod_adm, 'type' => 2)); ?>">Patologías</button>
+
+				<button class="btn btn-default" id="add-proc-qx-solicitude" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addSolicitude', 'id' => $admission->cod_adm, 'type' => 3)); ?>">Procedimientos Quirúrgicos</button>
+
+				<button class="btn btn-default" id="add-proc-solicitude" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addSolicitude', 'id' => $admission->cod_adm, 'type' => 4)); ?>">Procedimientos no Quirúrgicos</button>
+
+
+				<br /><h4>Otros</h4><hr />
+
+				<button class="btn btn-default" id="add-interconsultation" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addInterconsultation', 'id' => $admission->cod_adm)); ?>">Interconsulta</button>
+
+				<button class="btn btn-default" id="add-incapacity" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'addIncapacity', 'id' => $admission->cod_adm)); ?>">Incapacidad</button>
+
+				<button class="btn btn-default" id="view-old-histories" data-resource="<?php echo $this->url('medicalHistory', array('action'=>'view-hcfolios', 'id' => $admission->cod_adm)); ?>">Historias anteriores</button>
+
+
+		</div>
+
+
+	<?php elseif ($type == 'observations' && !(isset($Exception) && in_array($Exception->getCode(), array(100,101,110)))): ?>
+
+		<span class="glyphicon glyphicon-book" style="display: block; font-size: 6em"></span><br />
+
+	<?php endif; ?>
+
+
+
+
+
+
+
+	</div>
+
+	<div class="contents">
+
+
+
+	<?php if (isset($myException)): ?>
+
+		<br />
+
+		<div class="alert alert-warning alert-dismissable">
+
+		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+		  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $myException ?>
+
+		</div>
+
+	<?php endif; ?>
+
+
+
+		<?php if (isset($open) && !$open): ?>
+
+		<br />
+
+		<div class="alert alert-warning alert-dismissable">
+
+		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+		  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> Esta admisión no está abierta,
+
+		  sin embargo los datos cargados serán guardados en la caché del sistema!
+
+		</div>
+
+		<?php endif; ?>
+
+
+
+		<?php if (isset($Exception)): ?>
+
+		<br />
+
+		<div class="alert alert-danger alert-dismissable">
+
+		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+		  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception->getMessage() ?>
+
+		</div>
+
+		<?php endif; ?>
+
+
+
+		<?php if (isset($Success) && $Success): ?>
+
+		<br />
+
+		<div class="alert alert-success alert-dismissable">
+
+		  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+
+		  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> Se han guardado satisfactoriamente los datos </strong>
+
+		</div>
+
+
+
+		<div class="btn-group">
+
+		  <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+
+		    <span style="font-size: 14px" class="glyphicon glyphicon-print"></span> Imprimir <span class="caret"></span>
+
+		  </button>
+
+		  <ul class="dropdown-menu" role="menu">
+
+		    <li>
+
+			  <a target='blank' href="<?= $this->url('medicalHistory') . '/viewHcmedications/' . $admission->cod_adm ?>">Medicamentos</a>
+
+		    </li>
+
+		    <li>
+
+				  <a target='blank' href="<?= $this->url('medicalHistory') . '/viewHcexams/' . $admission->cod_adm ?>">Exámenes</a>
+
+		    </li>
+
+		    <li>
+
+				  <a target='blank' href="<?= $this->url('medicalHistory') . '/viewHcincapacities/' . $admission->cod_adm ?>">Incapacidad</a>
+
+		    </li>
+
+		    <li class="divider"></li>
+
+		    <li>
+
+			  <a target='blank' href="<?= $this->url('medicalHistory') . '/viewHchistory/' . $admission->cod_adm ?>">Historia</a>
+
+		    </li>
+
+		    <li>
+
+			  <a target='blank' href="<?= $this->url('medicalHistory') . '/viewHistory/' . $admission->cod_adm ?>">Completa</a>
+
+		    </li>
+
+		  </ul>
+
+		</div>
+
+
+
+		<?php endif; ?>
+
+
+
+		<?php if (!in_array($code, array(110, 111))): ?>
+
+		<h2>
+
+			<?php echo $this->escapeHtml($title); ?>
+
+			<?php
+
+				switch ($type) {
+
+					case 'firstHistory':
+
+						echo "Primera vez";
+
+						break;
+
+					case 'controlHistory':
+
+						echo "Control";
+
+						break;
+
+					case 'observations':
+
+						echo "Observaciones";
+
+						break;
+
+     	          case 'patologia':
+
+						echo "Patologia";
+
+						break;
+
+                  case 'liquidos':
+
+						echo "Liquidos";
+
+						break;
+
+				   case 'citologia':
+
+						echo "citologia";
+
+						break;
+
+					default:
+
+						echo "Indefinida";
+
+						break;
+
+				}
+
+			?>
+
+		</h2>
+
+		<?php endif; ?>
+
+
+
+		<?php
+
+		if($type == 'firstHistory'):
+
+			if (isset($form)):
+
+				$form->setAttribute("class", "plts-form label-inline");
+
+				$form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addHistory', 'id' => $admission->cod_adm, 'type' => $type)));
+
+				$form->prepare();
+
+				echo $this->form()->openTag($form);
+
+				echo $this->formHidden($form->get('cod_tip_doc'));
+
+				$form->get('cod_tip_doc')->setAttribute('disabled', 'disabled')->setLabelAttributes(array('style' => 'float: left'));
+
+				echo $this->formRow($form->get('cod_tip_doc'));
+
+				echo $this->formHidden($form->get('num_doc_pac'));
+
+				$form->get('num_doc_pac')->setAttribute('readonly', 'readonly');
+
+				echo $this->formRow($form->get('num_doc_pac'));
+
+				echo "<br /><fieldset>";
+
+				echo "<legend>Estado general del paciente</legend>";
+
+				echo $this->formRow($form->get('mot_con'));
+
+				echo $this->formRow($form->get('rev_sis'));
+
+				echo $this->formRow($form->get('enf_act'));
+
+				echo "</fieldset>";
+
+				echo "<br /><fieldset>";
+
+				echo "<legend>Exámen físico</legend>";
+
+				echo $this->formRow($form->get('tas'));
+
+				echo $this->formRow($form->get('tad'));
+
+				echo $this->formRow($form->get('tam'));
+
+				echo $this->formRow($form->get('fc'));
+
+				echo $this->formRow($form->get('fr'));
+
+				echo $this->formRow($form->get('tem'));
+
+				echo $this->formRow($form->get('peso'));
+
+				echo $this->formRow($form->get('talla'))."<br />";
+
+				echo $this->formRow($form->get('neu_men'));
+
+				echo $this->formRow($form->get('cab_cue'));
+
+				echo $this->formRow($form->get('tor_car'));
+
+				echo $this->formRow($form->get('abd_dig'));
+
+				echo $this->formRow($form->get('genito'));
+
+				echo $this->formRow($form->get('ext_ost'));
+
+				echo $this->formRow($form->get('ana_con'));
+
+				echo "</fieldset>";
+
+				if (!$xmlHttpRequest):
+
+					echo $this->formSubmit($form->get('submit'));
+
+				endif;
+
+				echo $this->form()->closeTag();
+
+			endif;
+
+		elseif ($type == 'controlHistory'):
+
+			if (isset($form)):
+
+				$form->setAttribute("class", "plts-form label-inline");
+
+				$form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addHistory', 'id' => $admission->cod_adm, 'type' => $type)));
+
+				$form->prepare();
+
+				echo $this->form()->openTag($form);
+
+				echo $this->formHidden($form->get('cod_tip_doc'));
+
+				$form->get('cod_tip_doc')->setAttribute('disabled', 'disabled')->setLabelAttributes(array('style' => 'float: left'));
+
+				echo $this->formRow($form->get('cod_tip_doc'));
+
+				echo $this->formHidden($form->get('num_doc_pac'));
+
+				$form->get('num_doc_pac')->setAttribute('readonly', 'readonly');
+
+				echo $this->formRow($form->get('num_doc_pac'));
+
+				echo "<br /><fieldset>";
+
+				echo $this->formRow($form->get('tip_evo'));
+
+				echo $this->formRow($form->get('inf_sub'));
+
+				echo "<br /><fieldset>";
+
+				echo "<legend>Exámen físico</legend>";
+
+				echo $this->formRow($form->get('tas'));
+
+				echo $this->formRow($form->get('tad'));
+
+				echo $this->formRow($form->get('tam'));
+
+				echo $this->formRow($form->get('fc'));
+
+				echo $this->formRow($form->get('fr'));
+
+				echo $this->formRow($form->get('tem'));
+
+				echo $this->formRow($form->get('hal_exa'));
+
+				echo $this->formRow($form->get('int_par'));
+
+				echo $this->formRow($form->get('ana_con'));
+
+				echo "</fieldset>";
+
+				if (!$xmlHttpRequest):
+
+					echo $this->formSubmit($form->get('submit'));
+
+				endif;
+
+				echo $this->form()->closeTag();
+
+			endif;
+
+		elseif ($type == 'observations'):
+
+			if (isset($form)):
+
+				$form->setAttribute("class", "plts-form label-inline");
+
+				$form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addHistory', 'id' => $admission->cod_adm, 'type' => $type)));
+
+				$form->prepare();
+
+				echo $this->form()->openTag($form);
+
+				echo $this->formHidden($form->get('cod_tip_doc'));
+
+				$form->get('cod_tip_doc')->setAttribute('disabled', 'disabled')->setLabelAttributes(array('style' => 'float: left'));
+
+				echo $this->formRow($form->get('cod_tip_doc'));
+
+				echo $this->formHidden($form->get('num_doc_pac'));
+
+				$form->get('num_doc_pac')->setAttribute('readonly', 'readonly');
+
+				echo $this->formRow($form->get('num_doc_pac'));
+
+				echo $this->formRow($form->get('obs_med'));
+
+				if (!$xmlHttpRequest):
+
+					echo $this->formSubmit($form->get('submit'));
+
+				endif;
+
+				echo $this->form()->closeTag();
+
+			endif;
+
+
+
+        elseif ($type == 'patologia'):
+
+			if (isset($form)):
+
+				//$form->setAttribute("class", "plts-form label-inline");
+
+                $form->setAttribute("class", "plts-form");
+                $form->setAttribute("enctype", "multipart/form-data");
+
+				$form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addHistory', 'id' => $admission->cod_adm, 'type' => $type)));
+
+				$form->prepare();
+
+				echo $this->form()->openTag($form);
+
+				echo $this->formHidden($form->get('cod_tip_doc'));
+
+				$form->get('cod_tip_doc')->setAttribute('disabled', 'disabled');
+
+				echo $this->formRow($form->get('cod_tip_doc'));
+
+				echo "<br />";
+
+				echo $this->formHidden($form->get('num_doc_pac'));
+
+				$form->get('num_doc_pac')->setAttribute('readonly', 'readonly');
+
+				echo $this->formRow($form->get('num_doc_pac'));
+
+				echo "<br />";
+
+                echo $this->formRow($form->get('material_estudio'));
+
+                echo $this->formRow($form->get('diagnostico_clinico'));
+
+				echo $this->formRow($form->get('descripcion_macroscopica'));
+
+                echo $this->formRow($form->get('descripcion_microscopica'));
+
+                echo $this->formRow($form->get('diagnostico'));
+
+                echo $this->formRow($form->get('nota'));
+
+       			?>
+
+				<input type="hidden" name="token" value="<?= $token ?>" />
+				<div class="row">
+					<div class="col-sm-12">
+						<p><strong>Cargue de archivos adjuntos a la historia</strong></p>
+					</div>
+					<div class="col-sm-6">
+					    <input type="file" id="file-reader-onchange-aud" name="aud[]" value="" multiple="multiple" />
+					    <div id="file-reader-ondrop-aud" class="drop" style="overflow: hidden; min-height: 200px">
+					      <span style="color: #C0C0C0; font-size: 25px;">Adjunte aquí sus audios</span>
+					    </div>
+					    <div id="file_reader_ondrop_response"></div>
+					</div>
+					<div class="col-sm-6">
+					    <input type="file" id="file-reader-onchange-img" name="img[]" value="" multiple="multiple" />
+					    <div id="file-reader-ondrop-img" class="drop" style="overflow: hidden; min-height: 200px">
+					      <span style="color: #C0C0C0; font-size: 25px;">Adjunte aquí sus imagenes</span>
+					    </div>
+					    <div id="file_reader_ondrop_response"></div>
+					</div>
+				</div><br />
+
+				<div class="row">
+					<div class="col-sm-12">
+						<p><strong>Adjuntos cargados a la historia</strong></p>
+					</div>
+
+					<?php $adjuntos = $adjuntos->toArray(); ?>
+
+					<div class="col-sm-6">
+						<div id="file-reader-ondrop-aud" class="drop" style="overflow: auto; min-height: 200px">
+						<?php if (count($adjuntos)): ?>
+							<?php foreach($adjuntos as $adjunto): ?>
+								<?php if ($adjunto["tipo_archivo"] == "AUDIO"): ?>
+
+									<audio controls preload="none" style="width:480px;">
+										<source src="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" type="audio/mp4" />
+										<source src="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" type="audio/ogg" />
+										<p>Your browser does not support HTML5 audio.</p>
+									</audio>
+
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<div class="alert alert-warning">Ningún adjunto cargado!</div>
+						<?php endif; ?>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div id="file-reader-ondrop-aud" class="drop" style="overflow: auto; min-height: 200px">
+						<?php if (count($adjuntos)): ?>
+							<?php foreach($adjuntos as $adjunto): ?>
+								<?php if ($adjunto["tipo_archivo"] == "IMAGEN"): ?>
+									<a href="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" target="_blank">
+										<img src="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" alt="img" width="200" />
+									</a>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<div class="alert alert-warning">Ningún adjunto cargado!</div>
+						<?php endif; ?>
+						</div>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+					$(function(){$jS.ready(function(){
+
+					   var Reader = $jS.reader;
+
+					   var _files = new Reader.File({
+					      fileBox: document.querySelector("#file-reader-onchange-aud"),      // input[type='file']
+					      dropBox: document.querySelector("#file-reader-ondrop-aud"),        // dropbox
+					      preview: document.querySelector("#file-reader-ondrop-aud"),        // preview
+                		  size: 2097052,
+                		  url: "<?= $this->basePath() ?>/medicalHistory/loadfile/<?= $token ?>/1"
+					   });
+
+					    _files.addDropEvent(function(files){
+						    $("#file-reader-ondrop-aud").empty();
+						    _files.upload(files, function(data){
+						        $("#file-reader-ondrop-aud").empty().html(data);
+						    });
+					    });
+						_files.addChangeEvent(function(files){
+						    $("#file-reader-ondrop-aud").empty();
+						    _files.upload(files, function(data){
+						        $("#file-reader-ondrop-aud").empty().html(data);
+						    });
+						});
+
+					   var _files2 = new Reader.File({
+					      fileBox: document.querySelector("#file-reader-onchange-img"),      // input[type='file']
+					      dropBox: document.querySelector("#file-reader-ondrop-img"),        // dropbox
+					      preview: document.querySelector("#file-reader-ondrop-img"),        // preview
+                		  size: 2097052,
+                		  url: "<?= $this->basePath() ?>/medicalHistory/loadfile/<?= $token ?>/2"
+					   	});
+
+					    _files2.addDropEvent(function(files){
+						    $("#file-reader-ondrop-img").empty();
+						    _files2.upload(files, function(data){
+						        $("#file-reader-ondrop-img").empty().html(data);
+						    });
+					    });
+						_files2.addChangeEvent(function(files){
+						    $("#file-reader-ondrop-img").empty();
+						    _files2.upload(files, function(data){
+						        $("#file-reader-ondrop-img").empty().html(data);
+						    });
+						});
+
+					});});
+				</script>
+
+       			<?php
+
+				if (!$xmlHttpRequest):
+
+					echo $this->formSubmit($form->get('submit'));
+
+				endif;
+
+				echo $this->form()->closeTag();
+
+			endif;
+
+
+            /* liquidos */
+
+
+
+           elseif ($type == 'liquidos'):
+
+			if (isset($form)):
+
+				//$form->setAttribute("class", "plts-form label-inline");
+
+                $form->setAttribute("class", "plts-form");
+
+				$form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addHistory', 'id' => $admission->cod_adm, 'type' => $type)));
+
+				$form->prepare();
+
+				echo $this->form()->openTag($form);
+
+				echo $this->formHidden($form->get('cod_tip_doc'));
+
+				$form->get('cod_tip_doc')->setAttribute('disabled', 'disabled');
+
+				echo "<br />";
+
+				echo $this->formRow($form->get('cod_tip_doc'));
+
+				echo $this->formHidden($form->get('num_doc_pac'));
+
+				$form->get('num_doc_pac')->setAttribute('readonly', 'readonly');
+
+				echo $this->formRow($form->get('num_doc_pac'));
+
+                echo $this->formRow($form->get('material_estudio'));
+
+                echo $this->formRow($form->get('diagnostico_clinico'));
+
+				echo $this->formRow($form->get('descripcion_macroscopica'));
+
+                echo $this->formRow($form->get('descripcion_microscopica'));
+
+                echo $this->formRow($form->get('diagnostico'));
+
+                echo $this->formRow($form->get('nota'));
+
+				if (!$xmlHttpRequest):
+
+					echo $this->formSubmit($form->get('submit'));
+
+				endif;
+
+				echo $this->form()->closeTag();
+
+			endif;
+
+
+
+            /* fin liquids */
+
+
+
+
+
+            /* citologia */
+
+
+
+           elseif ($type == 'citologia'):
+
+			if (isset($form)):
+
+				//$form->setAttribute("class", "plts-form label-inline");
+
+                $form->setAttribute("class", "plts-form");
+
+				$form->setAttribute('action', $this->url('medicalHistory', array('action' => 'addHistory', 'id' => $admission->cod_adm, 'type' => $type)));
+
+				$form->prepare();
+
+				echo $this->form()->openTag($form);
+
+				echo $this->formHidden($form->get('cod_tip_doc'));
+
+				$form->get('cod_tip_doc')->setAttribute('disabled', 'disabled');
+
+				echo "<br />";
+
+				echo $this->formRow($form->get('cod_tip_doc'));
+
+				echo $this->formHidden($form->get('num_doc_pac'));
+
+				$form->get('num_doc_pac')->setAttribute('readonly', 'readonly');
+
+				echo $this->formRow($form->get('num_doc_pac'));
+
+
+
+				?>
+				<fieldset>
+				<legend>1. CALIDAD DE LA MUESTRA</legend>
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('cal_mues_a')); ?>
+		        </div>
+
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('cal_mues_b')); ?>
+		        </div>
+
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('cal_mues_c')); ?>
+		        </div>
+
+				<div class="checkbox">
+					<?= $this->formRow($form->get('cal_mues_d')); ?>
+		        </div>
+
+
+		        </fieldset>
+
+		        <fieldset>
+
+				<legend>2. CATEGORIZACION GENERAL</legend>
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('cat_gen_a')); ?>
+		        </div>
+
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('cat_gen_b')); ?>
+		        </div>
+
+		        </fieldset>
+
+			  <fieldset>
+
+				<legend>3. MICROORGANISMOS</legend>
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('mic_a')); ?>
+		        </div>
+
+		        <div class="checkbox">
+					<?= $this->formRow($form->get('mic_b')); ?>
+		        </div>
+
+		         <div class="checkbox">
+					<?= $this->formRow($form->get('mic_c')); ?>
+		        </div>
+
+
+		         <div class="checkbox">
+					<?= $this->formRow($form->get('mic_d')); ?>
+		        </div>
+
+		         <div class="checkbox">
+					<?= $this->formRow($form->get('mic_e')); ?>
+		        </div>
+
+		         <div class="checkbox">
+					<?= $this->formRow($form->get('mic_f')); ?>
+		        </div>
+
+		         <div class="checkbox">
+					<?= $this->formRow($form->get('mic_g')); ?>
+		        </div>
+
+		        </fieldset>
+
+				<fieldset>
+				<legend>4. OTROS HALLAZGOS NO-NEOPLASICOS</legend>
+		         <div class="checkbox">
+					<?= $this->formRow($form->get('otr_haz_a')); ?>
+		        </div>
+
+				<div class="checkbox">
+					<?= $this->formRow($form->get('otr_haz_b')); ?>
+		        </div>
+
+				<div class="checkbox">
+					<?= $this->formRow($form->get('otr_haz_c')); ?>
+		        </div>
+
+				<div class="checkbox">
+					<?= $this->formRow($form->get('otr_haz_d')); ?>
+		        </div>
+
+				<div class="checkbox">
+					<?= $this->formRow($form->get('otr_haz_e')); ?>
+		        </div>
+
+				<div class="checkbox">
+					<?= $this->formRow($form->get('otr_haz_f')); ?>
+		        </div>
+
+		        </fieldset>
+
+		        <fieldset>
+		        	<legend>5. ANORMALIDADES EN CELULAS ESCAMOSAS</legend>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_esc_a')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_esc_b')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_esc_c')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_esc_d')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_esc_e')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_esc_f')); ?>
+		        	</div>
+
+		        </fieldset>
+
+		        <fieldset>
+		        	<legend>6. ANORMALIDADES EN CELULAS GLANDULARES</legend>
+
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_a')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_b')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_c')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_d')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_e')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_f')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_g')); ?>
+		        	</div>
+
+		        	<div class="checkbox">
+						<?= $this->formRow($form->get('ano_cel_gla_h')); ?>
+		        	</div>
+
+		        </fieldset>
+
+		        <fieldset>
+
+				<?php
+				echo $this->formRow($form->get('observaciones'));
+				?>
+
+		        </fieldset>
+
+		        <?php
+
+				if (!$xmlHttpRequest):
+
+					echo $this->formSubmit($form->get('submit'));
+
+				endif;
+
+				echo $this->form()->closeTag();
+
+			endif;
+
+		endif;
+		?>
+
+	</div>
+
+</div>
+
+<?php endif; ?>

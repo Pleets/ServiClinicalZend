@@ -1,0 +1,87 @@
+<?php if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif; ?>
+
+<?php if (!isset($Exception)): ?>
+
+	<h2>DESARROLLO DEL SISTEMA</h2>
+
+
+	<h3>Change log - Version 1.0</h3>
+
+	<p>
+	<ul>
+		<li>Agregada la búsqueda por nombre para pacientes</li>
+		<li>Pacientes ordenados por fecha de registro</li>
+		<li>Solo se puede modificar certificaciones propias y no eliminar ninguna</li>
+		<li>No se puede editar ni eliminar antecedentes</li>
+		<li>Agregada la búsqueda por código para los diagnósticos</li>
+		<li>Agregada la búsqueda por código para solicitud de exámenes</li>
+		<li>Debe existir al menos un diagnóstico principal para registrar historias</li>
+		<li>El motivo de la interconsulta ahora es obligatorio</li>
+		<li>El motivo de la incapacidad ahora es obligatorio</li>
+		<li>La posología del medicamento ahora es obligatoria</li>
+		<li>El número de teléfono para registrar paciente ahora es obligatorio</li>
+		<li>Arreglado el BUG para el TAM, ahora puede ser tipo FLOAT</li>
+		<li>Se agregaron links para imprimir historia clínica después de guardarla</li>
+		<li>Mayor tamaño de la letra 'R' en certificaciones</li>
+		<li>Se agrega el <em>locale</em> es_ES en el bootstraing de la aplicación (errores en español)</li>
+		<li>Se pasa de <strong>beta</strong> a versión <strong>estable</strong> el release actual</li>
+		<li>Se actualiza el nucleo del Zendframework a la versión 3.1</li>
+		<li>Se corrige el BUG que permite el colapso de ventanas en pacientes para las acciones <em>editar</em>, <em>agregar</em></li>
+		<li>Solo se muestran los antecedentes del usuario en sesión</li>
+		<li>Se corrige la consulta SQL para traer la historia de primera vez o control</li>
+		<li>Se agrega la función <em>cambiar contraseña</em></li>
+		<li>Compatibilidad con IE10+</li>
+	</ul>
+	</p>
+
+	<!--<h3>PENDIENTE</h3>
+
+	<p>
+	<ul>
+		<li><a href="http://en.wikipedia.org/wiki/Comet_(programming)">COMMET</a> en vista de admisiones</li>
+	</ul>
+	</p>
+
+	<h3>BUGS</h3>
+	<ul>
+		<li> En admisiones, los enlaces de tipo "view-admissions/1110522967/1" no buscan sobre el mismo paciente</li>
+	  	<li> Vistas sin <a href="http://framework.zend.com/manual/1.12/en/zend.controller.request.html">xmlHttpRequest</a> no parametrizadas en los enlaces de tipo <em>/medicalHistory/view-(param1)/(param2)</em></li>
+	  	<li>Si un paciente no tiene folios se muestra <em>Internal Server Error</em> al consultar su historia.</li>
+	</ul>-->
+
+	<h3>Tabla de Archivos</h3>
+	<?php 
+		$_SESSION["buffer"] = array();
+		$_SESSION["buffer"]["lines"] = 0;
+		$_SESSION["buffer"]["characters"] = 0;
+	?>
+	<table class="table table-striped table-hover table-condensed">
+		<thead>
+			<tr>
+				<th colspan="3">Ruta absoluta del archivo / carpeta</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr><td class='danger' colspan='3'><h3>Archivos asociados a módulos PHP (MVC)</h3></td></tr>
+			<?php $controller->ls($modules) ?>
+			<tr><td class='danger' colspan='3'><h3>Archivos de configuración PHP</h3></td></tr>
+			<?php $controller->ls($config) ?>
+			<tr><td class='danger' colspan='3'><h3>Archivos de eventos Javascript JS</h3></td></tr>
+			<?php $controller->ls($js) ?>
+			<tr><td class='danger' colspan='3'><h3>Archivos de hojas de estilos CSS</h3></td></tr>
+			<?php $controller->ls($css) ?>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td></td>
+				<td><span class='label label-danger' style='font-size: 25px'><?= $_SESSION["buffer"]["lines"] ?> lines</span></td>
+				<td><span class='label label-danger' style='font-size: 25px'><?= $_SESSION["buffer"]["characters"] ?> characters</span></td>
+			</tr>
+		</tfoot>
+	</table>
+<?php endif; ?>	

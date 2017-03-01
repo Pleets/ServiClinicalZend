@@ -1,0 +1,9 @@
+ 
+  <div class="form-group">
+    <label for="diagnost_busqueda">Código o nombre del procedimiento</label>
+    <input type="text" class="form-control" id="cups_busqueda" data-action='ajax-request-keyup' data-type="post" data-object="v = { id_input : '<?= $id_input ?>', valor_busqueda_cups : $(this).val() } "  data-response="#response-cups" href="<?= $this->basePath() ?>/admissions/search-cupsadd/4" >
+  </div>
+ 
+
+
+<div id="response-cups"></div>

@@ -1,0 +1,50 @@
+<?php
+
+$title = 'Editar Interconsulta';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+$form = $this->form;
+$form->setAttribute(
+	'action', $this->url('medicalHistory',
+	array(
+		'action' => 'edit-interconsultation',
+		'id'     => $this->id,
+	)
+));
+$form->prepare();
+
+if (isset($Success) and $Success): ?>
+<div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong>  La interconsulta ha sido actualizada satisfactoriamente
+</div>
+	<?php if (!$xmlHttpRequest): ?>
+		<a href="<?php echo $this->url('medicalHistory', array('action'=>'addHistory', 'id' => $admission->cod_adm)) ?>" class="btn btn-primary">Volver</a><br /><br />
+	<?php endif; ?>
+<?php endif;
+
+if (isset($Exception)): ?>
+<div class="alert alert-danger alert-dismissable">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <strong><span class="glyphicon glyphicon-exclamation-sign"></span></strong> <?= $Exception ?>
+</div>
+<?php endif;
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('cod_int'));
+echo $this->formHidden($form->get('cod_dia'));
+echo $this->formHidden($form->get('nom_dia'));
+$form->get('nom_dia')->setAttribute("disabled", "disabled");
+echo $this->formRow($form->get('nom_dia'));
+echo $this->formHidden($form->get('cod_esp'));
+echo $this->formHidden($form->get('nom_esp'));
+$form->get('nom_esp')->setAttribute("disabled", "disabled");
+echo $this->formRow($form->get('nom_esp'));
+echo $this->formRow($form->get('mot_int'));
+if (!$xmlHttpRequest):
+	echo $this->formSubmit($form->get('submit'));
+endif;
+echo $this->form()->closeTag();

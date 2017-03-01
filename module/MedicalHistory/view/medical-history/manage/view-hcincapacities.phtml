@@ -1,0 +1,98 @@
+<?php if (!$xmlHttpRequest): ?>
+
+<a class="back-button" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHistory', 'id' => $admission->cod_adm)); ?>">
+  <span class="glyphicon glyphicon-circle-arrow-left" style="font-size: 50px; color: rgb(0,150,200)" title="Historia del paciente"></span>
+</a>
+
+<img src="<?php echo $this->basePath('img/logo_medicadiz_min.png') ?>" alt="Logo medicadiz" width="150" style="display: none; position: absolute" class="logo-empresa" />
+
+<div class="container print-header" style="text-align: center; display: none">
+    <h3>NOMBRE DE LA CLÍNICA</h3>
+    <h4>INCAPACIDAD</h4><br /><br />
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos generales</div>
+    <div class="panel-body">
+        <table class="table table-no-bordered no-margin table-no-padding">
+            <tbody>
+                <tr>
+                    <td><strong>No. Ingreso:</strong> <?= $admission->cod_adm ?></td>
+                    <td><strong>Fecha Ingreso:</strong> <?= $admission->fec_adm ?></td>
+                    <td><strong>Fecha de expedición:</strong> <?= date("Y-m-d") ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Entidad:</strong> <?= $admission->nom_ent ?></td>
+                    <td colspan="2"><strong>Folio:</strong> <?= $admission->num_fol ?></td>
+                </tr>
+            </tbody>
+        </table>    
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Datos personales</div>
+    <div class="panel-body">
+        <table class="table table-no-bordered no-margin table-no-padding">
+            <tbody>
+                <tr>
+                    <td><strong>Paciente:</strong> <?= $admission->nom_pac ?></td>
+                    <td><strong>Identificación:</strong> <?= $admission->num_doc_pac ?></td>
+                    <td><strong>Fecha de nacimiento:</strong> <?= $admission->fec_nac_pac ?></td>
+                </tr>
+                <tr>
+                    <td><strong>Dirección:</strong> <?= $admission->dir_pac ?></td>
+                    <td colspan="2"><strong>Teléfono:</strong> <?= (!empty($admission->num_tel_pac)) ? $admission->num_tel_pac : " --- " ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php endif; ?>
+
+<h4 style="text-align: center">Incapacidad</h4>
+
+<div id="view-incapacities">
+<?php if (count($incapacities)): ?>
+    <table class="table table-striped table-hover table-condensed" id="folios-table">
+        <tr>
+            <th>Id Diag.</th>
+            <th>Diagnóstico</th>
+            <th>Días</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Descripción</th>
+        </tr>
+        <?php foreach ($incapacities as $incapacity) : ?>
+        <tr>
+            <td><?= $this->escapeHtml($incapacity->cod_dia); ?> </td>
+            <td><?= $this->escapeHtml($incapacity->nom_dia); ?> </td>
+            <td><?= $this->escapeHtml($incapacity->num_dia_inc); ?> </td>
+            <td><?= $this->escapeHtml($incapacity->fec_ini_inc); ?> </td>
+            <td><?= $final ?> </td>
+            <td><?php $obs = trim($incapacity->des_inc); if (empty($obs)) echo "Ninguna"; else echo $this->escapeHtml($obs) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <div class="panel panel-warning">
+        <div class="panel-body">
+        No se registró alguna incapacidad en el folio
+        </div>
+    </div>
+<?php endif; ?>
+</div>
+
+<?php if ($xmlHttpRequest): ?>
+<a target='_blank' title="Ver diseño de impresión" href="<?php echo $this->url('medicalHistory', array('action'=>'viewHcincapacities', 'id' => $admission->cod_adm)); ?>"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span> Visualizar</a>
+<?php endif; ?>
+
+<?php if (!$xmlHttpRequest): ?>
+<div class="container" style="text-align: center">
+Médico: <em><?= $admission->usu_med ?></em>
+</div>
+<br /><br />
+<button class="btn btn-default print-function" title="Imprimir"><span style="font-size: 20px" class="glyphicon glyphicon-print"></span> Imprimir</button>
+<button class="btn btn-default view-print-version" title="Diseño de impresión"><span style="font-size: 20px" class="glyphicon glyphicon-search"></span></button>
+<?php endif; ?>
