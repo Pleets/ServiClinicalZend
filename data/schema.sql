@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10.18
--- https://www.phpmyadmin.net
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 01, 2017 at 12:07 AM
--- Server version: 5.6.33-cll-lve
--- PHP Version: 5.6.20
+-- Host: 127.0.0.1
+-- Generation Time: Mar 02, 2017 at 01:00 AM
+-- Server version: 5.7.14
+-- PHP Version: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pleetsor_histo`
+-- Database: `serviclinical`
 --
 
 -- --------------------------------------------------------
@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `hcneuro_adjuntos`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_adjuntos` (
+CREATE TABLE `hcneuro_adjuntos` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -36,25 +36,13 @@ CREATE TABLE IF NOT EXISTS `hcneuro_adjuntos` (
   `url_archivo` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `hcneuro_adjuntos`
---
-
-INSERT INTO `hcneuro_adjuntos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_adm`, `cod_tip_his`, `tipo_archivo`, `url_archivo`) VALUES
-(1, '2110522860', 1, 6, 4, 'AUDIO', 'cache/multimedia/148826000158b50ba15abce.m4a'),
-(1, '2110522860', 1, 6, 4, 'IMAGEN', 'cache/multimedia/148826000158b50ba15aa43.png'),
-(1, '2110522860', 1, 6, 4, 'IMAGEN', 'cache/multimedia/148826000158b50ba15ab00.png'),
-(1, '1110518493', 1, 4, 4, 'AUDIO', 'cache/multimedia/148829427758b59185e2d21.m4a'),
-(1, '1110518493', 1, 4, 4, 'IMAGEN', 'cache/multimedia/148829427558b5918370ec4.jpg'),
-(1, '1110518493', 1, 4, 4, 'IMAGEN', 'cache/multimedia/148829427758b59185a5bee.jpg');
-
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `hcneuro_admision`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_admision` (
+CREATE TABLE `hcneuro_admision` (
   `cod_adm` bigint(20) NOT NULL,
   `fec_adm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `est_adm` char(1) NOT NULL,
@@ -66,27 +54,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_admision` (
   `cod_usu_reg` varchar(20) NOT NULL,
   `cod_usu_med` varchar(20) NOT NULL,
   `cod_usu_mod` varchar(20) DEFAULT NULL,
-  `fec_mod` datetime DEFAULT NULL,
-  PRIMARY KEY (`cod_adm`),
-  KEY `fk_hcneuro_admision_hcneuro_pacientes1` (`cod_tip_doc`,`num_doc_pac`),
-  KEY `fk_hcneuro_admision_hcneuro_entidad1` (`cod_ent`),
-  KEY `fk_hcneuro_admision_hcneuro_areas1` (`cod_are`),
-  KEY `usuario_registra` (`cod_usu_reg`),
-  KEY `usuario_medico` (`cod_usu_med`),
-  KEY `usuario_modifica` (`cod_usu_mod`)
+  `fec_mod` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_admision`
---
-
-INSERT INTO `hcneuro_admision` (`cod_adm`, `fec_adm`, `est_adm`, `cod_tip_doc`, `num_doc_pac`, `cod_are`, `cod_ent`, `obs_adm`, `cod_usu_reg`, `cod_usu_med`, `cod_usu_mod`, `fec_mod`) VALUES
-(1, '2015-07-15 15:52:52', 'C', 1, '12345678', 1, '000001', 'Primera cira', 'auxiliar', 'medico', NULL, NULL),
-(2, '2017-02-12 17:27:22', '', 1, '12345678', 1, '000001', '', 'auxiliar', 'medico', NULL, NULL),
-(3, '2017-02-14 16:41:33', '', 1, '93396512', 1, '000001', 'PACIENTE DE PRUEBA', 'auxiliar', 'medico', NULL, NULL),
-(4, '2017-02-14 17:22:57', '', 1, '1110518493', 1, '000001', '', 'auxiliar', 'medico', NULL, NULL),
-(5, '2017-02-19 20:30:01', '', 1, '1110522860', 1, '000001', '', 'auxiliar', 'medico', NULL, NULL),
-(6, '2017-02-19 20:48:05', '', 1, '2110522860', 1, '000001', 'observations', 'auxiliar', 'medico', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -94,20 +63,15 @@ INSERT INTO `hcneuro_admision` (`cod_adm`, `fec_adm`, `est_adm`, `cod_tip_doc`, 
 -- Table structure for table `hcneuro_antecedentes`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_antecedentes` (
-  `cod_ant` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hcneuro_antecedentes` (
+  `cod_ant` bigint(20) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `cod_tip_doc` int(11) NOT NULL,
   `usu_reg` varchar(20) NOT NULL,
   `fec_reg` datetime NOT NULL,
   `tip_ant` int(11) NOT NULL,
-  `des_ant` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
-  PRIMARY KEY (`cod_ant`),
-  KEY `fk_antecedentes_pacientes_idx` (`cod_tip_doc`),
-  KEY `fk_antecedentes_pacientes_idx1` (`cod_tip_doc`,`num_doc_pac`),
-  KEY `fk_antecedentes_tipos_ante_idx` (`tip_ant`),
-  KEY `fk_antecedentes_usuarios_idx` (`usu_reg`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `des_ant` text CHARACTER SET utf8 COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -115,11 +79,10 @@ CREATE TABLE IF NOT EXISTS `hcneuro_antecedentes` (
 -- Table structure for table `hcneuro_aplmed`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_aplmed` (
+CREATE TABLE `hcneuro_aplmed` (
   `cod_apl_med` int(11) NOT NULL,
   `nom_apl_med` varchar(150) NOT NULL,
-  `est_apl_med` int(11) NOT NULL,
-  PRIMARY KEY (`cod_apl_med`)
+  `est_apl_med` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -151,11 +114,10 @@ INSERT INTO `hcneuro_aplmed` (`cod_apl_med`, `nom_apl_med`, `est_apl_med`) VALUE
 -- Table structure for table `hcneuro_areas`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_areas` (
+CREATE TABLE `hcneuro_areas` (
   `cod_are` int(11) NOT NULL,
   `nom_are` varchar(100) NOT NULL,
-  `est_are` int(11) NOT NULL,
-  PRIMARY KEY (`cod_are`)
+  `est_are` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -163,7 +125,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_areas` (
 --
 
 INSERT INTO `hcneuro_areas` (`cod_are`, `nom_are`, `est_are`) VALUES
-(1, 'LABORATORIO', 1);
+(1, 'LABORATORIO', 1),
+(2, 'CONSULTA GENERAL', 1);
 
 -- --------------------------------------------------------
 
@@ -171,7 +134,7 @@ INSERT INTO `hcneuro_areas` (`cod_are`, `nom_are`, `est_are`) VALUES
 -- Table structure for table `hcneuro_certificacion`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_certificacion` (
+CREATE TABLE `hcneuro_certificacion` (
   `cod_cer` int(11) NOT NULL,
   `tit_cer` varchar(600) DEFAULT NULL,
   `des_cer` varchar(5000) NOT NULL,
@@ -179,11 +142,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_certificacion` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `fec_reg` date NOT NULL,
-  `cod_usu` varchar(20) NOT NULL,
-  PRIMARY KEY (`cod_cer`),
-  KEY `fk_hcneuro_certificacion_hcneuro_pacientes1` (`cod_tip_doc`,`num_doc_pac`),
-  KEY `fk_hcneuro_certificacion_hcneuro_usuarios1` (`cod_usu`),
-  KEY `fk_hcneuro_adm_cer` (`cod_adm`)
+  `cod_usu` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -192,10 +151,9 @@ CREATE TABLE IF NOT EXISTS `hcneuro_certificacion` (
 -- Table structure for table `hcneuro_cie10`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_cie10` (
+CREATE TABLE `hcneuro_cie10` (
   `cod_dia` varchar(6) NOT NULL,
-  `nom_dia` varchar(1000) NOT NULL,
-  PRIMARY KEY (`cod_dia`)
+  `nom_dia` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -12648,7 +12606,7 @@ INSERT INTO `hcneuro_cie10` (`cod_dia`, `nom_dia`) VALUES
 -- Table structure for table `hcneuro_citologia`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_citologia` (
+CREATE TABLE `hcneuro_citologia` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -12685,17 +12643,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_citologia` (
   `ano_cel_gla_f` int(11) DEFAULT NULL,
   `ano_cel_gla_g` int(11) DEFAULT NULL,
   `ano_cel_gla_h` int(11) DEFAULT NULL,
-  `observaciones` text,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `observaciones` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_citologia`
---
-
-INSERT INTO `hcneuro_citologia` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cal_mues_a`, `cal_mues_b`, `cal_mues_c`, `cal_mues_d`, `cat_gen_a`, `cat_gen_b`, `mic_a`, `mic_b`, `mic_c`, `mic_d`, `mic_e`, `mic_f`, `mic_g`, `otr_haz_a`, `otr_haz_b`, `otr_haz_c`, `otr_haz_d`, `otr_haz_e`, `otr_haz_f`, `ano_cel_esc_a`, `ano_cel_esc_b`, `ano_cel_esc_c`, `ano_cel_esc_d`, `ano_cel_esc_e`, `ano_cel_esc_f`, `ano_cel_gla_a`, `ano_cel_gla_b`, `ano_cel_gla_c`, `ano_cel_gla_d`, `ano_cel_gla_e`, `ano_cel_gla_f`, `ano_cel_gla_g`, `ano_cel_gla_h`, `observaciones`) VALUES
-(1, '1110522860', 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 'observaciones'),
-(1, '12345678', 2, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 'abcssss');
 
 -- --------------------------------------------------------
 
@@ -12703,12 +12652,11 @@ INSERT INTO `hcneuro_citologia` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cal_m
 -- Table structure for table `hcneuro_cups`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_cups` (
+CREATE TABLE `hcneuro_cups` (
   `cod_cup` varchar(10) NOT NULL,
   `nom_cup` varchar(800) NOT NULL,
   `estado` varchar(1) NOT NULL,
-  `cod_mapipos` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`cod_cup`)
+  `cod_mapipos` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -13347,12 +13295,12 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('252501', 'HEMIGLOSECTOMIA SIMPLE (SIN VACIAMIENTO LINFATICO)', 'A', ''),
 ('252502', 'HEMIGLOSECTOMIA CON CIERRE PRIMARIO', 'A', ''),
 ('252503', 'HEMIGLOSECTOMIA CON COLGAJO PEDICULADO', 'A', ''),
-('252504', 'HEMIGLOSECTOMIA CON COLGAJO LIBRE', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('252504', 'HEMIGLOSECTOMIA CON COLGAJO LIBRE', 'A', ''),
 ('252505', 'HEMIGLOSECTOMIA CON RESECCION OSEA, COLOCACION DE PLACA Y COLGAJO LIBRE O PEDICULADO', 'A', ''),
 ('253000', 'GLOSECTOMÍA TOTAL SIN RESECCION MANDIBULAR Y RECONSTRUCCION CON COLGAJO PEDICULADO SOD', 'A', ''),
 ('253100', 'GLOSECTOMÍA TOTAL SIN RESECCION MANDIBULAR Y RECONSTRUCCION CON COLGAJO LIBRE SOD', 'A', ''),
-('253200', 'GLOSECTOMÍA TOTAL CON RESECCION MANDIBULAR Y RECONSTRUCCION CON COLGAJO LIBRE O PEDICULADO Y PLACA SOD', 'A', ''),
+('253200', 'GLOSECTOMÍA TOTAL CON RESECCION MANDIBULAR Y RECONSTRUCCION CON COLGAJO LIBRE O PEDICULADO Y PLACA SOD', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('253300', 'GLOSECTOMÍA TOTAL CON LARINGOFARINGECTOMIA Y RECONSTRUCCION CON COLGAJO LIBRE O PEDICULADO SOD', 'A', ''),
 ('254000', 'GLOSECTOMÍA RADICAL NCOC', 'A', ''),
 ('255100', 'SUTURA DE LACERACIÓN DE LENGUA (GLOSORRAFIA) SOD', 'A', ''),
@@ -13993,8 +13941,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('385203', 'OCLUSION, PINZAMIENTO  O LIGADURA VENOSA EN ZONA I Y III DEL CUELLO', 'A', ''),
 ('385204', 'OCLUSION, PINZAMIENTO  O LIGADURA VENOSA EN ZONA II DEL CUELLO', 'A', ''),
 ('385220', 'OCLUSION  DE VASOS DE CABEZA Y CUELLO POR VIA ENDOVASCULAR', 'A', ''),
-('385301', 'OCLUSION, PINZAMIENTO  O LIGADURA DE SUBCLAVIA', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('385301', 'OCLUSION, PINZAMIENTO  O LIGADURA DE SUBCLAVIA', 'A', ''),
 ('385302', 'OCLUSION, PINZAMIENTO  O LIGADURA DE VASOS AXILARES', 'A', ''),
 ('385303', 'OCLUSION, PINZAMIENTO  O LIGADURA DE VASOS EN BRAZO O ANTEBRAZO', 'A', ''),
 ('385320', 'OCLUSION DE VASOS DE MIEMBROS SUPERIORES POR VIA ENDOVASCULAR', 'A', ''),
@@ -14002,7 +13949,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('385500', 'OCLUSION, PINZAMIENTO  O LIGADURA DE VASOS TORACICOS SOD', 'A', ''),
 ('385520', 'OCLUSION DE VASOS TORACICOS POR VIA ENDOVASCULAR', 'A', ''),
 ('385601', 'OCLUSION, PINZAMIENTO  O LIGADURA DE ARTERIAS ABDOMINALES, UNA O MAS  (SELECTIVAS)', 'A', ''),
-('385620', 'OCLUSION DE ARTERIAS ABDOMINALES POR VIA ENDOVASCULAR', 'A', ''),
+('385620', 'OCLUSION DE ARTERIAS ABDOMINALES POR VIA ENDOVASCULAR', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('385701', 'OCLUSION, PINZAMIENTO  O LIGADURA DE VENAS INTRAABDOMINALES, UNA  O MAS', 'A', ''),
 ('385720', 'OCLUSION DE VENAS INTRAABDOMINALES POR VIA ENDOVASCULAR', 'A', ''),
 ('385801', 'OCLUSION, PINZAMIENTO O LIGADURA ARTERIAL SUPRAPATELAR', 'A', ''),
@@ -14700,8 +14648,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('522100', 'RESECCION ENDOSCOPICA DE LESION O TEJIDO DE PANCREAS SOD', 'A', ''),
 ('522200', 'RESECCIÓN DE LESIÓN O TEJIDO DE PÁNCREAS SOD', 'A', ''),
 ('52300', 'SIMPATECTOMIA LUMBAR SOD', 'A', ''),
-('523100', 'EXTRACCION DE CUERPO EXTRAÑO DE PANCREAS SOD', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('523100', 'EXTRACCION DE CUERPO EXTRAÑO DE PANCREAS SOD', 'A', ''),
 ('523200', 'EXTRACCION ENDOSCOPICA DE CUERPO EXTRAÑO DE PANCREAS SOD', 'A', ''),
 ('52400', 'SIMPATECTOMIA PRESACRAL SOD', 'A', ''),
 ('524100', 'DRENAJE TRANSGASTRICO ENDOSCOPICO DE SEUDOQUISTE PANCREATICO SOD', 'A', ''),
@@ -14714,7 +14661,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('525202', 'PANCREATECTOMÍA DISTAL  SIN ESPLENECTOMÍA', 'A', ''),
 ('525300', 'PANCREATECTOMÍA SUBTOTAL  [OPERACIÓN DE CHILD] SOD', 'A', ''),
 ('52601', 'RESECCION DE TUMOR EN NERVIO O GANGLIO SIMPATICO', 'A', ''),
-('52602', 'RESECCION DE TUMOR EN NERVIO O GANGLIO SIMPATICO CERVICAL', 'A', ''),
+('52602', 'RESECCION DE TUMOR EN NERVIO O GANGLIO SIMPATICO CERVICAL', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('52603', 'SIMPATECTOMIA DIGITAL ( DEDO)', 'A', ''),
 ('52604', 'TIMPANOSIMPATECTOMIA (NEURECTOMIA DEL JACOBSON)', 'A', ''),
 ('526100', 'PANCREATECTOMÍA TOTAL POR NECIDIOBLASTOSIS SOD', 'A', ''),
@@ -15418,8 +15366,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('691301', 'SECCIÓN DE ADHERENCIAS UTERINAS A PARED ABDOMINAL VIA LAPAROTOMIA', 'A', ''),
 ('691302', 'SECCIÓN DE ADHERENCIAS UTERINAS A PARED ABDOMINAL VIA LAPAROSCOPICA', 'A', ''),
 ('691901', 'DRENAJE DE ABSCESO O HEMATOMA  DE LIGAMENTO ANCHO POR LAPAROTOMIA', 'A', ''),
-('691902', 'DRENAJE DE ABSCESO O HEMATOMA  DE LIGAMENTO ANCHO VIA ENDOSCOPICA', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('691902', 'DRENAJE DE ABSCESO O HEMATOMA  DE LIGAMENTO ANCHO VIA ENDOSCOPICA', 'A', ''),
 ('691910', 'CITORREDUCCIÓN DE TUMOR DE LIGAMENTO ANCHO O DE LIGAMENTO UTERO SACRO', 'A', ''),
 ('691920', 'EXTIRPACIÓN DE EMBARAZO ECTÓPICO INTRALIGAMENTOSO', 'A', ''),
 ('692110', 'INTERPOSICION TIPO WATKINS', 'A', ''),
@@ -15444,7 +15391,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('699700', 'RETIRO DE OTRO CUERPO EXTRAÑO PENETRANTE DE CUELLO UTERINO NCOC', 'A', ''),
 ('70000', 'EXPLORACION DE AREA SUPRARENAL, NCOC', 'A', ''),
 ('700100', 'COLPOCENTESIS O CULDOCENTESIS SOD', 'A', ''),
-('701201', 'COLPOTOMIA CON EXPLORACION', 'A', ''),
+('701201', 'COLPOTOMIA CON EXPLORACION', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('701202', 'COLPOTOMIA CON DRENAJE DE ABSCESO PELVICO', 'A', ''),
 ('701300', 'LIBERACIÓN-LISIS DE ADHERENCIAS INTRALUMINALES EN VAGINA SOD', 'A', ''),
 ('701410', 'SECCIÓN O INCISION DE TABIQUE VAGINAL', 'A', ''),
@@ -16041,8 +15989,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('786930', 'EXTRACCIÓN DE DISPOSITIVO [ MATERIAL DE OSTEOSINTESIS O INSTRUMENTACION O ESTIMULADOR DE CRECIMIENTO] IMPLANTADO  EN COLUMNA VERTEBRAL, POR VIA ANTERIOR', 'A', ''),
 ('786931', 'EXTRACCIÓN QUIRURGICA DE CUERPO EXTRAÑO EN COLUMNA VERTEBRAL VIA ANTERIOR', 'A', ''),
 ('786935', 'EXTRACCIÓN DE DISPOSITIVO [ MATERIAL DE OSTEOSINTESIS O INSTRUMENTACION O ESTIMULADOR DE CRECIMIENTO] IMPLANTADO  EN COLUMNA VERTEBRAL POR VIA POSTERIOR', 'A', ''),
-('786936', 'EXTRACCIÓN QUIRURGICA DE CUERPO EXTRAÑO EN COLUMNA VERTEBRAL VIA POSTERIOR', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('786936', 'EXTRACCIÓN QUIRURGICA DE CUERPO EXTRAÑO EN COLUMNA VERTEBRAL VIA POSTERIOR', 'A', ''),
 ('787101', 'OSTEOCLASTIA DE  ESCÁPULA , CLAVÍCULA O TORAX [COSTILLAS Y ESTERNÓN] NCOC', 'A', ''),
 ('787201', 'OSTEOCLASTIA DE HUMERO NCOC', 'A', ''),
 ('787301', 'OSTEOCLASTIA DE RADIO O CÚBITO NCOC', 'A', ''),
@@ -16071,7 +16018,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('789902', 'INSERCIÓN DE ESTIMULADOR DE CRECIMIENTO OSEO DE HUESOS PELVIANOS', 'A', ''),
 ('790101', 'REDUCCIÓN CERRADA DE FRACTURA SIN FIJACION INTERNA DE ESCAPULA, CLAVÍCULA O TORAX [COSTILLAS O ESTERNON] NCOC', 'A', ''),
 ('790201', 'REDUCCIÓN CERRADA DE FRACTURA SIN FIJACIÓN INTERNA DE HUMERO NCOC', 'A', ''),
-('790301', 'REDUCCION CERRADA SIN FIJACION DE FRACTURA DE RADIO Y CUBITO [RADIOCUBITAL PROXIMAL O  DISTAL DE COLLES  O SMITH]', 'A', ''),
+('790301', 'REDUCCION CERRADA SIN FIJACION DE FRACTURA DE RADIO Y CUBITO [RADIOCUBITAL PROXIMAL O  DISTAL DE COLLES  O SMITH]', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('790302', 'REDUCCIÓN CERRADA DE FRACTURA SIN FIJACIÓN INTERNA DE CUBITO O RADIO NCOC', 'A', ''),
 ('790401', 'REDUCCIÓN CERRADA DE FRACTURA SIN FIJACION  DE FRACTURA DE HUESOS DEL CARPO', 'A', ''),
 ('790402', 'REDUCCIÓN CERRADA DE FRACTURA SIN FIJACION DE FRACTURA DE METACARPIANOS', 'A', ''),
@@ -16608,8 +16556,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('822101', 'RESECCIÓN DE GANGLIÓN EN DEDOS DE MANO', 'A', ''),
 ('822102', 'RESECCIÓN DE GANGLIÓN DORSAL DE MUÑECA', 'A', ''),
 ('822103', 'RESECCIÓN DE GANGLIÓN PALMAR DE MUÑECA', 'A', ''),
-('822201', 'EXTIRPACIÓN DE TUMOR BENIGNO EN MÚSCULO DE MANO', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('822201', 'EXTIRPACIÓN DE TUMOR BENIGNO EN MÚSCULO DE MANO', 'A', ''),
 ('822202', 'EXTIRPACIÓN DE TUMOR MALIGNO EN MÚSCULO DE MANO', 'A', ''),
 ('82301', 'RESECCIÓN DE TUMOR BENIGNO O MALIGNO DE PÁRPADO, ESPESOR PARCIAL, UN TERCIO', 'A', ''),
 ('82302', 'RESECCIÓN DE TUMOR BENIGNO O MALIGNO DE PÁRPADO, ESPESOR PARCIAL, DOS TERCIOS', 'A', ''),
@@ -16651,7 +16598,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('825306', 'REINSERCIÓN DE TENDÓN EN MANO (UNO O MAS)', 'A', ''),
 ('825307', 'TRASFERENCIA DE TENDÓN EN MANO O MUÑECA (UNO O MAS)', 'A', ''),
 ('825400', 'REFIJACIÓN DE MÚSCULO DE MANO SOD', 'A', ''),
-('825501', 'ALARGAMIENTO DE TENDÓN EN MANO (UNO O MAS)', 'A', ''),
+('825501', 'ALARGAMIENTO DE TENDÓN EN MANO (UNO O MAS)', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('825600', 'OTRO TRANSPLANTE O  TRANSFERENCIA DE TENDÓN DE MANO SOD', 'A', ''),
 ('825900', 'OTRO TRANSPLANTE O TRANSFERENCIA DE MÚSCULO DE MANO SOD', 'A', ''),
 ('82600', 'TARSECTOMÍA SOD', 'A', ''),
@@ -17224,8 +17172,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('870440', 'RADIOGRAFIAS INTRAORALES OCLUSALES', 'A', ''),
 ('870450', 'RADIOGRAFIAS INTRAORALES PERIAPICALES MILIMETRADAS', 'A', ''),
 ('870451', 'RADIOGRAFIAS INTRAORALES PERIAPICALES DIENTES ANTERIORES SUPERIORES', 'A', ''),
-('870452', 'RADIOGRAFIAS INTRAORALES PERIAPICALES DIENTES ANTERIORES INFERIORES', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('870452', 'RADIOGRAFIAS INTRAORALES PERIAPICALES DIENTES ANTERIORES INFERIORES', 'A', ''),
 ('870453', 'RADIOGRAFIAS INTRAORALES PERIAPICALES  ZONA DE CANINOS', 'A', ''),
 ('870454', 'RADIOGRAFIAS INTRAORALES PERIAPICALES PREMOLARES', 'A', ''),
 ('870455', 'RADIOGRAFIAS INTRAORALES PERIAPICALES MOLARES', 'A', ''),
@@ -17275,7 +17222,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('872080', 'FLUOROSCOPIA ABDOMINAL PARA GUIA DE PROCEDIMIENTO QUIRURGICO O INTERVENCIONISTA EN VIAS DIGESTIVAS', 'A', ''),
 ('872101', 'RADIOGRAFIA DE TRANSITO INTESTINAL CONVENCIONAL', 'A', ''),
 ('872102', 'RADIOGRAFIA DE TRANSITO INTESTINAL DOBLE CONTRASTE', 'A', ''),
-('872103', 'RADIOGRAFIA DE COLON POR ENEMA  O COLON POR INGESTA', 'A', ''),
+('872103', 'RADIOGRAFIA DE COLON POR ENEMA  O COLON POR INGESTA', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('872104', 'RADIOGRAFIA DE COLON POR ENEMA  CON DOBLE CONTRASTE', 'A', ''),
 ('872121', 'RADIOGRAFIA DE VIAS DIGESTIVAS ALTAS (ESOFAGO,  ESTOMAGO Y DUODENO)', 'A', ''),
 ('872122', 'RADIOGRAFIA DE VIAS DIGESTIVAS ALTAS (ESOFAGO,  ESTOMAGO Y DUODENO) CON DOBLE CONTRASTE', 'A', ''),
@@ -17894,8 +17842,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('896100', 'MONITOREO DE PRESION ARTERIAL SISTEMICA SOD', 'A', ''),
 ('896200', 'MONITORIZACION DE PRESION VENOSA CENTRAL SOD', 'A', ''),
 ('896300', 'MONITORIZACION DE PRESION DE ARTERIA PULMONAR SOD', 'A', ''),
-('896401', 'COLOCACION CATETER DE SWAN GANZ', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('896401', 'COLOCACION CATETER DE SWAN GANZ', 'A', ''),
 ('896501', 'MEDICION DE GASES EN SANGRE ARTERIAL SISTEMICA EN REPOSO', 'A', ''),
 ('896502', 'MEDICION DE GASES EN SANGRE ARTERIAL SISTEMICA EN REPOSO Y EJERCICIO', 'A', ''),
 ('896600', 'MEDICION DE GASES EN SANGRE VENOSA MIXTA SOD', 'A', ''),
@@ -17938,7 +17885,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('899802', 'NECROPSIA COMPLETA [ ESTUDIO MACRO Y MICROSCOPICO] CON EMBALSAMAMIENTO', 'A', ''),
 ('90100', 'DRENAJE EN GLANDULA LAGRIMAL SOD', 'A', ''),
 ('901001', 'ANTIBIOGRAMA (DISCO)', 'A', ''),
-('901002', 'ANTIBIOGRAMA (MIC) MÉTODO AUTOMÁTICO', 'A', ''),
+('901002', 'ANTIBIOGRAMA (MIC) MÉTODO AUTOMÁTICO', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('901003', 'ANTIBIOGRAMA (MIC) MÉTODO MANUAL', 'A', ''),
 ('901004', 'HONGOS, PRUEBAS DE SENSIBILIDAD', 'A', ''),
 ('901005', 'Mycobacterium, PRUEBAS DE SENSIBILIDAD', 'A', ''),
@@ -18663,8 +18611,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('906347', 'PROTEÍNA RIBOSOMAL P, ANTICUERPOS POR EIA', 'A', ''),
 ('906348', 'QUERATINA, ANTICUERPOS POR IFI', 'A', ''),
 ('906349', 'RECEPTORES BETA-2 ADRENÉRGICOS, ANTICUERPOS POR FC', 'A', ''),
-('906350', 'RNP, ANTICUERPOS', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('906350', 'RNP, ANTICUERPOS', 'A', ''),
 ('906351', 'Ro/SSA, ANTICUERPOS POR EIA', 'A', ''),
 ('906352', 'Scl 70, ANTICUERPOS POR EIA', 'A', ''),
 ('906353', 'SM, ANTICUERPOS POR EIA', 'A', ''),
@@ -18722,7 +18669,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('906701', 'CULTIVO MIXTO DE LINFOCITOS', 'A', ''),
 ('906702', 'LEUCOCITOS CD14 MONOCITOS, GRANULOCITOS POR CITOMETRÍA DE FLUJO', 'A', ''),
 ('906703', 'LEUCOCITOS CD14 MONOCITOS, GRANULOCITOS POR INMUNOHISTOQUÍMICA', 'A', ''),
-('906704', 'LEUCOCITOS CD33 MONOCITOS, GRANULOCITOS POR CITOMETRÍA DE FLUJO', 'A', ''),
+('906704', 'LEUCOCITOS CD33 MONOCITOS, GRANULOCITOS POR CITOMETRÍA DE FLUJO', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('906705', 'LEUCOCITOS CD33 MONOCITOS, GRANULOCITOS POR INMUNOHISTOQUÍMICA', 'A', ''),
 ('906706', 'LEUCOCITOS CD34 CÉLULAS PROGENITORAS POR CITOMETRÍA DE FLUJO', 'A', ''),
 ('906707', 'LEUCOCITOS CD34 CÉLULAS PROGENITORAS POR INMUNOHISTOQUÍMICA', 'A', ''),
@@ -19234,8 +19182,7 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('951700', 'FLUOROSCOPIA DE OJO SOD', 'A', ''),
 ('951800', 'OCULOPLETISMOGRAFIA SOD', 'A', ''),
 ('952000', 'BIOMETRIA OCULAR SOD', 'A', ''),
-('952100', 'ELECTRORRETINOGRAFIA SOD', 'A', '');
-INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
+('952100', 'ELECTRORRETINOGRAFIA SOD', 'A', ''),
 ('952200', 'ELECTROOCULOGRAMA SOD', 'A', ''),
 ('952301', 'POTENCIALES EVOCADOS  VISUALES ( UNI O BILATERALES)', 'A', ''),
 ('952400', 'ELECTRONISTAGMOGRAFIA O FOTOELECTRONISTAGMOGRAFIA SOD', 'A', ''),
@@ -19300,7 +19247,8 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 ('965302', 'CURACION ENDOSCOPICA DE SENOS PARANASALES', 'A', ''),
 ('965500', 'LIMPIEZA Y CUIDADOS DE TRAQUEOSTOMIA SOD', 'A', ''),
 ('965901', 'LAVADO, IRRIGACION Y CUIDADOS DE HERIDA EN AREA GENERAL', 'A', ''),
-('965902', 'LAVADO, IRRIGACION Y CUIDADOS DE HERIDA EN AREA ESPECIAL (CARA, CUELLO, MANOS, PIES, PLIEGUES DE FLEXION, GENITALES)', 'A', ''),
+('965902', 'LAVADO, IRRIGACION Y CUIDADOS DE HERIDA EN AREA ESPECIAL (CARA, CUELLO, MANOS, PIES, PLIEGUES DE FLEXION, GENITALES)', 'A', '');
+INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUES
 ('966101', 'INFUSION  DE ALIMENTACION GASTRICA POR SONDA (ENTERAL)', 'A', ''),
 ('970100', 'SUSTITUCION DE TUBO (SONDA) NASOGASTRICO O DE ESOFAGOSTOMIA SOD', 'A', ''),
 ('970200', 'SUSTITUCION DE TUBO (SONDA) DE GASTROSTOMIA SOD', 'A', ''),
@@ -19740,12 +19688,11 @@ INSERT INTO `hcneuro_cups` (`cod_cup`, `nom_cup`, `estado`, `cod_mapipos`) VALUE
 -- Table structure for table `hcneuro_entidad`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_entidad` (
+CREATE TABLE `hcneuro_entidad` (
   `cod_ent` varchar(10) NOT NULL,
   `nom_ent` varchar(300) NOT NULL,
   `dir_ent` varchar(200) DEFAULT NULL,
-  `est_ent` int(11) NOT NULL,
-  PRIMARY KEY (`cod_ent`)
+  `est_ent` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -19761,11 +19708,10 @@ INSERT INTO `hcneuro_entidad` (`cod_ent`, `nom_ent`, `dir_ent`, `est_ent`) VALUE
 -- Table structure for table `hcneuro_especialidades`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_especialidades` (
+CREATE TABLE `hcneuro_especialidades` (
   `cod_esp` int(11) NOT NULL,
   `nom_esp` varchar(200) NOT NULL,
-  `est_esp` int(11) NOT NULL,
-  PRIMARY KEY (`cod_esp`)
+  `est_esp` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -19799,12 +19745,11 @@ INSERT INTO `hcneuro_especialidades` (`cod_esp`, `nom_esp`, `est_esp`) VALUES
 -- Table structure for table `hcneuro_examenes`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_examenes` (
+CREATE TABLE `hcneuro_examenes` (
   `cod_exa` varchar(7) NOT NULL,
   `nom_exa` varchar(200) NOT NULL,
   `est_exa` int(11) NOT NULL,
-  `tip_exa` int(11) NOT NULL,
-  PRIMARY KEY (`cod_exa`)
+  `tip_exa` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -25863,7 +25808,7 @@ INSERT INTO `hcneuro_examenes` (`cod_exa`, `nom_exa`, `est_exa`, `tip_exa`) VALU
 -- Table structure for table `hcneuro_hcdiapac`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_hcdiapac` (
+CREATE TABLE `hcneuro_hcdiapac` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -25874,18 +25819,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_hcdiapac` (
   `clase_dia` int(11) NOT NULL,
   `dia_ing` int(11) NOT NULL,
   `dia_egr` int(11) NOT NULL,
-  `obs_dia` varchar(500) NOT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_dia`),
-  KEY `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_cie101` (`cod_dia`),
-  KEY `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `obs_dia` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_hcdiapac`
---
-
-INSERT INTO `hcneuro_hcdiapac` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_dia`, `dia_pri`, `tip_dia`, `clasi_dia`, `clase_dia`, `dia_ing`, `dia_egr`, `obs_dia`) VALUES
-(1, '12345678', 1, 'R101', 1, 1, 1, 1, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -25893,7 +25828,7 @@ INSERT INTO `hcneuro_hcdiapac` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_di
 -- Table structure for table `hcneuro_hcexapac`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_hcexapac` (
+CREATE TABLE `hcneuro_hcexapac` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -25901,10 +25836,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_hcexapac` (
   `can_exa` int(11) NOT NULL,
   `est_exa` int(11) NOT NULL,
   `obs_exa` varchar(400) DEFAULT NULL,
-  `tip_exa` int(1) NOT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_exa`),
-  KEY `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_examenes1` (`cod_exa`),
-  KEY `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `tip_exa` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -25913,7 +25845,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_hcexapac` (
 -- Table structure for table `hcneuro_hcingresos`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_hcingresos` (
+CREATE TABLE `hcneuro_hcingresos` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -25922,44 +25854,21 @@ CREATE TABLE IF NOT EXISTS `hcneuro_hcingresos` (
   `fecha_reg` datetime NOT NULL,
   `cod_usu` varchar(20) NOT NULL,
   `vigencia` varchar(4) DEFAULT NULL,
-  `numero` int(11) DEFAULT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_tip_his`),
-  KEY `fk_hcneuro_hcingresos_hcneuro_admision1` (`cod_adm`),
-  KEY `fk_hcneuro_hcingresos_hcneuro_pacientes1` (`cod_tip_doc`,`num_doc_pac`),
-  KEY `fk_hcneuro_hcingresos_hcneuro_tipohis1` (`cod_tip_his`),
-  KEY `fk_hcneuro_hcingresos_hcneuro_usuarios1` (`cod_usu`)
+  `numero` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_hcingresos`
---
-
-INSERT INTO `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_adm`, `cod_tip_his`, `fecha_reg`, `cod_usu`, `vigencia`, `numero`) VALUES
-(1, '1110518493', 1, 4, 4, '2017-02-14 12:27:41', 'medico', NULL, NULL),
-(1, '1110522860', 1, 5, 4, '2017-02-19 15:45:23', 'medico', '2017', 1),
-(1, '1110522860', 1, 5, 5, '2017-02-19 15:44:43', 'medico', '2017', 1),
-(1, '1110522860', 1, 5, 6, '2017-02-19 15:46:05', 'medico', '2017', 1),
-(1, '12345678', 1, 1, 1, '2015-07-15 11:53:53', 'medico', NULL, NULL),
-(1, '12345678', 2, 2, 4, '2017-02-12 12:37:49', 'medico', NULL, 2),
-(1, '12345678', 2, 2, 5, '2017-02-13 20:44:18', 'medico', NULL, 2),
-(1, '12345678', 2, 2, 6, '2017-02-13 21:11:30', 'medico', NULL, 2),
-(1, '2110522860', 1, 6, 4, '2017-02-19 15:48:53', 'medico', '2017', 2),
-(1, '93396512', 1, 3, 4, '2017-02-14 11:44:24', 'medico', NULL, NULL);
 
 --
 -- Triggers `hcneuro_hcingresos`
 --
-DROP TRIGGER IF EXISTS `hcneuro_hcingresos_consec`;
-DELIMITER //
-CREATE TRIGGER `hcneuro_hcingresos_consec` BEFORE INSERT ON `hcneuro_hcingresos`
- FOR EACH ROW SET
+DELIMITER $$
+CREATE TRIGGER `hcneuro_hcingresos_consec` BEFORE INSERT ON `hcneuro_hcingresos` FOR EACH ROW SET
 NEW.VIGENCIA = EXTRACT(YEAR FROM NOW()),
 NEW.NUMERO = (
 
 	SELECT IFNULL(MAX(NUMERO),0) + 1 FROM hcneuro_hcingresos
     WHERE COD_TIP_HIS = NEW.COD_TIP_HIS AND IFNULL(VIGENCIA, EXTRACT(YEAR FROM NOW())) = EXTRACT(YEAR FROM NOW())
 )
-//
+$$
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -25968,7 +25877,7 @@ DELIMITER ;
 -- Table structure for table `hcneuro_hcmedfor`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_hcmedfor` (
+CREATE TABLE `hcneuro_hcmedfor` (
   `cod_med` int(11) NOT NULL,
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
@@ -25977,11 +25886,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_hcmedfor` (
   `can_med` int(11) NOT NULL,
   `pos_med` varchar(3000) NOT NULL,
   `ter_med` int(11) NOT NULL,
-  `num_dia` int(11) NOT NULL,
-  PRIMARY KEY (`cod_med`,`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_hcingr1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_medica1` (`cod_med`),
-  KEY `fk_hcneuro_hcmedfor_hcneuro_aplmed1` (`cod_apl_med`)
+  `num_dia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -25990,7 +25895,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_hcmedfor` (
 -- Table structure for table `hcneuro_histo_control`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_histo_control` (
+CREATE TABLE `hcneuro_histo_control` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -26004,9 +25909,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_histo_control` (
   `tem` int(11) DEFAULT NULL,
   `hal_exa` text,
   `int_par` text,
-  `ana_con` text,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hcneuro_histo_control_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `ana_con` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -26015,21 +25918,12 @@ CREATE TABLE IF NOT EXISTS `hcneuro_histo_control` (
 -- Table structure for table `hcneuro_histo_obser`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_histo_obser` (
+CREATE TABLE `hcneuro_histo_obser` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
-  `obs_med` text NOT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hcneuro_observ_hcingresos` (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `obs_med` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_histo_obser`
---
-
-INSERT INTO `hcneuro_histo_obser` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `obs_med`) VALUES
-(1, '12345678', 2, 'ABC');
 
 -- --------------------------------------------------------
 
@@ -26037,7 +25931,7 @@ INSERT INTO `hcneuro_histo_obser` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `obs
 -- Table structure for table `hcneuro_histo_primera`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_histo_primera` (
+CREATE TABLE `hcneuro_histo_primera` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -26058,16 +25952,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_histo_primera` (
   `abd_dig` text,
   `genito` text,
   `ext_ost` text,
-  `ana_con` text,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `ana_con` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_histo_primera`
---
-
-INSERT INTO `hcneuro_histo_primera` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `mot_con`, `rev_sis`, `enf_act`, `tas`, `tad`, `tam`, `fc`, `fr`, `tem`, `peso`, `talla`, `neu_men`, `cab_cue`, `tor_car`, `abd_dig`, `genito`, `ext_ost`, `ana_con`) VALUES
-(1, '12345678', 1, 'Motivos de la consulta', 'REvisión de los sistemas', 'Enfermedad actual', 0, 0, 0, 0, 0, 0, 0, 0, 'Neuro ...', 'CAbeza', 'Tórax', 'Abdomen', 'Genito', 'Extremidades', 'Paciente orientado');
 
 -- --------------------------------------------------------
 
@@ -26075,17 +25961,14 @@ INSERT INTO `hcneuro_histo_primera` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `m
 -- Table structure for table `hcneuro_incapacidad`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_incapacidad` (
+CREATE TABLE `hcneuro_incapacidad` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
   `fec_ini_inc` date NOT NULL,
   `num_dia_inc` int(11) NOT NULL,
   `des_inc` varchar(4000) NOT NULL,
-  `cod_dia` varchar(6) NOT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hcneuro_incapacidad_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hcneuro_incapacidad_hcneuro_cie101` (`cod_dia`)
+  `cod_dia` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -26094,13 +25977,12 @@ CREATE TABLE IF NOT EXISTS `hcneuro_incapacidad` (
 -- Table structure for table `hcneuro_indicaciones`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_indicaciones` (
+CREATE TABLE `hcneuro_indicaciones` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
   `cod_ind` int(11) NOT NULL,
-  `indicacion` text NOT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_ind`)
+  `indicacion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -26109,18 +25991,14 @@ CREATE TABLE IF NOT EXISTS `hcneuro_indicaciones` (
 -- Table structure for table `hcneuro_interconsultas`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_interconsultas` (
+CREATE TABLE `hcneuro_interconsultas` (
   `cod_int` int(11) NOT NULL,
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
   `cod_dia` varchar(6) NOT NULL,
   `mot_int` varchar(3000) NOT NULL,
-  `cod_esp` int(11) NOT NULL,
-  PRIMARY KEY (`cod_int`,`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hceneuro_interconsultas_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
-  KEY `fk_hceneuro_interconsultas_hcneuro_cie101` (`cod_dia`),
-  KEY `fk_hceneuro_interconsultas_hcneuro_especialidades1` (`cod_esp`)
+  `cod_esp` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -26129,7 +26007,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_interconsultas` (
 -- Table structure for table `hcneuro_liquidos`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_liquidos` (
+CREATE TABLE `hcneuro_liquidos` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -26138,18 +26016,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_liquidos` (
   `descripcion_macroscopica` text,
   `descripcion_microscopica` text,
   `diagnostico` text,
-  `nota` text,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `nota` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_liquidos`
---
-
-INSERT INTO `hcneuro_liquidos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `material_estudio`, `diagnostico_clinico`, `descripcion_macroscopica`, `descripcion_microscopica`, `diagnostico`, `nota`) VALUES
-(1, '1110522860', 1, 'ddddd', 'ddddd', 'ddddd', 'ddddd', 'ddddd', 'ddddd'),
-(1, '12345678', 1, 'MATERIAL 1', 'DIANOSGITO 1', 'ABC MACRO 1232', 'ABC MICRO YZS', 'DISNOSTICO X Y Z', 'NTA 1'),
-(1, '12345678', 2, '5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h', '5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h', '5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h', '5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h', '5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h', '5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h5645setvhsthb5bth5s4h3s54hvs354hs54 35s4h 35s4h35sdf4h 35d4h35sf4h53df4h 53dg4h53g4h3dg5 h6dg5h 6dg5h');
 
 -- --------------------------------------------------------
 
@@ -26157,14 +26025,13 @@ INSERT INTO `hcneuro_liquidos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `materi
 -- Table structure for table `hcneuro_medicamentos`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_medicamentos` (
+CREATE TABLE `hcneuro_medicamentos` (
   `cod_med` int(11) NOT NULL,
   `nom_med` varchar(300) NOT NULL,
   `nom_gen` varchar(300) DEFAULT NULL,
   `con_med` varchar(100) NOT NULL,
   `pre_med` varchar(100) DEFAULT NULL,
-  `est_med` int(11) NOT NULL,
-  PRIMARY KEY (`cod_med`)
+  `est_med` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -26638,25 +26505,10 @@ INSERT INTO `hcneuro_medicamentos` (`cod_med`, `nom_med`, `nom_gen`, `con_med`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hcneuro_menuprin`
---
-
-CREATE TABLE IF NOT EXISTS `hcneuro_menuprin` (
-  `cod_men` int(11) NOT NULL,
-  `nom_men` varchar(70) NOT NULL,
-  `est_men` int(11) NOT NULL,
-  `arc_men` varchar(45) DEFAULT NULL,
-  `ord_men` int(11) NOT NULL,
-  PRIMARY KEY (`cod_men`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `hcneuro_pacientes`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_pacientes` (
+CREATE TABLE `hcneuro_pacientes` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `pri_nom_pac` varchar(100) NOT NULL,
@@ -26670,23 +26522,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_pacientes` (
   `cod_usu_reg` varchar(20) NOT NULL,
   `fec_reg_pac` datetime NOT NULL,
   `cod_usu_mod` varchar(20) DEFAULT NULL,
-  `fec_mod_pac` datetime DEFAULT NULL,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`),
-  KEY `fk_hcneuro_pacientes_hcneuro_tipodoc` (`cod_tip_doc`),
-  KEY `fk_hcneuro_pacientes_hcneuro_usuarios1` (`cod_usu_reg`),
-  KEY `fk_hcneuro_pacientes_hcneuro_usuarios2` (`cod_usu_mod`)
+  `fec_mod_pac` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_pacientes`
---
-
-INSERT INTO `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`, `pri_nom_pac`, `seg_nom_pac`, `pri_ape_pac`, `seg_ape_pac`, `fec_nac_pac`, `dir_pac`, `num_tel_pac`, `num_cel_pac`, `cod_usu_reg`, `fec_reg_pac`, `cod_usu_mod`, `fec_mod_pac`) VALUES
-(1, '1110518493', 'PAOLA', 'ANDREA', 'MANRIQUE', 'VARON', '1991-10-15', 'MZA A CASA 1 SAN LUCAS 1', '2658679', '3166232401', 'auxiliar', '2017-02-14 12:22:14', NULL, NULL),
-(1, '1110522860', 'primer', 'segundo', 'apellido', 'seg ape', '2017-01-01', 'residencia', '34535645', '456746756785', 'auxiliar', '2017-02-19 15:29:50', NULL, NULL),
-(1, '12345678', 'PACIENTE', '', 'DE PRUEBAS', '', '1992-01-11', 'SIN RESIDENCIA', '', '', 'admin', '2015-07-15 11:51:42', NULL, NULL),
-(1, '2110522860', 'nombre', 'segundo', 'primer ape', 'segundo apelldo', '2017-01-01', 'cra 5', '352345365', '', 'auxiliar', '2017-02-19 15:47:56', NULL, NULL),
-(1, '93396512', 'PABLO', 'CESAR', 'LOPERA', 'MONTAÑO', '1975-07-15', 'CALARCA', '2658679', '3166162604', 'auxiliar', '2017-02-14 11:40:58', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26694,7 +26531,7 @@ INSERT INTO `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`, `pri_nom_pac`, `s
 -- Table structure for table `hcneuro_patologia`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_patologia` (
+CREATE TABLE `hcneuro_patologia` (
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
   `num_fol` int(11) NOT NULL,
@@ -26703,21 +26540,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_patologia` (
   `descripcion_macroscopica` text,
   `descripcion_microscopica` text,
   `diagnostico` text,
-  `nota` text,
-  PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`)
+  `nota` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_patologia`
---
-
-INSERT INTO `hcneuro_patologia` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `material_estudio`, `diagnostico_clinico`, `descripcion_macroscopica`, `descripcion_microscopica`, `diagnostico`, `nota`) VALUES
-(1, '1110518493', 1, 'MASA EN MUSLO DERECHO', 'TRAUMATISMOS SUPERFICIALES MULTIPLES DE LA CADERA Y DEL MUSLO', 'xxxxxxxxxxxxxxxxxxjgdfkljgldkfjglkdfjgkldfjgkdfjgkldfjgkljdfgkljdflgjlkfdjgkldfjgkldfjgkljdfklgjdfkljgkdfjgkdfjgkjdfkgjdfklgjkldfjgkldfjgkljdfkgjdfkljgkldf\r\njfdgjkdfjkllllllllllgjdfkljglkdfjglkdjgldjgljdfklgjkldfjgkdfjgkldfjgkljdfkgjdfkjgkfdjgklfdjkgjdfkgjkfdjgkfdjgkl\r\ngfdgkfdjgkljdfklgjdlkfjgkldfjgkldfjgkldfjgkldjfglkdfjgkldfjgkfdjgklfdjgklfdjgklfdjgkldfjgkldfjgkljdflkgjlkfdjgkldfjglkjfdkgljfdkgjkfdg', 'gfdgldfjglkfdjklgjfdklgjkldfjglkdfjgkldfjgkldfjlkgjdflkgjdklfjgklfdjglkdfjgkldfjgkldjklgjdklfjgkldfjgkldfjklgjdfgklfdjgkljdfgk\r\ngfjdlgjkdfjgkljfdklgjdfkljgkdfjgkdfjglkjdfgkjdfgjdfkjgkfdjgfdkjgkdfjgkjdfkgjdkjgdkfjgkdfjgkdfjgkldfjgkljdfkgjdfklgjkdfjgklfdjgkdfjg\r\ngfdkgjklfdjglkdfjlgkjdfkljgkldfjgkldjfklgdkljgkfdljgkdfjgdfkjgkldfjkg', 'MASA EN MUSLO DERECHO, RESECCION\r\n- LIPOMA', 'FDSFDSFSDFSDFDSFSDFDSFSDFSD'),
-(1, '1110522860', 1, 'historia', 'historia', 'historia', 'historia', 'historia', 'historia'),
-(1, '12345678', 1, 'rew', 'rew', 'ewrew', 'ewr', 'ewr', 'abc'),
-(1, '12345678', 2, 'MAterial de estudio bla bla bla', 'Diagnostico del medico tratante', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen.'),
-(1, '2110522860', 1, 'material', 'material', 'material', 'material', 'material', 'material'),
-(1, '93396512', 1, 'Material de prueba', 'Diagnostico de prueba', 'Macroscopica de prueba', 'Microscopica de prueba', 'Diagnostico 2 de prueba', 'Nota de prueba');
 
 -- --------------------------------------------------------
 
@@ -26725,11 +26549,10 @@ INSERT INTO `hcneuro_patologia` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `mater
 -- Table structure for table `hcneuro_perfil`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_perfil` (
+CREATE TABLE `hcneuro_perfil` (
   `cod_per` int(11) NOT NULL,
   `nom_per` varchar(100) NOT NULL,
-  `est_per` int(11) NOT NULL,
-  PRIMARY KEY (`cod_per`)
+  `est_per` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -26747,40 +26570,10 @@ INSERT INTO `hcneuro_perfil` (`cod_per`, `nom_per`, `est_per`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hcneuro_perperfil`
---
-
-CREATE TABLE IF NOT EXISTS `hcneuro_perperfil` (
-  `cod_per` int(11) NOT NULL,
-  `cod_sub` int(11) NOT NULL,
-  `est_per_per` int(11) NOT NULL,
-  PRIMARY KEY (`cod_per`,`cod_sub`),
-  KEY `fk_hcneuro_perfil_has_hcenuro_submenu_hcenuro_submenu1` (`cod_sub`),
-  KEY `fk_hcneuro_perfil_has_hcenuro_submenu_hcneuro_perfil1` (`cod_per`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hcneuro_perusuario`
---
-
-CREATE TABLE IF NOT EXISTS `hcneuro_perusuario` (
-  `cod_usu` varchar(20) NOT NULL,
-  `cod_sub` int(11) NOT NULL,
-  `est_per_usu` int(11) NOT NULL,
-  PRIMARY KEY (`cod_usu`,`cod_sub`),
-  KEY `fk_hcneuro_usuarios_has_hcenuro_submenu_hcenuro_submenu1` (`cod_sub`),
-  KEY `fk_hcneuro_usuarios_has_hcenuro_submenu_hcneuro_usuarios1` (`cod_usu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `hcneuro_servicios_salud`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_servicios_salud` (
+CREATE TABLE `hcneuro_servicios_salud` (
   `id` int(11) NOT NULL,
   `cod_tip_doc` int(11) NOT NULL,
   `num_doc_pac` varchar(20) NOT NULL,
@@ -26800,19 +26593,8 @@ CREATE TABLE IF NOT EXISTS `hcneuro_servicios_salud` (
   `cod_dia` varchar(6) DEFAULT NULL,
   `cod_ord` varchar(10) DEFAULT NULL,
   `fec_fur` date DEFAULT NULL,
-  `gravidez` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `hcneuro_servicios_salud_fk_hcingresos` (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_tip_his`)
+  `gravidez` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_servicios_salud`
---
-
-INSERT INTO `hcneuro_servicios_salud` (`id`, `cod_tip_doc`, `num_doc_pac`, `num_adm`, `cod_tip_his`, `num_fol`, `num_exa`, `nom_pac`, `num_aut`, `fec_pro`, `per_ati`, `cla_pro`, `con_usu`, `can_pro`, `tip_pro`, `med_rem`, `cod_dia`, `cod_ord`, `fec_fur`, `gravidez`) VALUES
-(1, 1, '1110522860', 5, 6, 1, 1, 'primer segundo apellido seg ape', '1234', '1989-12-02', '2', '1', '1', 2, '2', 'JAIR', 'A009', '2', '2017-02-02', ''),
-(2, 1, '2110522860', 6, 4, 1, 2, 'nombre segundo primer ape segundo apelldo', '123', '1989-12-02', '1', '2', '3', 2, '4', 'OSCAR', 'R51X', '2', NULL, ''),
-(3, 1, '12345678', 2, 6, 2, 2, 'PACIENTE  DE PRUEBAS ', '1234', '1989-12-02', '1', '3', '3', 2, '4', '5', 'A830', '2', '2016-01-01', '5');
 
 -- --------------------------------------------------------
 
@@ -26820,40 +26602,12 @@ INSERT INTO `hcneuro_servicios_salud` (`id`, `cod_tip_doc`, `num_doc_pac`, `num_
 -- Table structure for table `hcneuro_servicios_salud_cups`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_servicios_salud_cups` (
+CREATE TABLE `hcneuro_servicios_salud_cups` (
   `id` int(11) NOT NULL,
   `cod_cup` varchar(10) NOT NULL,
   `valor_total` decimal(10,0) NOT NULL,
   `copago` decimal(10,0) NOT NULL,
-  `valor` decimal(10,0) NOT NULL,
-  PRIMARY KEY (`id`,`cod_cup`),
-  KEY `hcneuro_servicios_cups_fk_cup` (`cod_cup`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hcneuro_servicios_salud_cups`
---
-
-INSERT INTO `hcneuro_servicios_salud_cups` (`id`, `cod_cup`, `valor_total`, `copago`, `valor`) VALUES
-(2, '890202', '5', '10', '10');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `hcneuro_submenu`
---
-
-CREATE TABLE IF NOT EXISTS `hcneuro_submenu` (
-  `cod_sub` int(11) NOT NULL,
-  `cod_men` int(11) NOT NULL,
-  `nom_sub` varchar(100) NOT NULL,
-  `niv_sub` int(11) NOT NULL,
-  `sub_may` int(11) DEFAULT NULL,
-  `est_sub` int(11) NOT NULL,
-  `arc_sub` varchar(100) NOT NULL,
-  `ord_sub` int(11) NOT NULL,
-  PRIMARY KEY (`cod_sub`),
-  KEY `fk_hcenuro_submenu_hcenuro_menuprin1` (`cod_men`)
+  `valor` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -26862,11 +26616,10 @@ CREATE TABLE IF NOT EXISTS `hcneuro_submenu` (
 -- Table structure for table `hcneuro_tipodoc`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_tipodoc` (
+CREATE TABLE `hcneuro_tipodoc` (
   `cod_tip_doc` int(11) NOT NULL,
   `nom_tip_doc` varchar(70) NOT NULL,
-  `est_tip_doc` int(11) NOT NULL,
-  PRIMARY KEY (`cod_tip_doc`)
+  `est_tip_doc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -26889,10 +26642,9 @@ INSERT INTO `hcneuro_tipodoc` (`cod_tip_doc`, `nom_tip_doc`, `est_tip_doc`) VALU
 -- Table structure for table `hcneuro_tipohis`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_tipohis` (
+CREATE TABLE `hcneuro_tipohis` (
   `cod_tip_his` int(11) NOT NULL,
-  `nom_tip_his` varchar(200) NOT NULL,
-  PRIMARY KEY (`cod_tip_his`)
+  `nom_tip_his` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -26913,10 +26665,9 @@ INSERT INTO `hcneuro_tipohis` (`cod_tip_his`, `nom_tip_his`) VALUES
 -- Table structure for table `hcneuro_tipos_ant`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_tipos_ant` (
+CREATE TABLE `hcneuro_tipos_ant` (
   `cod_tip_ant` int(11) NOT NULL,
-  `nom_tip_ant` varchar(45) NOT NULL,
-  PRIMARY KEY (`cod_tip_ant`)
+  `nom_tip_ant` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -26944,7 +26695,7 @@ INSERT INTO `hcneuro_tipos_ant` (`cod_tip_ant`, `nom_tip_ant`) VALUES
 -- Table structure for table `hcneuro_usuarios`
 --
 
-CREATE TABLE IF NOT EXISTS `hcneuro_usuarios` (
+CREATE TABLE `hcneuro_usuarios` (
   `cod_usu` varchar(20) NOT NULL,
   `nom_usu` varchar(300) NOT NULL,
   `cod_per` int(11) NOT NULL,
@@ -26952,9 +26703,7 @@ CREATE TABLE IF NOT EXISTS `hcneuro_usuarios` (
   `est_usu` int(11) NOT NULL,
   `pas_usu` varchar(60) NOT NULL,
   `fir_usu` varchar(50) DEFAULT NULL,
-  `reg_med` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`cod_usu`),
-  KEY `fk_hcneuro_usuarios_hcneuro_perfil1` (`cod_per`)
+  `reg_med` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -26972,107 +26721,267 @@ INSERT INTO `hcneuro_usuarios` (`cod_usu`, `nom_usu`, `cod_per`, `fec_reg_usu`, 
 -- Table structure for table `log_ingresos`
 --
 
-CREATE TABLE IF NOT EXISTS `log_ingresos` (
-  `log_ingresos_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `log_ingresos` (
+  `log_ingresos_id` int(11) NOT NULL,
   `cod_usu` varchar(20) NOT NULL,
   `fec_ing` datetime NOT NULL,
-  `ip_address` varchar(15) NOT NULL,
-  PRIMARY KEY (`log_ingresos_id`),
-  KEY `fk_log_ingresos` (`cod_usu`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=158 ;
+  `ip_address` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `log_ingresos`
+-- Indexes for dumped tables
 --
 
-INSERT INTO `log_ingresos` (`log_ingresos_id`, `cod_usu`, `fec_ing`, `ip_address`) VALUES
-(72, 'admin', '2015-07-15 11:49:24', '186.118.161.26'),
-(73, 'medico', '2015-07-15 11:52:23', '186.118.161.26'),
-(74, 'auxiliar', '2015-07-15 11:52:38', '186.118.161.26'),
-(75, 'medico', '2015-07-15 11:53:01', '186.118.161.26'),
-(76, 'admin', '2015-07-15 12:36:58', '191.111.135.170'),
-(77, 'admin', '2015-07-16 13:55:16', '186.118.161.26'),
-(78, 'admin', '2015-07-16 13:55:27', '186.118.161.26'),
-(79, 'admin', '2015-07-16 13:56:20', '186.118.161.26'),
-(80, 'admin', '2015-07-22 22:09:06', '191.111.131.172'),
-(81, 'admin', '2017-02-09 21:58:53', '186.0.64.147'),
-(82, 'admin', '2017-02-10 07:08:30', '186.113.20.194'),
-(83, 'medico', '2017-02-11 16:38:55', '181.57.100.250'),
-(84, 'medico', '2017-02-11 20:08:13', '186.145.252.52'),
-(85, 'medico', '2017-02-11 23:56:52', '186.0.67.190'),
-(86, 'medico', '2017-02-11 23:58:47', '186.0.67.190'),
-(87, 'medico', '2017-02-12 11:57:43', '186.0.67.190'),
-(88, 'auxiliar', '2017-02-12 12:26:43', '186.0.67.190'),
-(89, 'medico', '2017-02-12 12:52:44', '186.0.67.190'),
-(90, 'admin', '2017-02-12 13:46:40', '186.0.67.190'),
-(91, 'medico', '2017-02-12 14:14:54', '186.0.67.190'),
-(92, 'medico', '2017-02-13 07:56:54', '186.113.20.194'),
-(93, 'medico', '2017-02-13 14:40:58', '186.113.20.194'),
-(94, 'medico', '2017-02-13 19:43:22', '181.57.100.250'),
-(95, 'medico', '2017-02-13 22:51:51', '186.0.65.17'),
-(96, 'medico', '2017-02-13 22:54:07', '186.0.65.17'),
-(97, 'medico', '2017-02-13 23:01:31', '186.0.65.17'),
-(98, 'medico', '2017-02-13 23:02:25', '186.0.65.17'),
-(99, 'auxiliar', '2017-02-14 11:39:51', '186.113.20.194'),
-(100, 'admin', '2017-02-14 11:41:42', '186.113.20.194'),
-(101, 'auxiliar', '2017-02-14 11:43:11', '186.113.20.194'),
-(102, 'medico', '2017-02-14 11:43:37', '186.113.20.194'),
-(103, 'auxiliar', '2017-02-14 12:20:23', '186.114.208.148'),
-(104, 'medico', '2017-02-14 12:23:55', '186.114.208.148'),
-(105, 'medico', '2017-02-14 20:27:50', '186.0.65.17'),
-(106, 'auxiliar', '2017-02-14 20:31:35', '181.57.100.250'),
-(107, 'medico', '2017-02-14 20:52:33', '186.0.65.17'),
-(108, 'auxiliar', '2017-02-14 21:13:12', '186.0.65.17'),
-(109, 'auxiliar', '2017-02-16 19:44:02', '181.57.100.250'),
-(110, 'medico', '2017-02-17 08:11:07', '186.113.20.194'),
-(111, 'auxiliar', '2017-02-19 15:06:42', '181.57.100.250'),
-(112, 'auxiliar', '2017-02-19 15:12:42', '181.57.100.250'),
-(113, 'medico', '2017-02-19 15:28:28', '186.0.73.181'),
-(114, 'auxiliar', '2017-02-19 15:28:59', '186.0.73.181'),
-(115, 'medico', '2017-02-19 15:30:12', '186.0.73.181'),
-(116, 'auxiliar', '2017-02-19 15:47:04', '186.0.73.181'),
-(117, 'medico', '2017-02-19 15:48:18', '186.0.73.181'),
-(118, 'medico', '2017-02-19 16:05:10', '181.57.100.250'),
-(119, 'medico', '2017-02-19 16:14:33', '186.0.73.181'),
-(120, 'medico', '2017-02-19 16:22:28', '181.57.100.250'),
-(121, 'medico', '2017-02-19 17:02:30', '181.57.100.250'),
-(122, 'medico', '2017-02-19 19:53:44', '181.57.100.250'),
-(123, 'medico', '2017-02-19 19:55:52', '186.113.20.194'),
-(124, 'medico', '2017-02-19 20:00:17', '181.57.100.250'),
-(125, 'medico', '2017-02-19 20:02:18', '181.57.100.250'),
-(126, 'medico', '2017-02-19 20:19:28', '181.57.100.250'),
-(127, 'medico', '2017-02-20 08:36:24', '186.113.20.194'),
-(128, 'medico', '2017-02-20 19:49:16', '181.57.100.250'),
-(129, 'medico', '2017-02-20 20:16:49', '186.113.20.194'),
-(130, 'medico', '2017-02-20 20:17:31', '186.0.73.181'),
-(131, 'medico', '2017-02-20 20:18:05', '181.57.100.250'),
-(132, 'medico', '2017-02-20 20:28:25', '186.0.73.181'),
-(133, 'medico', '2017-02-20 20:37:02', '181.57.100.250'),
-(134, 'medico', '2017-02-20 20:41:26', '181.57.100.250'),
-(135, 'medico', '2017-02-20 20:51:35', '181.57.100.250'),
-(136, 'medico', '2017-02-20 20:55:05', '181.57.100.250'),
-(137, 'medico', '2017-02-21 07:50:22', '186.113.20.194'),
-(138, 'medico', '2017-02-26 11:20:02', '181.57.100.250'),
-(139, 'medico', '2017-02-26 11:35:03', '181.57.100.250'),
-(140, 'medico', '2017-02-26 11:42:59', '181.57.100.250'),
-(141, 'medico', '2017-02-26 12:01:16', '181.57.100.250'),
-(142, 'medico', '2017-02-26 13:30:25', '181.57.100.250'),
-(143, 'medico', '2017-02-26 13:31:39', '181.57.100.250'),
-(144, 'medico', '2017-02-26 16:33:26', '181.57.100.250'),
-(145, 'medico', '2017-02-26 17:01:53', '181.57.100.250'),
-(146, 'medico', '2017-02-26 17:57:29', '181.57.100.250'),
-(147, 'medico', '2017-02-27 20:11:51', '186.113.20.194'),
-(148, 'medico', '2017-02-27 20:40:36', '181.57.100.250'),
-(149, 'medico', '2017-02-27 21:18:52', '181.57.100.250'),
-(150, 'medico', '2017-02-27 22:08:17', '181.57.100.250'),
-(151, 'medico', '2017-02-27 22:16:44', '181.57.100.250'),
-(152, 'medico', '2017-02-28 07:38:48', '186.113.20.194'),
-(153, 'medico', '2017-02-28 07:41:49', '186.113.20.194'),
-(154, 'medico', '2017-02-28 10:00:26', '186.113.20.194'),
-(155, 'medico', '2017-02-28 10:01:23', '186.113.20.194'),
-(156, 'medico', '2017-02-28 22:33:30', '181.57.100.250'),
-(157, 'medico', '2017-02-28 23:35:45', '186.0.66.44');
+--
+-- Indexes for table `hcneuro_admision`
+--
+ALTER TABLE `hcneuro_admision`
+  ADD PRIMARY KEY (`cod_adm`),
+  ADD KEY `fk_hcneuro_admision_hcneuro_pacientes1` (`cod_tip_doc`,`num_doc_pac`),
+  ADD KEY `fk_hcneuro_admision_hcneuro_entidad1` (`cod_ent`),
+  ADD KEY `fk_hcneuro_admision_hcneuro_areas1` (`cod_are`),
+  ADD KEY `usuario_registra` (`cod_usu_reg`),
+  ADD KEY `usuario_medico` (`cod_usu_med`),
+  ADD KEY `usuario_modifica` (`cod_usu_mod`);
 
+--
+-- Indexes for table `hcneuro_antecedentes`
+--
+ALTER TABLE `hcneuro_antecedentes`
+  ADD PRIMARY KEY (`cod_ant`),
+  ADD KEY `fk_antecedentes_pacientes_idx` (`cod_tip_doc`),
+  ADD KEY `fk_antecedentes_pacientes_idx1` (`cod_tip_doc`,`num_doc_pac`),
+  ADD KEY `fk_antecedentes_tipos_ante_idx` (`tip_ant`),
+  ADD KEY `fk_antecedentes_usuarios_idx` (`usu_reg`);
+
+--
+-- Indexes for table `hcneuro_aplmed`
+--
+ALTER TABLE `hcneuro_aplmed`
+  ADD PRIMARY KEY (`cod_apl_med`);
+
+--
+-- Indexes for table `hcneuro_areas`
+--
+ALTER TABLE `hcneuro_areas`
+  ADD PRIMARY KEY (`cod_are`);
+
+--
+-- Indexes for table `hcneuro_certificacion`
+--
+ALTER TABLE `hcneuro_certificacion`
+  ADD PRIMARY KEY (`cod_cer`),
+  ADD KEY `fk_hcneuro_certificacion_hcneuro_pacientes1` (`cod_tip_doc`,`num_doc_pac`),
+  ADD KEY `fk_hcneuro_certificacion_hcneuro_usuarios1` (`cod_usu`),
+  ADD KEY `fk_hcneuro_adm_cer` (`cod_adm`);
+
+--
+-- Indexes for table `hcneuro_cie10`
+--
+ALTER TABLE `hcneuro_cie10`
+  ADD PRIMARY KEY (`cod_dia`);
+
+--
+-- Indexes for table `hcneuro_citologia`
+--
+ALTER TABLE `hcneuro_citologia`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_cups`
+--
+ALTER TABLE `hcneuro_cups`
+  ADD PRIMARY KEY (`cod_cup`);
+
+--
+-- Indexes for table `hcneuro_entidad`
+--
+ALTER TABLE `hcneuro_entidad`
+  ADD PRIMARY KEY (`cod_ent`);
+
+--
+-- Indexes for table `hcneuro_especialidades`
+--
+ALTER TABLE `hcneuro_especialidades`
+  ADD PRIMARY KEY (`cod_esp`);
+
+--
+-- Indexes for table `hcneuro_examenes`
+--
+ALTER TABLE `hcneuro_examenes`
+  ADD PRIMARY KEY (`cod_exa`);
+
+--
+-- Indexes for table `hcneuro_hcdiapac`
+--
+ALTER TABLE `hcneuro_hcdiapac`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_dia`),
+  ADD KEY `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_cie101` (`cod_dia`),
+  ADD KEY `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_hcexapac`
+--
+ALTER TABLE `hcneuro_hcexapac`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_exa`),
+  ADD KEY `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_examenes1` (`cod_exa`),
+  ADD KEY `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_hcingresos`
+--
+ALTER TABLE `hcneuro_hcingresos`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_tip_his`),
+  ADD KEY `fk_hcneuro_hcingresos_hcneuro_admision1` (`cod_adm`),
+  ADD KEY `fk_hcneuro_hcingresos_hcneuro_pacientes1` (`cod_tip_doc`,`num_doc_pac`),
+  ADD KEY `fk_hcneuro_hcingresos_hcneuro_tipohis1` (`cod_tip_his`),
+  ADD KEY `fk_hcneuro_hcingresos_hcneuro_usuarios1` (`cod_usu`);
+
+--
+-- Indexes for table `hcneuro_hcmedfor`
+--
+ALTER TABLE `hcneuro_hcmedfor`
+  ADD PRIMARY KEY (`cod_med`,`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_hcingr1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_medica1` (`cod_med`),
+  ADD KEY `fk_hcneuro_hcmedfor_hcneuro_aplmed1` (`cod_apl_med`);
+
+--
+-- Indexes for table `hcneuro_histo_control`
+--
+ALTER TABLE `hcneuro_histo_control`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hcneuro_histo_control_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_histo_obser`
+--
+ALTER TABLE `hcneuro_histo_obser`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hcneuro_observ_hcingresos` (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_histo_primera`
+--
+ALTER TABLE `hcneuro_histo_primera`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_incapacidad`
+--
+ALTER TABLE `hcneuro_incapacidad`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hcneuro_incapacidad_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hcneuro_incapacidad_hcneuro_cie101` (`cod_dia`);
+
+--
+-- Indexes for table `hcneuro_indicaciones`
+--
+ALTER TABLE `hcneuro_indicaciones`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_ind`);
+
+--
+-- Indexes for table `hcneuro_interconsultas`
+--
+ALTER TABLE `hcneuro_interconsultas`
+  ADD PRIMARY KEY (`cod_int`,`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hceneuro_interconsultas_hcneuro_hcingresos1` (`cod_tip_doc`,`num_doc_pac`,`num_fol`),
+  ADD KEY `fk_hceneuro_interconsultas_hcneuro_cie101` (`cod_dia`),
+  ADD KEY `fk_hceneuro_interconsultas_hcneuro_especialidades1` (`cod_esp`);
+
+--
+-- Indexes for table `hcneuro_liquidos`
+--
+ALTER TABLE `hcneuro_liquidos`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_medicamentos`
+--
+ALTER TABLE `hcneuro_medicamentos`
+  ADD PRIMARY KEY (`cod_med`);
+
+--
+-- Indexes for table `hcneuro_pacientes`
+--
+ALTER TABLE `hcneuro_pacientes`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`),
+  ADD KEY `fk_hcneuro_pacientes_hcneuro_tipodoc` (`cod_tip_doc`),
+  ADD KEY `fk_hcneuro_pacientes_hcneuro_usuarios1` (`cod_usu_reg`),
+  ADD KEY `fk_hcneuro_pacientes_hcneuro_usuarios2` (`cod_usu_mod`);
+
+--
+-- Indexes for table `hcneuro_patologia`
+--
+ALTER TABLE `hcneuro_patologia`
+  ADD PRIMARY KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`);
+
+--
+-- Indexes for table `hcneuro_perfil`
+--
+ALTER TABLE `hcneuro_perfil`
+  ADD PRIMARY KEY (`cod_per`);
+
+--
+-- Indexes for table `hcneuro_servicios_salud`
+--
+ALTER TABLE `hcneuro_servicios_salud`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `hcneuro_servicios_salud_fk_hcingresos` (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_tip_his`);
+
+--
+-- Indexes for table `hcneuro_servicios_salud_cups`
+--
+ALTER TABLE `hcneuro_servicios_salud_cups`
+  ADD PRIMARY KEY (`id`,`cod_cup`),
+  ADD KEY `hcneuro_servicios_cups_fk_cup` (`cod_cup`);
+
+--
+-- Indexes for table `hcneuro_tipodoc`
+--
+ALTER TABLE `hcneuro_tipodoc`
+  ADD PRIMARY KEY (`cod_tip_doc`);
+
+--
+-- Indexes for table `hcneuro_tipohis`
+--
+ALTER TABLE `hcneuro_tipohis`
+  ADD PRIMARY KEY (`cod_tip_his`);
+
+--
+-- Indexes for table `hcneuro_tipos_ant`
+--
+ALTER TABLE `hcneuro_tipos_ant`
+  ADD PRIMARY KEY (`cod_tip_ant`);
+
+--
+-- Indexes for table `hcneuro_usuarios`
+--
+ALTER TABLE `hcneuro_usuarios`
+  ADD PRIMARY KEY (`cod_usu`),
+  ADD KEY `fk_hcneuro_usuarios_hcneuro_perfil1` (`cod_per`);
+
+--
+-- Indexes for table `log_ingresos`
+--
+ALTER TABLE `log_ingresos`
+  ADD PRIMARY KEY (`log_ingresos_id`),
+  ADD KEY `fk_log_ingresos` (`cod_usu`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `hcneuro_antecedentes`
+--
+ALTER TABLE `hcneuro_antecedentes`
+  MODIFY `cod_ant` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `log_ingresos`
+--
+ALTER TABLE `log_ingresos`
+  MODIFY `log_ingresos_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -27083,7 +26992,7 @@ INSERT INTO `log_ingresos` (`log_ingresos_id`, `cod_usu`, `fec_ing`, `ip_address
 ALTER TABLE `hcneuro_admision`
   ADD CONSTRAINT `fk_hcneuro_admision_hcneuro_areas1` FOREIGN KEY (`cod_are`) REFERENCES `hcneuro_areas` (`cod_are`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_hcneuro_admision_hcneuro_entidad1` FOREIGN KEY (`cod_ent`) REFERENCES `hcneuro_entidad` (`cod_ent`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_admision_hcneuro_pacientes1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hcneuro_admision_hcneuro_pacientes1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hcneuro_admision_ibfk_1` FOREIGN KEY (`cod_usu_reg`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hcneuro_admision_ibfk_2` FOREIGN KEY (`cod_usu_med`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hcneuro_admision_ibfk_3` FOREIGN KEY (`cod_usu_mod`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -27092,7 +27001,7 @@ ALTER TABLE `hcneuro_admision`
 -- Constraints for table `hcneuro_antecedentes`
 --
 ALTER TABLE `hcneuro_antecedentes`
-  ADD CONSTRAINT `fk_antecedentes_pacientes` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_antecedentes_pacientes` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_antecedentes_tipos_ante` FOREIGN KEY (`tip_ant`) REFERENCES `hcneuro_tipos_ant` (`cod_tip_ant`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_antecedentes_usuarios` FOREIGN KEY (`usu_reg`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -27100,7 +27009,7 @@ ALTER TABLE `hcneuro_antecedentes`
 -- Constraints for table `hcneuro_certificacion`
 --
 ALTER TABLE `hcneuro_certificacion`
-  ADD CONSTRAINT `fk_hcneuro_certificacion_hcneuro_pacientes1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hcneuro_certificacion_hcneuro_pacientes1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_hcneuro_certificacion_hcneuro_usuarios1` FOREIGN KEY (`cod_usu`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `hcneuro_certificacion_ibfk_1` FOREIGN KEY (`cod_adm`) REFERENCES `hcneuro_admision` (`cod_adm`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -27109,21 +27018,21 @@ ALTER TABLE `hcneuro_certificacion`
 --
 ALTER TABLE `hcneuro_hcdiapac`
   ADD CONSTRAINT `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_cie101` FOREIGN KEY (`cod_dia`) REFERENCES `hcneuro_cie10` (`cod_dia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hcneuro_hcingresos_has_hcneuro_cie10_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_hcexapac`
 --
 ALTER TABLE `hcneuro_hcexapac`
   ADD CONSTRAINT `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_examenes1` FOREIGN KEY (`cod_exa`) REFERENCES `hcneuro_examenes` (`cod_exa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hcneuro_hcingresos_has_hcneuro_examenes_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_hcingresos`
 --
 ALTER TABLE `hcneuro_hcingresos`
   ADD CONSTRAINT `fk_hcneuro_hcingresos_hcneuro_admision1` FOREIGN KEY (`cod_adm`) REFERENCES `hcneuro_admision` (`cod_adm`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_hcingresos_hcneuro_pacientes1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hcneuro_hcingresos_hcneuro_pacientes1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`) REFERENCES `hcneuro_pacientes` (`cod_tip_doc`, `num_doc_pac`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_hcneuro_hcingresos_hcneuro_tipohis1` FOREIGN KEY (`cod_tip_his`) REFERENCES `hcneuro_tipohis` (`cod_tip_his`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_hcneuro_hcingresos_hcneuro_usuarios1` FOREIGN KEY (`cod_usu`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -27132,39 +27041,39 @@ ALTER TABLE `hcneuro_hcingresos`
 --
 ALTER TABLE `hcneuro_hcmedfor`
   ADD CONSTRAINT `fk_hcneuro_hcmedfor_hcneuro_aplmed1` FOREIGN KEY (`cod_apl_med`) REFERENCES `hcneuro_aplmed` (`cod_apl_med`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_hcingr1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_hcingr1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_hcneuro_medicamentos_has_hcneuro_hcingresos_hcneuro_medica1` FOREIGN KEY (`cod_med`) REFERENCES `hcneuro_medicamentos` (`cod_med`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_histo_control`
 --
 ALTER TABLE `hcneuro_histo_control`
-  ADD CONSTRAINT `fk_hcneuro_histo_control_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hcneuro_histo_control_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_histo_obser`
 --
 ALTER TABLE `hcneuro_histo_obser`
-  ADD CONSTRAINT `fk_hcneuro_observ` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hcneuro_observ` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_histo_primera`
 --
 ALTER TABLE `hcneuro_histo_primera`
-  ADD CONSTRAINT `fk_hcneuro_histo_primera_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hcneuro_histo_primera_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_incapacidad`
 --
 ALTER TABLE `hcneuro_incapacidad`
   ADD CONSTRAINT `fk_hcneuro_incapacidad_hcneuro_cie101` FOREIGN KEY (`cod_dia`) REFERENCES `hcneuro_cie10` (`cod_dia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_incapacidad_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hcneuro_incapacidad_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_indicaciones`
 --
 ALTER TABLE `hcneuro_indicaciones`
-  ADD CONSTRAINT `fk_indicaciones_hcingresos` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`);
+  ADD CONSTRAINT `fk_indicaciones_hcingresos` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`);
 
 --
 -- Constraints for table `hcneuro_interconsultas`
@@ -27172,7 +27081,7 @@ ALTER TABLE `hcneuro_indicaciones`
 ALTER TABLE `hcneuro_interconsultas`
   ADD CONSTRAINT `fk_hceneuro_interconsultas_hcneuro_cie101` FOREIGN KEY (`cod_dia`) REFERENCES `hcneuro_cie10` (`cod_dia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_hceneuro_interconsultas_hcneuro_especialidades1` FOREIGN KEY (`cod_esp`) REFERENCES `hcneuro_especialidades` (`cod_esp`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hceneuro_interconsultas_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_hceneuro_interconsultas_hcneuro_hcingresos1` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_pacientes`
@@ -27183,24 +27092,10 @@ ALTER TABLE `hcneuro_pacientes`
   ADD CONSTRAINT `fk_hcneuro_pacientes_hcneuro_usuarios2` FOREIGN KEY (`cod_usu_mod`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `hcneuro_perperfil`
---
-ALTER TABLE `hcneuro_perperfil`
-  ADD CONSTRAINT `fk_hcneuro_perfil_has_hcenuro_submenu_hcenuro_submenu1` FOREIGN KEY (`cod_sub`) REFERENCES `hcneuro_submenu` (`cod_sub`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_perfil_has_hcenuro_submenu_hcneuro_perfil1` FOREIGN KEY (`cod_per`) REFERENCES `hcneuro_perfil` (`cod_per`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `hcneuro_perusuario`
---
-ALTER TABLE `hcneuro_perusuario`
-  ADD CONSTRAINT `fk_hcneuro_usuarios_has_hcenuro_submenu_hcenuro_submenu1` FOREIGN KEY (`cod_sub`) REFERENCES `hcneuro_submenu` (`cod_sub`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_hcneuro_usuarios_has_hcenuro_submenu_hcneuro_usuarios1` FOREIGN KEY (`cod_usu`) REFERENCES `hcneuro_usuarios` (`cod_usu`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints for table `hcneuro_servicios_salud`
 --
 ALTER TABLE `hcneuro_servicios_salud`
-  ADD CONSTRAINT `hcneuro_servicios_salud_fk_hcingresos` FOREIGN KEY (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_tip_his`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_tip_his`);
+  ADD CONSTRAINT `hcneuro_servicios_salud_fk_hcingresos` FOREIGN KEY (`cod_tip_doc`,`num_doc_pac`,`num_fol`,`cod_tip_his`) REFERENCES `hcneuro_hcingresos` (`cod_tip_doc`, `num_doc_pac`, `num_fol`, `cod_tip_his`);
 
 --
 -- Constraints for table `hcneuro_servicios_salud_cups`
@@ -27208,12 +27103,6 @@ ALTER TABLE `hcneuro_servicios_salud`
 ALTER TABLE `hcneuro_servicios_salud_cups`
   ADD CONSTRAINT `hcneuro_servicios_cups_fk_cup` FOREIGN KEY (`cod_cup`) REFERENCES `hcneuro_cups` (`cod_cup`),
   ADD CONSTRAINT `hcneuro_servicios_cups_fk_hcservicio_sal` FOREIGN KEY (`id`) REFERENCES `hcneuro_servicios_salud` (`id`);
-
---
--- Constraints for table `hcneuro_submenu`
---
-ALTER TABLE `hcneuro_submenu`
-  ADD CONSTRAINT `fk_hcenuro_submenu_hcenuro_menuprin1` FOREIGN KEY (`cod_men`) REFERENCES `hcneuro_menuprin` (`cod_men`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `hcneuro_usuarios`
