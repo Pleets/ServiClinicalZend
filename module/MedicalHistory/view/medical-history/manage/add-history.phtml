@@ -548,8 +548,8 @@ $formLabel = $this->plugin('formLabel');
 								<?php if ($adjunto["tipo_archivo"] == "AUDIO"): ?>
 
 									<audio controls preload="none" style="width:480px;">
-										<source src="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" type="audio/mp4" />
-										<source src="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" type="audio/ogg" />
+										<source src="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" type="audio/mp4" />
+										<source src="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" type="audio/ogg" />
 										<p>Your browser does not support HTML5 audio.</p>
 									</audio>
 
@@ -565,8 +565,8 @@ $formLabel = $this->plugin('formLabel');
 						<?php if (count($adjuntos)): ?>
 							<?php foreach($adjuntos as $adjunto): ?>
 								<?php if ($adjunto["tipo_archivo"] == "IMAGEN"): ?>
-									<a href="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" target="_blank">
-										<img src="<? $this->basePath() ?>/<?= $adjunto["url_archivo"] ?>" alt="img" width="200" />
+									<a href="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" target="_blank">
+										<img src="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" alt="img" width="200" />
 									</a>
 								<?php endif; ?>
 							<?php endforeach; ?>
