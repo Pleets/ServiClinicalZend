@@ -15,8 +15,8 @@
 			<?php foreach ($files as $file): ?>
 
 				<audio controls preload="none" style="width:480px;">
-					<source src="<? $this->basePath() ?>/cache/temp_dir/<?= $file ?>" type="audio/mp4" />
-					<source src="<? $this->basePath() ?>/cache/temp_dir/<?= $file ?>" type="audio/ogg" />
+					<source src="<?= $this->basePath() ?>/../cache/temp_dir/<?= $file ?>" type="audio/mp4" />
+					<source src="<?= $this->basePath() ?>/../cache/temp_dir/<?= $file ?>" type="audio/ogg" />
 					<p>Your browser does not support HTML5 audio.</p>
 				</audio>
 
@@ -25,7 +25,7 @@
 		<?php elseif ($type == '2'): ?>
 
 			<?php foreach ($files as $file): ?>
-				<img src="<? $this->basePath() ?>/cache/temp_dir/<?= $file ?>" alt="<?= $file ?>" width="100" />
+				<img src="<?= $this->basePath() ?>/../cache/temp_dir/<?= $file ?>" alt="<?= $file ?>" width="100" />
 			<?php endforeach; ?>
 
 		<?php endif; ?>
