@@ -135,6 +135,21 @@ class PatientForm extends Form
         ));
 
         $this->add(array(
+            'name' => 'sexo_pac',
+            'type' => 'select',
+            'options' => array(
+                'label' => 'Sexo paciente',
+                'value_options' => array(
+                    'M' => 'Masculino',
+                    'F' => 'Femenino'
+                ),
+            ),
+            'attributes' => array(
+                'class' => 'form-control input-sm',
+            ),
+        ));
+
+        $this->add(array(
             'name' => 'dir_pac',
             'type' => 'text',
             'options' => array(

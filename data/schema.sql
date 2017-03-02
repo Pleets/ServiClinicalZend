@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2017 at 01:00 AM
+-- Generation Time: Mar 02, 2017 at 01:57 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -26516,6 +26516,7 @@ CREATE TABLE `hcneuro_pacientes` (
   `pri_ape_pac` varchar(100) NOT NULL,
   `seg_ape_pac` varchar(100) DEFAULT NULL,
   `fec_nac_pac` date NOT NULL,
+  `sexo_pac` varchar(1) NOT NULL,
   `dir_pac` varchar(200) NOT NULL,
   `num_tel_pac` varchar(15) DEFAULT NULL,
   `num_cel_pac` varchar(20) DEFAULT NULL,
@@ -26981,7 +26982,7 @@ ALTER TABLE `hcneuro_antecedentes`
 -- AUTO_INCREMENT for table `log_ingresos`
 --
 ALTER TABLE `log_ingresos`
-  MODIFY `log_ingresos_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `log_ingresos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --

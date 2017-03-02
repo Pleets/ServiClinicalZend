@@ -22,6 +22,7 @@ class Patient implements InputFilterAwareInterface
 	public $pri_ape_pac;
 	public $seg_ape_pac;
 	public $fec_nac_pac;
+	public $sexo_pac;
 	public $dir_pac;
 	public $num_tel_pac;
 	public $num_cel_pac;
@@ -41,6 +42,7 @@ class Patient implements InputFilterAwareInterface
 		$this->pri_ape_pac = (isset($data["pri_ape_pac"])) ? $data["pri_ape_pac"] : null;
 		$this->seg_ape_pac = (isset($data["seg_ape_pac"])) ? $data["seg_ape_pac"] : null;
 		$this->fec_nac_pac = (isset($data["fec_nac_pac"])) ? $data["fec_nac_pac"] : null;
+		$this->sexo_pac = (isset($data["sexo_pac"])) ? $data["sexo_pac"] : null;
 		$this->dir_pac = (isset($data["dir_pac"])) ? $data["dir_pac"] : null;
 		$this->num_tel_pac = (isset($data["num_tel_pac"])) ? $data["num_tel_pac"] : null;
 		$this->num_cel_pac = (isset($data["num_cel_pac"])) ? $data["num_cel_pac"] : null;

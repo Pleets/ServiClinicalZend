@@ -207,7 +207,7 @@ class ManageController extends AbstractActionController
             $patients = new Patient();
             $form->setValidationGroup(
                 'cod_tip_doc', 'num_doc_pac', 'pri_nom_pac', 'seg_nom_pac', 'pri_ape_pac',
-                'seg_ape_pac', 'fec_nac_pac', 'dir_pac', 'num_tel_pac', 'num_cel_pac'
+                'seg_ape_pac', 'fec_nac_pac', 'sexo_pac', 'dir_pac', 'num_tel_pac', 'num_cel_pac'
             );
             $form->setInputFilter($patients->getInputFilter());
             $form->setData($request->getPost());
@@ -297,7 +297,7 @@ class ManageController extends AbstractActionController
         if (($request->isPost() && !$xmlHttpRequest) || ($xmlHttpRequest && $action == "edit" )) {
             $form->setValidationGroup(
                 'cod_tip_doc', 'num_doc_pac', 'pri_nom_pac', 'seg_nom_pac', 'pri_ape_pac',
-                'seg_ape_pac', 'fec_nac_pac', 'dir_pac', 'num_tel_pac', 'num_cel_pac'
+                'seg_ape_pac', 'fec_nac_pac', 'sexo_pac', 'dir_pac', 'num_tel_pac', 'num_cel_pac'
             );
             $form->setInputFilter($patient->getInputFilter());
             if (!$xmlHttpRequest)
