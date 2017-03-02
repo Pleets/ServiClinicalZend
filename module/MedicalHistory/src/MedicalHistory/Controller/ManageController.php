@@ -839,7 +839,7 @@ class ManageController extends AbstractActionController
             $id = $this->getRequest()->getPost('id');
         elseif ($xmlHttpRequest && $action == "edit")
         {
-            $id = $this->getRequest()->getPost('request')
+            $id = $this->getRequest()->getPost('request');
             $id = $id["cod_adm"];
         }
         else
@@ -1988,7 +1988,7 @@ class ManageController extends AbstractActionController
             $model_data['Exception'] = $e->getMessage();
 
             $data = array(
-                0 => array
+                0 => array(
                     "id" => "error",
                     "value" => $e->getMessage()
                 )
@@ -2688,7 +2688,7 @@ class ManageController extends AbstractActionController
 
             $form->setInputFilter($medication->getInputFilter());
 
-            if (!$xmlHttpRequest
+            if (!$xmlHttpRequest)
                 $form->setData($request->getPost());
             else
                 $form->setData($request->getPost("request"));
@@ -2924,7 +2924,7 @@ class ManageController extends AbstractActionController
 
         $view = new ViewModel(array(
             'admission' => $admission,
-            'indications' => $data['indicaciones']
+            'indications' => $data['indicaciones'],
             'xmlHttpRequest' => $xmlHttpRequest,
             'simulateXmlHttpRequest' => true
         ));
@@ -3258,7 +3258,7 @@ class ManageController extends AbstractActionController
                     $view = new ViewModel($model_data);
 
                     if ($xmlHttpRequest)
-                        $view->setTerminal(true)
+                        $view->setTerminal(true);
 
                     return $view;
                 }
@@ -3813,7 +3813,7 @@ class ManageController extends AbstractActionController
             if (!isset($data['interconsultas']))
                 $data['interconsultas'] = array();
             else
-                $data['interconsultas'] = (array) $data['interconsultas']
+                $data['interconsultas'] = (array) $data['interconsultas'];
 
         }
         catch (\Exception $e)
