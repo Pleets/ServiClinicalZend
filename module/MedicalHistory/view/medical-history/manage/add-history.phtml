@@ -684,6 +684,124 @@ $formLabel = $this->plugin('formLabel');
 
                 echo $this->formRow($form->get('nota'));
 
+                ?>
+
+				<input type="hidden" name="token" value="<?= $token ?>" />
+				<div class="row">
+					<div class="col-sm-12">
+						<p><strong>Cargue de archivos adjuntos a la historia</strong></p>
+					</div>
+					<div class="col-sm-6">
+					    <input type="file" id="file-reader-onchange-aud" name="aud[]" value="" multiple="multiple" />
+					    <div id="file-reader-ondrop-aud" class="drop" style="overflow: hidden; min-height: 200px">
+					      <span style="color: #C0C0C0; font-size: 25px;">Adjunte aquí sus audios</span>
+					    </div>
+					    <div id="file_reader_ondrop_response"></div>
+					</div>
+					<div class="col-sm-6">
+					    <input type="file" id="file-reader-onchange-img" name="img[]" value="" multiple="multiple" />
+					    <div id="file-reader-ondrop-img" class="drop" style="overflow: hidden; min-height: 200px">
+					      <span style="color: #C0C0C0; font-size: 25px;">Adjunte aquí sus imagenes</span>
+					    </div>
+					    <div id="file_reader_ondrop_response"></div>
+					</div>
+				</div><br />
+
+				<div class="row">
+					<div class="col-sm-12">
+						<p><strong>Adjuntos cargados a la historia</strong></p>
+					</div>
+
+					<?php $adjuntos = $adjuntos->toArray(); ?>
+
+					<div class="col-sm-6">
+						<div id="file-reader-ondrop-aud" class="drop" style="overflow: auto; min-height: 200px">
+						<?php if (count($adjuntos)): ?>
+							<?php foreach($adjuntos as $adjunto): ?>
+								<?php if ($adjunto["tipo_archivo"] == "AUDIO"): ?>
+
+									<audio controls preload="none" style="width:480px;">
+										<source src="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" type="audio/mp4" />
+										<source src="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" type="audio/ogg" />
+										<p>Your browser does not support HTML5 audio.</p>
+									</audio>
+
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<div class="alert alert-warning">Ningún adjunto cargado!</div>
+						<?php endif; ?>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div id="file-reader-ondrop-aud" class="drop" style="overflow: auto; min-height: 200px">
+						<?php if (count($adjuntos)): ?>
+							<?php foreach($adjuntos as $adjunto): ?>
+								<?php if ($adjunto["tipo_archivo"] == "IMAGEN"): ?>
+									<a href="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" target="_blank">
+										<img src="<?= $this->basePath() ?>/../<?= $adjunto["url_archivo"] ?>" alt="img" width="200" />
+									</a>
+								<?php endif; ?>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<div class="alert alert-warning">Ningún adjunto cargado!</div>
+						<?php endif; ?>
+						</div>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+					$(function(){$jS.ready(function(){
+
+					   var Reader = $jS.reader;
+
+					   var _files = new Reader.File({
+					      fileBox: document.querySelector("#file-reader-onchange-aud"),      // input[type='file']
+					      dropBox: document.querySelector("#file-reader-ondrop-aud"),        // dropbox
+					      preview: document.querySelector("#file-reader-ondrop-aud"),        // preview
+                		  size: 2097052,
+                		  url: "<?= $this->basePath() ?>/medicalHistory/loadfile/<?= $token ?>/1"
+					   });
+
+					    _files.addDropEvent(function(files){
+						    $("#file-reader-ondrop-aud").empty();
+						    _files.upload(files, function(data){
+						        $("#file-reader-ondrop-aud").empty().html(data);
+						    });
+					    });
+						_files.addChangeEvent(function(files){
+						    $("#file-reader-ondrop-aud").empty();
+						    _files.upload(files, function(data){
+						        $("#file-reader-ondrop-aud").empty().html(data);
+						    });
+						});
+
+					   var _files2 = new Reader.File({
+					      fileBox: document.querySelector("#file-reader-onchange-img"),      // input[type='file']
+					      dropBox: document.querySelector("#file-reader-ondrop-img"),        // dropbox
+					      preview: document.querySelector("#file-reader-ondrop-img"),        // preview
+                		  size: 2097052,
+                		  url: "<?= $this->basePath() ?>/medicalHistory/loadfile/<?= $token ?>/2"
+					   	});
+
+					    _files2.addDropEvent(function(files){
+						    $("#file-reader-ondrop-img").empty();
+						    _files2.upload(files, function(data){
+						        $("#file-reader-ondrop-img").empty().html(data);
+						    });
+					    });
+						_files2.addChangeEvent(function(files){
+						    $("#file-reader-ondrop-img").empty();
+						    _files2.upload(files, function(data){
+						        $("#file-reader-ondrop-img").empty().html(data);
+						    });
+						});
+
+					});});
+				</script>
+
+                <?php
+
 				if (!$xmlHttpRequest):
 
 					echo $this->formSubmit($form->get('submit'));

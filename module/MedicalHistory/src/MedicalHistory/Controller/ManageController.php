@@ -1033,6 +1033,10 @@ class ManageController extends AbstractActionController
 
                case 'liquidos':
 
+                    # multimedia
+                    $adjuntos = $this->getAdjuntosTable()->getAdjuntos($admission->num_doc_pac, $admission->cod_tip_doc, $folio, 5);
+                    $model_data["adjuntos"] = $adjuntos;
+
                     $form = new LiquidosForm($this);
 
                     if ($this->getLiquidosTable()->isLiquidos($admission->num_doc_pac, $admission->cod_tip_doc, $folio))
@@ -1357,10 +1361,93 @@ class ManageController extends AbstractActionController
 
                       	case 'liquidos':
 
+                            $token = $_POST["token"];
+
+                            if (empty($token))
+                                throw new \Exception("Invalid Token!", 1);
+
+                            $shell = new \Drone_FileSystem_Shell();
+                            $_files = $shell->ls("cache/temp_dir/" . $token ."/". $type);
+
+                            $audios = array();
+                            $images = array();
+
+                            foreach ($_files as $file)
+                            {
+                                if (in_array($file, array('.', '..')))
+                                    continue;
+
+                                # at this point is only a dir
+                                $files = $shell->ls("cache/temp_dir/" . $token ."/". $file);
+
+                                foreach ($files as $_file)
+                                {
+
+                                    if (in_array($_file, array('.', '..')))
+                                        continue;
+
+                                    $name = time() . uniqid() . strstr($_file, '.');
+
+                                    switch ($file)
+                                    {
+                                        # audio
+                                        case '1':
+                                            copy("cache/temp_dir/" . $token ."/". $file . "/" . $_file, "cache/multimedia/" . $name);
+                                            $audios[] = "cache/multimedia/" . $name;
+                                            break;
+
+                                        # image
+                                        case '2':
+                                            copy("cache/temp_dir/" . $token ."/". $file . "/" . $_file, "cache/multimedia/" . $name);
+                                            $images[] = "cache/multimedia/" . $name;
+                                            break;
+                                    }
+                                }
+                            }
+
+                            foreach ($audios as $audio)
+                            {
+                                $adjunto = new Adjuntos($this);
+
+                                $adjunto->exchangeArray(array(
+                                    "cod_tip_doc"  => $admission->cod_tip_doc,
+                                    "num_doc_pac"  => $admission->num_doc_pac,
+                                    "num_fol"      => $folio,
+                                    "cod_adm"      => $admission->cod_adm,
+                                    "cod_tip_his"  => 5,
+                                    "tipo_archivo" => 'AUDIO',
+                                    "url_archivo"  => $audio
+                                ));
+
+                                $this->getAdjuntosTable()->addAdjuntos($adjunto);
+                            }
+
+                            foreach ($images as $image)
+                            {
+                                $adjunto = new Adjuntos($this);
+
+                                $adjunto->exchangeArray(array(
+                                    "cod_tip_doc"  => $admission->cod_tip_doc,
+                                    "num_doc_pac"  => $admission->num_doc_pac,
+                                    "num_fol"      => $folio,
+                                    "cod_adm"      => $admission->cod_adm,
+                                    "cod_tip_his"  => 5,
+                                    "tipo_archivo" => 'IMAGEN',
+                                    "url_archivo"  => $image
+                                ));
+
+                                $this->getAdjuntosTable()->addAdjuntos($adjunto);
+                            }
+
                             if (!$this->getLiquidosTable()->isLiquidos($admission->num_doc_pac, $admission->cod_tip_doc, $folio))
                                 $this->getLiquidosTable()->addLiquidos($history);
                             else
                                 $this->getLiquidosTable()->updateLiquidos($history);
+
+                            # multimedia
+                            $adjuntos = $this->getAdjuntosTable()->getAdjuntos($admission->num_doc_pac, $admission->cod_tip_doc, $folio, 5);
+                            $model_data["adjuntos"] = $adjuntos;
+
                     	break;
 
                         case 'citologia':
