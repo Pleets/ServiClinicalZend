@@ -1348,6 +1348,11 @@ class ManageController extends AbstractActionController
                                 $this->getPatologiaTable()->addPatologia($history);
                             else
                                 $this->getPatologiaTable()->updatePatologia($history);
+
+                            # multimedia
+                            $adjuntos = $this->getAdjuntosTable()->getAdjuntos($admission->num_doc_pac, $admission->cod_tip_doc, $folio, 4);
+                            $model_data["adjuntos"] = $adjuntos;
+
                     	break;
 
                       	case 'liquidos':
